@@ -1,11 +1,15 @@
 {
-  "name": "falafel",
+  "name": "@trayio/falafel",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@trayio/threadneedle": "^1.0.0",
+    "lodash": "^4.1.0"
+  }
 }
