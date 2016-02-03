@@ -13,13 +13,41 @@ module.exports = {
       required: true,
       advanced: true,
       defaultJsonPath: '$.auth.access_token'
+    },
+    type: {
+      type: 'string',
+      enum: ['chris', 'test'],
+      description: 'The types of list you\'d like to get.'
+    },
+    data: {
+      type: 'object',
+      properties: {
+        age: {
+          type: 'integer'
+        },
+        surname: {
+          type: 'string',
+          required: true,
+          advanced: true
+        }
+      }
+    },
+    anotherVar: {
+      type: 'object'
+    },
+    customField: {
+      type: 'array',
+      items: {
+        name: {
+          type: 'string'
+        }
+      }
     }
   },
 
   // Output schema
   output: {
-    generate: true,
-    // from: 'response.sample.json' // defaults to this is `generate` is `true`
+    generate: true
   }
 
   // Output schema, manually

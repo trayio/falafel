@@ -9,6 +9,76 @@
         "name": "get-lists",
         "title": "Get lists",
         "description": "Get a list of the lists in a user's MailChimp account.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "default_jsonpath": "$.auth.access_token",
+              "title": "Access token"
+            },
+            "type": {
+              "type": "string",
+              "description": "The types of list you'd like to get.",
+              "enum": [
+                "chris",
+                "test"
+              ],
+              "title": "Type"
+            },
+            "data": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "age": {
+                  "type": "integer",
+                  "title": "Age"
+                },
+                "surname": {
+                  "type": "string",
+                  "title": "Surname"
+                }
+              },
+              "required": [],
+              "advanced": [
+                "surname"
+              ],
+              "title": "Data",
+              "additionalProperties": false
+            },
+            "anotherVar": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "advanced": [],
+              "title": "Another var",
+              "additionalProperties": false
+            },
+            "customField": {
+              "type": "array",
+              "title": "Custom field",
+              "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "title": "Name"
+                  }
+                },
+                "required": [],
+                "advanced": []
+              },
+              "additionalItems": true
+            }
+          },
+          "required": [],
+          "advanced": [
+            "access_token"
+          ]
+        },
         "output_schema": {
           "$schema": "http://json-schema.org/draft-04/schema#",
           "type": "object",
