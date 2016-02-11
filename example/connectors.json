@@ -6,6 +6,33 @@
     "version": "1.0",
     "messages": [
       {
+        "name": "get-list",
+        "title": "Get list",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "default_jsonpath": "$.auth.access_token",
+              "title": "Access token"
+            },
+            "id": {
+              "type": "string",
+              "description": "The MailChimp list ID.",
+              "title": "Id"
+            }
+          },
+          "required": [
+            "access_token",
+            "id"
+          ],
+          "advanced": [
+            "access_token"
+          ]
+        }
+      },
+      {
         "name": "get-lists",
         "title": "Get lists",
         "description": "Get a list of the lists in a user's MailChimp account.",
@@ -18,210 +45,19 @@
               "default_jsonpath": "$.auth.access_token",
               "title": "Access token"
             },
-            "type": {
+            "id": {
               "type": "string",
-              "description": "The types of list you'd like to get.",
-              "enum": [
-                "chris",
-                "test"
-              ],
-              "title": "Type"
-            },
-            "data": {
-              "$schema": "http://json-schema.org/draft-04/schema#",
-              "type": "object",
-              "properties": {
-                "age": {
-                  "type": "integer",
-                  "title": "Age"
-                },
-                "surname": {
-                  "type": "string",
-                  "title": "Surname"
-                }
-              },
-              "required": [],
-              "advanced": [
-                "surname"
-              ],
-              "title": "Data",
-              "additionalProperties": false
-            },
-            "anotherVar": {
-              "$schema": "http://json-schema.org/draft-04/schema#",
-              "type": "object",
-              "properties": {},
-              "required": [],
-              "advanced": [],
-              "title": "Another var",
-              "additionalProperties": false
-            },
-            "customField": {
-              "type": "array",
-              "title": "Custom field",
-              "items": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "title": "Name"
-                  }
-                },
-                "required": [],
-                "advanced": []
-              },
-              "additionalItems": true
+              "description": "The MailChimp list ID.",
+              "title": "Id"
             }
           },
-          "required": [],
+          "required": [
+            "access_token",
+            "id"
+          ],
           "advanced": [
             "access_token"
           ]
-        },
-        "output_schema": {
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "type": "object",
-          "properties": {
-            "total": {
-              "type": "number"
-            },
-            "data": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  },
-                  "web_id": {
-                    "type": "number"
-                  },
-                  "name": {
-                    "type": "string"
-                  },
-                  "date_created": {
-                    "type": "string"
-                  },
-                  "email_type_option": {
-                    "type": "boolean"
-                  },
-                  "use_awesomebar": {
-                    "type": "boolean"
-                  },
-                  "default_from_name": {
-                    "type": "string"
-                  },
-                  "default_from_email": {
-                    "type": "string"
-                  },
-                  "default_subject": {
-                    "type": "string"
-                  },
-                  "default_language": {
-                    "type": "string"
-                  },
-                  "list_rating": {
-                    "type": "number"
-                  },
-                  "subscribe_url_short": {
-                    "type": "string"
-                  },
-                  "subscribe_url_long": {
-                    "type": "string"
-                  },
-                  "beamer_address": {
-                    "type": "string"
-                  },
-                  "visibility": {
-                    "type": "string"
-                  },
-                  "stats": {
-                    "type": "object",
-                    "properties": {
-                      "member_count": {
-                        "type": "number"
-                      },
-                      "unsubscribe_count": {
-                        "type": "number"
-                      },
-                      "cleaned_count": {
-                        "type": "number"
-                      },
-                      "member_count_since_send": {
-                        "type": "number"
-                      },
-                      "unsubscribe_count_since_send": {
-                        "type": "number"
-                      },
-                      "cleaned_count_since_send": {
-                        "type": "number"
-                      },
-                      "campaign_count": {
-                        "type": "number"
-                      },
-                      "grouping_count": {
-                        "type": "number"
-                      },
-                      "group_count": {
-                        "type": "number"
-                      },
-                      "merge_var_count": {
-                        "type": "number"
-                      },
-                      "avg_sub_rate": {
-                        "type": "number"
-                      },
-                      "avg_unsub_rate": {
-                        "type": "number"
-                      },
-                      "target_sub_rate": {
-                        "type": "number"
-                      },
-                      "open_rate": {
-                        "type": "number"
-                      },
-                      "click_rate": {
-                        "type": "number"
-                      },
-                      "date_last_campaign": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "modules": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "required": [
-                  "id",
-                  "web_id",
-                  "name",
-                  "date_created",
-                  "email_type_option",
-                  "use_awesomebar",
-                  "default_from_name",
-                  "default_from_email",
-                  "default_subject",
-                  "default_language",
-                  "list_rating",
-                  "subscribe_url_short",
-                  "subscribe_url_long",
-                  "beamer_address",
-                  "visibility",
-                  "stats",
-                  "modules"
-                ]
-              }
-            },
-            "errors": {
-              "type": "array",
-              "items": {}
-            }
-          }
         }
       }
     ]

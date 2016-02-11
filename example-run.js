@@ -1,7 +1,9 @@
 var Falafel = require('./');
-var falafel = new Falafel();
 
 // Start the server
-falafel.wrap({
+new Falafel().wrap({
 	directory: __dirname+'/example'
 });
+
+
+// console.log(falafel);
