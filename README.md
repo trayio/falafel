@@ -9,11 +9,11 @@ as on the operational level.
 
 Table of contents:
 
-* [Getting started](#gettingstarted)
-* [Project structuring](#projectstructuring)
+* [Getting started](#getting-started)
+* [Project structuring](#project-structuring)
 * [Globals](#globals)
-* [Private methods](#privatemethods)
-* [Trigger connectors](#triggerconnectors)
+* [Private methods](#private-methods)
+* [Trigger connectors](#trigger-connectors)
 
 
 ## Getting started
@@ -36,6 +36,8 @@ connectors/
   		model.js
   		schema.js
   		response.sample.json
+    connector.js
+    global.js (optional)
 ```
 
 On a high level, the following rules apply:
@@ -142,6 +144,22 @@ This is simple - just **don't add** a `schema.js` file in the message folder.
 
 
 ## Trigger connectors
+
+Trigger connectors follow a slightly different file structure:
+
+```
+connectors/
+  mailchimp_trigger/
+    user_subscribe/
+      model.js
+      model_destroy.js
+      schema.js
+      response.sample.json
+    trigger.js
+    connector.js
+    global.js (optional)
+```
+
 
 ### Init and init destroy 
 
