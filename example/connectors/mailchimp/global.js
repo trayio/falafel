@@ -3,7 +3,6 @@
 */
 var when   = require('when');
 var _ 		 = require('lodash');
-var archer = require('archer-node');
 
 module.exports = {
 

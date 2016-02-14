@@ -10,12 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "@trayio/threadneedle": "^1.0.3",
-    "archer-node": "^1.0.2",
     "lodash": "^4.1.0",
     "requireindex": "^1.1.0",
     "trayio-connector-sdk": "0.0.1",
-    "when": "^3.7.7",
-    "generate-schema": "^2.1.1"
+    "when": "^3.7.7"
   },
   "devDependencies": {
     "generate-schema": "^2.1.1"
