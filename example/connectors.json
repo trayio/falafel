@@ -6,7 +6,7 @@
     "version": "1.0",
     "messages": [
       {
-        "name": "get-list",
+        "name": "get_list",
         "title": "Get list",
         "input_schema": {
           "$schema": "http://json-schema.org/draft-04/schema#",
@@ -33,7 +33,7 @@
         }
       },
       {
-        "name": "get-lists",
+        "name": "get_lists",
         "title": "Get lists",
         "description": "Get a list of the lists in a user's MailChimp account.",
         "input_schema": {
@@ -58,6 +58,32 @@
           "advanced": [
             "access_token"
           ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "mailchimp_trigger",
+    "title": "MailChimp trigger",
+    "description": "Listen for messages via MailChimp webhooks.",
+    "version": "1.0",
+    "messages": [
+      {
+        "name": "user_subscribe",
+        "title": "User subscribe",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "list_id": {
+              "type": "string",
+              "title": "List id"
+            }
+          },
+          "required": [
+            "list_id"
+          ],
+          "advanced": []
         }
       }
     ]
