@@ -198,3 +198,11 @@ module.exports = function (req, res, metadata, requestMetadata, triggerWorkflow)
 };
 ```
 
+For reference:
+
+* `req` - the express request object
+* `res` - the express response object
+* `metadata` - the data originally sent to the init operation
+* `requestMetadata` - metadata that the cluster service adds 
+* `triggerWorkflow` - a function to trigger the workflow
+
