@@ -3,11 +3,11 @@
 A Node.js framework for making it crazy easy to build connectors. Built on top of the 
 [threadneedle](https://github.com/trayio/threadneedle) allowing for a declarative operation based approach.
 
-Falafel uses JavaScript-based schemas as a superset of connectors.json, but unlike connectors.json, the schema has a direct impact on the running of operations.
+Falafel uses JavaScript-based schemas as a superset of connectors.json, but unlike connectors.json, the schema also has a direct impact on the running of operations.
 For example, the use of `required` makes a field required in connectors.json as well 
 as on the operational level.
 
-Table of contents:
+**Table of contents:**
 
 * [Getting started](#getting-started)
 * [Project structuring](#project-structuring)
@@ -111,7 +111,7 @@ data coming from a previous connector. However, you don't need fine grained cont
 
 Falafel means you don't have to explicitly declare an output schema 
 for each message. Just add a `response.sample.json` file for each and a 
-[JSON schema generator](#) will automatically generate an output schema 
+[JSON schema generator](https://www.npmjs.com/package/generate-schema) will automatically generate an output schema 
 when building the `connectors.json`.
 
 
@@ -133,24 +133,30 @@ module.exports = {
 };
 ```
 
-If you'd like to disable global logic for an operation, just 
+**Tip:** If you'd like to disable global logic for an operation, just 
 set `globals: false` in the `model.js` config file.
 
-See the threadneedle docs for more information on globals.
+See the [threadneedle docs](https://github.com/trayio/threadneedle#global) for more information on globals.
 
 
 ## Private methods
 
 Sometimes you'll want to create an internal method that should not be exposed to 
-the product. Typically the main use for this will be a generic method called in 
+the UI. Typically the main use for this will be a generic method called in 
 `before`, providing key data to enable the main method to run.
 
 This is simple - just **don't add** a `schema.js` file in the message folder.
 
+**Note:** the operation will be still be created, but it won't be added to the connectors.json config (so won't appear in the UI).
+
 
 ## Trigger connectors
 
-Trigger connectors follow a slightly different file structure:
+Trigger connectors follow a normal file structure, but you'll also need to:
+
+* Add a `trigger.js` file 
+* Add `init_destroy` methods for each message
+
 
 ```
 connectors/
