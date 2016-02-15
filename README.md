@@ -17,6 +17,8 @@ Table of contents:
 * [Globals](#globals)
 * [Private methods](#private-methods)
 * [Trigger connectors](#trigger-connectors)
+  * [Init and init destroy](#init-and-init-destroy)
+  * [Handling triggers](#handling-triggers)
 
 
 ## Getting started
@@ -178,7 +180,7 @@ messages as they're never exposed to the UI.
 
 
 
-### Triggering workflows
+### Handling triggers
 
 The `trigger.js` file within the connector folder will be passed straight to `connector.trigger(fn)` in the Node.js SDK.
 
