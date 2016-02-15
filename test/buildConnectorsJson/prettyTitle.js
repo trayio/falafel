@@ -13,7 +13,8 @@ describe('#prettyTitle', function () {
 	});
 
 	it.skip('should handle some clever edge cases', function () {
-
+		assert.equal(prettyTitle('list_id'), 'List ID');
+		assert.equal(prettyTitle('webhook_url'), 'Webhook URL');
 	});
 
 });
