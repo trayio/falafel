@@ -11,6 +11,9 @@ Table of contents:
 
 * [Getting started](#getting-started)
 * [Project structuring](#project-structuring)
+  * [Schema](#schema)
+  * [Model](#model)
+  * [Sample response](#sample-response)
 * [Globals](#globals)
 * [Private methods](#private-methods)
 * [Trigger connectors](#trigger-connectors)
