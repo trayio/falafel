@@ -1,167 +1,201 @@
-var _ 				 = require('lodash');
-var assert 		 = require('assert');
-var proxyquire = require('proxyquire');
+var _ 									 = require('lodash');
+var assert 							 = require('assert');
+var generateSchemaFromJs = require('../../lib/buildConnectorsJson/generateSchemaFromJs');
 
 
-describe('#buildConnectorsJson', function () {
+describe.only('#generateSchemaFromJs', function () {
 
-	var filePath = '../../lib/buildConnectorsJson';
+	it('should set the standard top level schema keys', function () {
+		var output = generateSchemaFromJs({});
 
+		assert.equal(output.$schema, "http://json-schema.org/draft-04/schema#");
+		assert.equal(output.type, 'object');
+		assert.deepEqual(output.properties, {});
+	});
 
-	var buildConnectorsJson, output, parsed;
-	beforeEach(function () {
-		buildConnectorsJson = proxyquire(filePath, {
-			fs: {
-				writeFileSync: function (path, contents) {
-					output = contents;
-					parsed = JSON.parse(output);
+	it('should set required variables', function () {
+		var output = generateSchemaFromJs({
+			name: {
+				required: true,
+				type: 'string'
+			},
+			age: {
+				required: true,
+				type: 'integer'
+			},
+			job: {
+				type: 'string'
+			}
+		});
+		assert.deepEqual(output.required, ['name', 'age']);
+	});
+
+	it('should set advanced variables', function () {
+		var output = generateSchemaFromJs({
+			name: {
+				advanced: true,
+				type: 'string'
+			},
+			age: {
+				advanced: true,
+				type: 'integer'
+			},
+			job: {
+				type: 'string'
+			}
+		});
+		assert.deepEqual(output.advanced, ['name', 'age']);
+	});
+
+	it('should do a shallow set fine', function () {
+		var output = generateSchemaFromJs({
+			name: {
+				type: 'string',
+				name: 'full_name',
+				title: 'Full name',
+				description: 'Your full name',
+				default: 'Chris',
+				enum: ['Chris', 'John']
+			},
+			age: {
+				type: 'integer'
+			}
+		});
+		assert.equal(output.properties.name.type, 'string');
+		assert.equal(output.properties.name.name, 'full_name');
+		assert.equal(output.properties.name.title, 'Full name');
+		assert.equal(output.properties.name.description, 'Your full name');
+		assert.equal(output.properties.name.default, 'Chris');
+		assert.deepEqual(output.properties.name.enum, ['Chris', 'John']);
+	});
+
+	it('should auto generate the title', function () {
+		var output = generateSchemaFromJs({
+			name: {
+				type: 'string',
+				name: 'full_name'
+			},
+			age: {
+				type: 'string'
+			}
+		});
+		assert.equal(output.properties.name.title, 'Full name');
+		assert.equal(output.properties.age.title, 'Age');
+	});
+
+	it('should handle default json path', function () {
+		var output = generateSchemaFromJs({
+			name: {
+				type: 'string',
+				defaultJsonPath: '$.auth.name'
+			}
+		});
+		assert.equal(output.properties.name.default_jsonpath, '$.auth.name');
+	});
+
+	it('should add additionalProperties defaulting to false for objects', function () {
+		var output = generateSchemaFromJs({
+			data: {
+				type: 'object'
+			}
+		});
+		assert.strictEqual(output.properties.data.additionalProperties, false);
+
+		output = generateSchemaFromJs({
+			data: {
+				type: 'object',
+				additionalProperties: true
+			}
+		});
+		assert.strictEqual(output.properties.data.additionalProperties, true);
+	});
+
+	it('should recursively generate the schema for objects', function () {
+		var output = generateSchemaFromJs({
+			data: {
+				type: 'object'
+			}
+		});
+
+		assert(output.properties.data.$schema);
+		assert(_.isArray(output.properties.data.required));
+		assert(_.isArray(output.properties.data.advanced));
+		assert(_.isObject(output.properties.data.properties));
+
+		output = generateSchemaFromJs({
+			data: {
+				type: 'object',
+				properties: {
+					age: {
+						type: 'integer'
+					}
 				}
 			}
 		});
+
+		assert.equal(output.properties.data.properties.age.type, 'integer');
+		assert.equal(output.properties.data.properties.age.title, 'Age');
+
+		output = generateSchemaFromJs({
+			data: {
+				type: 'object',
+				properties: {
+					sub: {
+						type: 'object'
+					}
+				}
+			}
+		});
+
+		assert(_.isObject(output.properties.data.properties.sub.properties));
 	});
 
-	it('should pick the top level connectors keys', function () {
-		buildConnectorsJson('mydir', [{
-			name: 'mailchimp',
-			title: 'MailChimp',
-			icon: {
-				value: 'http://myicon.com/icon.png',
-				type: 'url'
+	it('should default to allowing additionalItems', function () {
+		
+	});
+
+	it('should recursively generate schema for arrays', function () {
+		var output = generateSchemaFromJs({
+			data: {
+				type: 'array',
+				items: {
+					type: 'string',
+					enum: ['Option 1', 'Option 2']
+				}
 			},
-			version: '2.0',
-			description: 'This is a great connector',
-			customkey: 'This won\'t get added'
-		}]);
-
-		assert.strictEqual(JSON.stringify([
-		  {
-		    "name": "mailchimp",
-		    "title": "MailChimp",
-		    "description": "This is a great connector",
-		    "version": "2.0",
-		    "icon": {
-		      "value": "http://myicon.com/icon.png",
-		      "type": "url"
-		    },
-		    "messages": []
-		  }
-		], null, '  '), output);
-	});
-
-	it('should not add messages without schemas', function () {
-		buildConnectorsJson('meh', [{
-			name: 'mailchimp',
-			messages: [{
-				name: 'my_message',
-				model: {
-					url: '..'
-				}
-			}]
-		}]);
-
-		assert.equal(parsed[0].messages.length, 0);
-	});
-
-	it('should add messages with schemas', function () {
-		buildConnectorsJson('meh', [{
-			name: 'mailchimp',
-			messages: [{
-				name: 'my_message',
-				schema: {
-					input: {
+			deepData: {
+				type: 'array',
+				items: {
+					type: 'object',
+					properties: {
 						name: {
 							type: 'string'
+						},
+						age: {
+							type: 'number'
+						},
+						subArray: {
+							type: 'array',
+							items: {
+								type: 'number'
+							}
 						}
 					}
-				},
-				model: {
-					url: '..'
 				}
-			}]
-		}]);
+			}
+		});
 
-		assert.equal(parsed[0].messages.length, 1);
-	});
+		assert(output.properties.data.items);
+		assert.equal(output.properties.data.items.type, 'string');
 
-	it('should autogenerate message titles nicely if not already declared', function () {
-		buildConnectorsJson('meh', [{
-			name: 'mailchimp',
-			messages: [{
-				schema: {
-					name: 'my_message',
-					input: {
-						name: {
-							type: 'string'
-						}
-					}
-				},
-				model: {
-					url: '..'
-				}
-			}, {
-				schema: {
-					name: 'my_second_message',
-					title: 'My amazing second message'
-				},
-				model: {}
-			}]
-		}]);
+		assert.equal(output.properties.deepData.items.type, 'string');
+		assert.equal(output.properties.deepData.items.type, 'object');
+		assert.equal(output.properties.deepData.items.properties.name.type, 'string');
+		assert.equal(output.properties.deepData.items.properties.age.type, 'number');
+		assert.equal(output.properties.deepData.items.properties.age.subArray, 'array');
+		assert.equal(output.properties.deepData.items.properties.age.subArray.items.type, 'number');
 
-		assert.equal(parsed[0].messages.length, 2);
-		assert.equal(parsed[0].messages[0].title, 'My message');
-		assert.equal(parsed[0].messages[1].title, 'My amazing second message');
-	});
 
-	it('should create from specified output schema if specified', function () {
-		buildConnectorsJson('meh', [{
-			name: 'mailchimp',
-			messages: [{
-				schema: {
-					name: 'my_message',
-					input: {
-						name: {
-							type: 'string'
-						}
-					},
-					output: {
-						result: {
-							type: 'integer'
-						}
-					}
-				},
-				model: {
-					url: '..'
-				}
-			}]
-		}]);
-
-		assert(_.isObject(parsed[0].messages[0].output_schema));
-		assert.equal(parsed[0].messages[0].output_schema.properties.result.type, 'integer');
-	});
-
-	it('should generate from sample response if specified', function () {
-		buildConnectorsJson('meh', [{
-			name: 'mailchimp',
-			messages: [{
-				schema: {
-					name: 'my_message',
-					input: {
-						name: {
-							type: 'string'
-						}
-					},
-					responseSample: {
-						result: true
-					}
-				},
-				model: {
-					url: '..'
-				}
-			}]
-		}]);
-
-		assert(_.isObject(parsed[0].messages[0].output_schema));
-		assert.equal(parsed[0].messages[0].output_schema.properties.result.type, 'boolean');
 	});
 
 });
