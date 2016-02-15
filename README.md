@@ -152,9 +152,10 @@ connectors/
   mailchimp_trigger/
     user_subscribe/
       model.js
-      model_destroy.js
       schema.js
       response.sample.json
+    user_subscribe_destroy/
+      model.js
     trigger.js
     connector.js
     global.js (optional)
@@ -166,24 +167,23 @@ connectors/
 Init messages are usually to set up things like webhooks. These normally correspond 
 to a singular API call as a result - just like any normal operation. 
 
-As such, trigger connectors also have a basic `model.js` file, but they **also** have 
-a `model_destroy.js` file - to handle `init_destroy` messages. (For destroying webhooks)
+As such, `init` and `init_destroy` messages should be declared in separate folders, just 
+like any other message. Just add `_destroy` on the end of whatever your init message is called.
 
-If no webhooks need to be created, just use a function returning a resolving 
-promise instead:
+__Tip:__ you don't need to declare a schema or provide a sample response for `init_destroy` 
+messages as they're never exposed to the UI.
 
-```js
-module.exports = function () {
-  return when.resolve();
-};
-```
 
 
 ### Triggering workflows
 
 The `trigger.js` file within the connector folder will be passed straight to `connector.trigger(fn)` in the Node.js SDK.
 
-TODO - how do we handle parsing and encoding types?
+Encodings are automatically handled behind the scenes based on the `Content-Type` header:
+
+* `application/json` - parsed as JSON
+* `application/x-www-form-urlencoded` - parsed as encoded URL
+* `text/html` - parsed as text
 
 
 ```js
