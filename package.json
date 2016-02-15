@@ -10,12 +10,17 @@
   "license": "ISC",
   "dependencies": {
     "@trayio/threadneedle": "^1.0.3",
+    "body-parser": "^1.15.0",
     "lodash": "^4.1.0",
     "requireindex": "^1.1.0",
     "trayio-connector-sdk": "0.0.1",
     "when": "^3.7.7"
   },
   "devDependencies": {
-    "generate-schema": "^2.1.1"
+    "generate-schema": "^2.1.1",
+    "grunt": "^0.4.5",
+    "grunt-mocha-test": "^0.12.7",
+    "mocha": "^2.4.5",
+    "mocha-unfunk-reporter": "^0.4.0"
   }
 }

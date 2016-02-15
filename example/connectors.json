@@ -30,6 +30,18 @@
           "advanced": [
             "access_token"
           ]
+        },
+        "output_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
         }
       },
       {
@@ -58,6 +70,30 @@
           "advanced": [
             "access_token"
           ]
+        },
+        "output_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name"
+                ]
+              }
+            }
+          }
         }
       }
     ]
@@ -75,15 +111,27 @@
           "$schema": "http://json-schema.org/draft-04/schema#",
           "type": "object",
           "properties": {
+            "access_token": {
+              "type": "string",
+              "title": "Access token"
+            },
             "list_id": {
               "type": "string",
               "title": "List id"
+            },
+            "webhook_url": {
+              "type": "string",
+              "title": "Webhook url"
             }
           },
           "required": [
-            "list_id"
+            "access_token",
+            "list_id",
+            "webhook_url"
           ],
-          "advanced": []
+          "advanced": [
+            "access_token"
+          ]
         }
       }
     ]

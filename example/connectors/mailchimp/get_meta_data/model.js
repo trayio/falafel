@@ -1,7 +1,7 @@
 module.exports = {
 
-	// url: 'https://login.mailchimp.com/oauth2/metadata',
-	url: 'http://localhost:8000/getMetaData.json',
+	url: 'https://login.mailchimp.com/oauth2/metadata',
+	// url: 'http://localhost:8000/getMetaData.json',
 
 	method: 'get',
 
