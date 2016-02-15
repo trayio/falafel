@@ -1,6 +1,9 @@
-var assert  = require('assert');
-var _ 	    = require('lodash');
-var Falafel = require('../lib');
+var assert     = require('assert');
+var _ 	       = require('lodash');
+var fs 		     = require('fs');
+var proxyquire = require('proxyquire');
+var Falafel    = require('../lib');
+
 
 describe('falafel', function () {
 
@@ -12,7 +15,47 @@ describe('falafel', function () {
 	});
 
 	it('should set globals', function () {
-		
+		new Falafel().wrap({
+			directory: __dirname+'/sample'
+		});
+
+		assert(_.isObject(GLOBAL.falafel));
+		assert(GLOBAL._);
+		assert(GLOBAL.when);
+	});
+
+	it('should create the connectors.json in dev mode', function () {
+		var called = false;
+
+		var Falafel = proxyquire('../lib', {
+			'./buildConnectorsJson': function () {
+				called = true;
+			}
+		});
+
+		new Falafel().wrap({
+			directory: __dirname+'/sample',
+			dev: true
+		});
+
+		assert(called);
+	});
+
+	it('should not create the connectors.json in prod mode', function () {
+		var called = false;
+
+		var Falafel = proxyquire('../lib', {
+			'./buildConnectorsJson': function () {
+				called = true;
+			}
+		});
+
+		new Falafel().wrap({
+			directory: __dirname+'/sample',
+			dev: false
+		});
+
+		assert.strictEqual(called, false);
 	});
 
 });

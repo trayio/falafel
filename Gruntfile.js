@@ -8,7 +8,10 @@ module.exports = function (grunt) {
 				options: {
           reporter: 'mocha-unfunk-reporter'
         },
-        src: ['test/*.js']
+        src: [
+        	'test/*.js',
+        	'test/*/*.js',
+        ]
 			}
 		}
 
