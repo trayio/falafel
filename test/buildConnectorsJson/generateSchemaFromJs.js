@@ -1,5 +1,6 @@
 var _ 									 = require('lodash');
 var assert 							 = require('assert');
+var util 							   = require('util');
 var generateSchemaFromJs = require('../../lib/buildConnectorsJson/generateSchemaFromJs');
 
 
@@ -117,7 +118,7 @@ describe.only('#generateSchemaFromJs', function () {
 			}
 		});
 
-		assert(output.properties.data.$schema);
+		assert(_.isUndefined(output.properties.data.$schema));
 		assert(_.isArray(output.properties.data.required));
 		assert(_.isArray(output.properties.data.advanced));
 		assert(_.isObject(output.properties.data.properties));
@@ -148,6 +149,24 @@ describe.only('#generateSchemaFromJs', function () {
 		});
 
 		assert(_.isObject(output.properties.data.properties.sub.properties));
+
+		output = generateSchemaFromJs({
+			data: {
+				type: 'object',
+				properties: {
+					sub: {
+						type: 'object',
+						properties: {
+							age: {
+								type: 'number'
+							}
+						}
+					}
+				}
+			}
+		});
+
+		assert.equal(output.properties.data.properties.sub.properties.age.type, 'number');
 	});
 
 	it('should default to allowing additionalItems', function () {
@@ -177,7 +196,17 @@ describe.only('#generateSchemaFromJs', function () {
 						subArray: {
 							type: 'array',
 							items: {
+								title: 'Sub array',
 								type: 'number'
+							}
+						},
+						subObject: {
+							type: 'object',
+							properties: {
+								color: {
+									type: 'string',
+									default: 'red'
+								}
 							}
 						}
 					}
@@ -185,17 +214,26 @@ describe.only('#generateSchemaFromJs', function () {
 			}
 		});
 
+		console.log(util.inspect(output, false, null));
+
 		assert(output.properties.data.items);
 		assert.equal(output.properties.data.items.type, 'string');
 
-		assert.equal(output.properties.deepData.items.type, 'string');
+		assert.equal(output.properties.deepData.type, 'array');
 		assert.equal(output.properties.deepData.items.type, 'object');
+		assert.equal(output.properties.deepData.items.title, 'Items');
 		assert.equal(output.properties.deepData.items.properties.name.type, 'string');
 		assert.equal(output.properties.deepData.items.properties.age.type, 'number');
-		assert.equal(output.properties.deepData.items.properties.age.subArray, 'array');
-		assert.equal(output.properties.deepData.items.properties.age.subArray.items.type, 'number');
+		assert.equal(output.properties.deepData.items.properties.subArray.type, 'array');
+		assert.equal(output.properties.deepData.items.properties.subArray.items.type, 'number');
+		assert.equal(output.properties.deepData.items.properties.subArray.items.title, 'Sub array');
+		assert.equal(output.properties.deepData.items.properties.subArray.additionalItems, true);
 
-
+		assert.equal(output.properties.deepData.items.properties.subObject.type, 'object');
+		assert.equal(output.properties.deepData.items.properties.subObject.properties.color.type, 'string');
+		assert.equal(output.properties.deepData.items.properties.subObject.properties.color.default, 'red');
 	});
 
 });
+
+
