@@ -4,7 +4,7 @@ var util 							   = require('util');
 var generateSchemaFromJs = require('../../lib/buildConnectorsJson/generateSchemaFromJs');
 
 
-describe.only('#generateSchemaFromJs', function () {
+describe('#generateSchemaFromJs', function () {
 
 	it('should set the standard top level schema keys', function () {
 		var output = generateSchemaFromJs({});
@@ -213,8 +213,6 @@ describe.only('#generateSchemaFromJs', function () {
 				}
 			}
 		});
-
-		console.log(util.inspect(output, false, null));
 
 		assert(output.properties.data.items);
 		assert.equal(output.properties.data.items.type, 'string');
