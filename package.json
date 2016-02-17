@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@trayio/threadneedle": "^1.0.3",
+    "@trayio/threadneedle": "^1.0.4",
     "body-parser": "^1.15.0",
     "lodash": "^4.1.0",
     "requireindex": "^1.1.0",
