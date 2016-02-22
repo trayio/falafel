@@ -1,0 +1,139 @@
+[
+  {
+    "name": "mailchimp",
+    "title": "MailChimp",
+    "description": "Interact with the MailChimp API",
+    "version": "1.0",
+    "messages": [
+      {
+        "name": "get_list",
+        "title": "Get list",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "default_jsonpath": "$.auth.access_token",
+              "title": "Access token"
+            },
+            "id": {
+              "type": "string",
+              "description": "The MailChimp list ID.",
+              "title": "Id"
+            }
+          },
+          "required": [
+            "access_token",
+            "id"
+          ],
+          "advanced": [
+            "access_token"
+          ]
+        },
+        "output_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_lists",
+        "title": "Get lists",
+        "description": "Get a list of the lists in a user's MailChimp account.",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "default_jsonpath": "$.auth.access_token",
+              "title": "Access token"
+            },
+            "id": {
+              "type": "string",
+              "description": "The MailChimp list ID.",
+              "title": "Id"
+            }
+          },
+          "required": [
+            "access_token",
+            "id"
+          ],
+          "advanced": [
+            "access_token"
+          ]
+        },
+        "output_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name"
+                ]
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "mailchimp_trigger",
+    "title": "MailChimp trigger",
+    "description": "Listen for messages via MailChimp webhooks.",
+    "version": "1.0",
+    "messages": [
+      {
+        "name": "user_subscribe",
+        "title": "User subscribe",
+        "input_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "title": "Access token"
+            },
+            "list_id": {
+              "type": "string",
+              "title": "List id"
+            },
+            "webhook_url": {
+              "type": "string",
+              "title": "Webhook url"
+            }
+          },
+          "required": [
+            "access_token",
+            "list_id",
+            "webhook_url"
+          ],
+          "advanced": [
+            "access_token"
+          ]
+        }
+      }
+    ]
+  }
+]
