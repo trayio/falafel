@@ -266,4 +266,4 @@ For reference:
 
 The `connectors.json` file will get auto generated when starting the server with `NODE_ENV` set to `development`.
 
-Depends on the `generate-schema` module being installed as a `devDependency`. (It is automatically from the Yeoman generator)
+Depends on the `generate-schema` module being installed as a `devDependency` of the parent module. (It is automatically from the Yeoman generator)
