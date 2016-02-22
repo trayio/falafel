@@ -19,7 +19,7 @@ as on the operational level.
 * [Trigger connectors](#trigger-connectors)
   * [Init and init destroy](#init-and-init-destroy)
   * [Handling triggers](#handling-triggers)
-* [Generating connectors.json](#generating-connectors-json)
+* [Generating connectors.json](#generating-connectorsjson)
 
 
 ## Getting started
@@ -33,7 +33,7 @@ yo trayio-nodejs-connector
 Next up, start the server in development mode (will auto-generate `connectors.json`):
 
 ```
-`NODE_ENV=development node main.js`
+NODE_ENV=development node main.js
 ```
 
 
