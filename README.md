@@ -21,11 +21,6 @@ as on the operational level.
   * [Handling triggers](#handling-triggers)
 
 
-## Getting started
-
-TODO
-
-
 ## Project structuring 
 
 Falafel requires you to follow a strict folder structure for organising connectors:
@@ -45,7 +40,37 @@ connectors/
     global.js (optional)
 ```
 
-On a high level, the following rules apply:
+### Connector file
+
+The `connector.js` file contains high level config about the connector, mostly related to how the connector appears in the builder UI. 
+
+```js
+module.exports = {
+
+ // Title as it will appear in the builder UI
+ title: 'MailChimp',
+ 
+ // Description as it will appear in the builder UI
+ description: 'Interact with the MailChimp API.',
+ 
+ // Version of the schema
+ version: '1.0',
+ 
+ // Tags 
+ tags: ['service'],
+ 
+ // Icon 
+ icon: {
+   type: 'url',
+   value: 'http://images.tray.io.s3.amazonaws.com/static/icons/placeholder.png',
+ }
+
+};
+```
+
+### Messages
+
+On a high level, the following rules apply for each message.
 
 * The `schema.js` handles the input schema 
 * The `model.js` handles the running of the operation
