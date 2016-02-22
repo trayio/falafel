@@ -21,6 +21,17 @@ as on the operational level.
   * [Handling triggers](#handling-triggers)
 
 
+## Getting started
+
+Create a connector using the [Yeoman generator](https://github.com/trayio/generator-trayio-nodejs-connector), inputting the settings when prompted:
+
+```
+yo trayio-nodejs-connector
+```
+
+Next up, run `NODE_ENV=development node main.js` to start the server and generate `connectors.json`.
+
+
 ## Project structuring 
 
 Falafel requires you to follow a strict folder structure for organising connectors:
