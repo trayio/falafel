@@ -19,6 +19,7 @@ as on the operational level.
 * [Trigger connectors](#trigger-connectors)
   * [Init and init destroy](#init-and-init-destroy)
   * [Handling triggers](#handling-triggers)
+* [Generating connectors.json](#generating-connectors-json)
 
 
 ## Getting started
@@ -29,7 +30,11 @@ Create a connector using the [Yeoman generator](https://github.com/trayio/genera
 yo trayio-nodejs-connector
 ```
 
-Next up, run `NODE_ENV=development node main.js` to start the server and generate `connectors.json`.
+Next up, start the server in development mode (will auto-generate `connectors.json`):
+
+```
+`NODE_ENV=development node main.js`
+```
 
 
 ## Project structuring 
@@ -256,3 +261,9 @@ For reference:
 * `requestMetadata` - metadata that the cluster service adds 
 * `triggerWorkflow` - a function to trigger the workflow
 
+
+## Generating connectors.json
+
+The `connectors.json` file will get auto generated when starting the server with `NODE_ENV` set to `development`.
+
+Depends on the `generate-schema` module being installed as a `devDependency`. (It is automatically from the Yeoman generator)
