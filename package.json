@@ -1,6 +1,6 @@
 {
   "name": "@trayio/falafel",
-  "version": "1.0.3",
+  "version": "1.0.7",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -9,9 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@trayio/threadneedle": "^1.0.4",
+    "@trayio/threadneedle": "^1.0.5",
     "body-parser": "^1.15.0",
     "lodash": "^4.1.0",
+    "mout": "^0.11.1",
     "requireindex": "^1.1.0",
     "trayio-connector-sdk": "0.0.1",
     "when": "^3.7.7"
