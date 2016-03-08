@@ -1,6 +1,6 @@
 module.exports = {
 
-	input: _.extend(falafel.helpers.defaultInput, {
+	input: {
 
 		id: {
 			type: 'string',
@@ -8,6 +8,6 @@ module.exports = {
 			required: true
 		}
 
-	})
+	}
 
 };

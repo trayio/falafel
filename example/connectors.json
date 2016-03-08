@@ -29,7 +29,8 @@
           ],
           "advanced": [
             "access_token"
-          ]
+          ],
+          "additionalProperties": false
         },
         "output_schema": {
           "$schema": "http://json-schema.org/draft-04/schema#",
@@ -55,21 +56,16 @@
               "type": "string",
               "default_jsonpath": "$.auth.access_token",
               "title": "Access token"
-            },
-            "id": {
-              "type": "string",
-              "description": "The MailChimp list ID.",
-              "title": "Id"
             }
           },
           "$schema": "http://json-schema.org/draft-04/schema#",
           "required": [
-            "access_token",
-            "id"
+            "access_token"
           ],
           "advanced": [
             "access_token"
-          ]
+          ],
+          "additionalProperties": false
         },
         "output_schema": {
           "$schema": "http://json-schema.org/draft-04/schema#",
@@ -131,7 +127,8 @@
           ],
           "advanced": [
             "access_token"
-          ]
+          ],
+          "additionalProperties": false
         }
       }
     ]
