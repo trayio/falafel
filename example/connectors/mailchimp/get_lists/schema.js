@@ -7,7 +7,7 @@ module.exports = {
   description: 'Get a list of the lists in a user\'s MailChimp account.',
 
   // Input schema
-  input: _.extend(falafel.helpers.defaultInput, {
+  input: {
 
     // type: {
     //   type: 'string',
@@ -38,7 +38,7 @@ module.exports = {
     //     }
     //   }
     // }
-  })
+  }
 
   // Output schema, manually
   // output: {
