@@ -53,7 +53,8 @@ connectors/
   		schema.js
   		response.sample.json
     connector.js
-    global.js (optional)
+    global_model.js (optional)
+    global_schema.js (optional)
 ```
 
 ### Connector file
@@ -160,10 +161,10 @@ when building the `connectors.json`.
 
 
 
-## Globals
+## Global models
 
-Threadneedle has a "globals" approach which allows for shared logic across multiple 
-messages. If you declare the `connectors/myconnector/global.js` file, the options in
+Threadneedle has a "global models" approach which allows for shared logic across multiple 
+messages. If you declare the `connectors/myconnector/global_model.js` (previously `global.js`) file, the options in
 it will be globalized for the connector across all methods:
 
 ```js
@@ -181,6 +182,30 @@ module.exports = {
 set `globals: false` in the `model.js` config file.
 
 See the [threadneedle docs](https://github.com/trayio/threadneedle#global) for more information on globals.
+
+
+## Global message schemas
+
+Sometimes you'll want to use the same generic data as inputs in every single message. A good example is passing 
+API keys or other authentication data.
+
+You don't have to add these to every single message - you can specify them in a `global_schema.js` file:
+
+```js
+// global.js
+module.exports = {
+
+  input: {
+    access_token: {
+      type: 'string',
+      advanced: true,
+      required: true,
+      defaultJsonPath: '$.auth.access_token'  
+    }
+  }
+ 
+};
+```
 
 
 ## Private methods
