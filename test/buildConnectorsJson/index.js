@@ -164,4 +164,37 @@ describe('#buildConnectorsJson', function () {
 		assert.equal(parsed[0].messages[0].output_schema.properties.result.type, 'boolean');
 	});
 
+	it('should add global schema input if declared', function () {
+		buildConnectorsJson('meh', [{
+			name: 'mailchimp',
+			globalSchema: {
+				input: {
+					api_key: {
+						type: 'string',
+						required: true,
+						advanced: true
+					}
+				}
+			},
+			messages: [{
+				name: 'my_message',
+				schema: {
+					input: {
+						name: {
+							type: 'string'
+						}
+					}
+				},
+				model: {
+					url: '..'
+				}
+			}]
+		}]);
+
+		assert.equal(_.keys(parsed[0].messages[0].input_schema.properties).length, 2);
+		assert.equal(parsed[0].messages[0].input_schema.properties.api_key.type, 'string');
+		assert.equal(parsed[0].messages[0].input_schema.properties.name.type, 'string');
+		assert.equal(parsed[0].messages.length, 1);
+	});
+
 });
