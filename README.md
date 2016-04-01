@@ -1,10 +1,10 @@
 # falafel
 
-A Node.js framework for making it crazy easy to build connectors. Built on top of the 
+A Node.js framework for making it crazy easy to build connectors. Built on top of the
 [threadneedle](https://github.com/trayio/threadneedle) allowing for a declarative operation based approach.
 
 Falafel uses JavaScript-based schemas as a superset of connectors.json, but unlike connectors.json, the schema also has a direct impact on the running of operations.
-For example, the use of `required` makes a field required in connectors.json as well 
+For example, the use of `required` makes a field required in connectors.json as well
 as on the operational level.
 
 **Table of contents:**
@@ -38,12 +38,12 @@ NODE_ENV=development node main.js
 ```
 
 
-## Project structuring 
+## Project structuring
 
 Falafel requires you to follow a strict folder structure for organising connectors:
 
 ```
-connectors/ 
+connectors/
   connectorname/
   	my-message/
   		model.js
@@ -60,29 +60,29 @@ connectors/
 
 ### Connector file
 
-The `connector.js` file contains high level config about the connector, mostly related to how the connector appears in the builder UI. 
+The `connector.js` file contains high level config about the connector, mostly related to how the connector appears in the builder UI.
 
 ```js
 module.exports = {
 
  // Title as it will appear in the builder UI
  title: 'MailChimp',
- 
+
  // Description as it will appear in the builder UI
  description: 'Interact with the MailChimp API.',
- 
+
  // Version of the schema
  version: '1.0',
- 
- // Tags 
+
+ // Tags
  tags: ['service'],
- 
- // Icon 
+
+ // Icon
  icon: {
    type: 'url',
    value: 'http://images.tray.io.s3.amazonaws.com/static/icons/placeholder.png',
  },
- 
+
  // Help link
  help_link: 'http://docs.tray.io/'
 
@@ -93,15 +93,15 @@ module.exports = {
 
 On a high level, the following rules apply for each message.
 
-* The `schema.js` handles the input schema 
+* The `schema.js` handles the input schema
 * The `model.js` handles the running of the operation
 * The `response.sample.json` provides a sample output - for the output schema
 
 
 ### Schema
 
-The `schema.js` file is a higher level JavaScript version of the connectors.json file. 
-It takes a declarative approach, allowing for inline `advanced` and `required` variables, auto-generating message and property `title` attributes, and allowing for 
+The `schema.js` file is a higher level JavaScript version of the connectors.json file.
+It takes a declarative approach, allowing for inline `advanced` and `required` variables, auto-generating message and property `title` attributes, and allowing for
 JavaScript utility functions:
 
 ```js
@@ -127,14 +127,14 @@ module.exports = {
 };
 ```
 
-This schema will be used to generate the `input_schema` for each message. Also, the 
+This schema will be used to generate the `input_schema` for each message. Also, the
 `required` variable applies a validation before the operation executes at runtime.
 
 
-### Model 
+### Model
 
-Any options in the `model.js` file will be automatically be passed 
-to a [threadneedle](https://github.com/trayio/threadneedle) method for the 
+Any options in the `model.js` file will be automatically be passed
+to a [threadneedle](https://github.com/trayio/threadneedle) method for the
 operation. For example:
 
 ```js
@@ -153,33 +153,33 @@ Variables passed in the input schema will be passed into a Mustache template sys
 ### Sample response
 
 Output schemas are important in tray - they allow connectors to reference the  
-data coming from a previous connector. However, you don't need fine grained control, handling variables like `required` and `advanced`. 
+data coming from a previous connector. However, you don't need fine grained control, handling variables like `required` and `advanced`.
 
-Falafel means you don't have to explicitly declare an output schema 
-for each message. Just add a `response.sample.json` file for each and a 
-[JSON schema generator](https://www.npmjs.com/package/generate-schema) will automatically generate an output schema 
+Falafel means you don't have to explicitly declare an output schema
+for each message. Just add a `response.sample.json` file for each and a
+[JSON schema generator](https://www.npmjs.com/package/generate-schema) will automatically generate an output schema
 when building the `connectors.json`.
 
 
 
 ## Global models
 
-Threadneedle has a "global models" approach which allows for shared logic across multiple 
+Threadneedle has a "global models" approach which allows for shared logic across multiple
 messages. If you declare the `connectors/myconnector/global_model.js` (previously `global.js`) file, the options in
 it will be globalized for the connector across all methods:
 
 ```js
 module.exports = {
-  
+
   before: function (params) {
     params.dc = 'us5';
-    // you can also return a promise that should resolve after modifying `params` 
+    // you can also return a promise that should resolve after modifying `params`
   }
 
 };
 ```
 
-**Tip:** If you'd like to disable global logic for an operation, just 
+**Tip:** If you'd like to disable global logic for an operation, just
 set `globals: false` in the `model.js` config file.
 
 See the [threadneedle docs](https://github.com/trayio/threadneedle#global) for more information on globals.
@@ -187,7 +187,7 @@ See the [threadneedle docs](https://github.com/trayio/threadneedle#global) for m
 
 ## Global message schemas
 
-Sometimes you'll want to use the same generic data as inputs in every single message. A good example is passing 
+Sometimes you'll want to use the same generic data as inputs in every single message. A good example is passing
 API keys or other authentication data.
 
 You don't have to add these to every single message - you can specify them in a `global_schema.js` file:
@@ -204,15 +204,17 @@ module.exports = {
       defaultJsonPath: '$.auth.access_token'  
     }
   }
- 
+
 };
 ```
+
+__Tip:__ if you'd like to disable global schemas a particular message, specify `globals: false` in the message `schema.js` file.
 
 
 ## Private methods
 
-Sometimes you'll want to create an internal method that should not be exposed to 
-the UI. Typically the main use for this will be a generic method called in 
+Sometimes you'll want to create an internal method that should not be exposed to
+the UI. Typically the main use for this will be a generic method called in
 `before`, providing key data to enable the main method to run.
 
 This is simple - just **don't add** a `schema.js` file in the message folder.
@@ -224,7 +226,7 @@ This is simple - just **don't add** a `schema.js` file in the message folder.
 
 Trigger connectors follow a normal file structure, but you'll also need to:
 
-* Add a `trigger.js` file 
+* Add a `trigger.js` file
 * Add `init_destroy` methods for each message
 
 
@@ -243,15 +245,15 @@ connectors/
 ```
 
 
-### Init and init destroy 
+### Init and init destroy
 
-Init messages are usually to set up things like webhooks. These normally correspond 
-to a singular API call as a result - just like any normal operation. 
+Init messages are usually to set up things like webhooks. These normally correspond
+to a singular API call as a result - just like any normal operation.
 
-As such, `init` and `init_destroy` messages should be declared in separate folders, just 
+As such, `init` and `init_destroy` messages should be declared in separate folders, just
 like any other message. Just add `_destroy` on the end of whatever your init message is called.
 
-__Tip:__ you don't need to declare a schema or provide a sample response for `init_destroy` 
+__Tip:__ you don't need to declare a schema or provide a sample response for `init_destroy`
 messages as they're never exposed to the UI.
 
 
@@ -269,7 +271,7 @@ Encodings are automatically handled behind the scenes based on the `Content-Type
 
 ```js
 module.exports = function (req, res, metadata, requestMetadata, triggerWorkflow) {
-  
+
   // Respond ok
   res.status(200).json({ success: true });
 
@@ -284,7 +286,7 @@ For reference:
 * `req` - the express request object
 * `res` - the express response object
 * `metadata` - the data originally sent to the init operation
-* `requestMetadata` - metadata that the cluster service adds 
+* `requestMetadata` - metadata that the cluster service adds
 * `triggerWorkflow` - a function to trigger the workflow
 
 
