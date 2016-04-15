@@ -217,7 +217,7 @@ Sometimes you'll want to create an internal method that should not be exposed to
 the UI. Typically the main use for this will be a generic method called in
 `before`, providing key data to enable the main method to run.
 
-This is simple - just **don't add** a `schema.js` file in the message folder.
+This is simple - just **don't add** the `schema.js` and `response.sample.json` files in the message folder.
 
 **Note:** the operation will be still be created, but it won't be added to the connectors.json config (so won't appear in the UI).
 
