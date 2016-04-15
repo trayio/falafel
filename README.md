@@ -193,7 +193,7 @@ API keys or other authentication data.
 You don't have to add these to every single message - you can specify them in a `global_schema.js` file:
 
 ```js
-// global.js
+// global_schema.js
 module.exports = {
 
   input: {
@@ -241,7 +241,8 @@ connectors/
       model.js
     trigger.js
     connector.js
-    global.js (optional)
+    global_model.js (optional)
+    global_schema.js (optional)
 ```
 
 
