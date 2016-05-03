@@ -1,5 +1,7 @@
 module.exports = {
 
+	timeoutMillis: 5000,
+
 	input: {
 
 		id: {

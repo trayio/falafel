@@ -7,6 +7,7 @@
     "messages": [
       {
         "name": "get_list",
+        "timeout_millis": 5000,
         "title": "Get list",
         "input_schema": {
           "type": "object",
