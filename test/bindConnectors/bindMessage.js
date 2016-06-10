@@ -28,14 +28,14 @@ describe('#bindMessage', function () {
 		}, {
 			on: function () {},
 			hasRequiredParams: function () {}
-		});
+		}, {});
 
 		assert(called);
 		assert.equal(boundMethod, 'myMessage');
 
 	});
 
-	it('should ensure required keys', function () {
+	it('should ensure required keys, including with global', function () {
 		var requiredKeys;
 
 		bindMessage({
@@ -62,9 +62,18 @@ describe('#bindMessage', function () {
 			hasRequiredParams: function (keys) {
 				requiredKeys = keys;
 			}
+		}, {
+			globalSchema: {
+				input: {
+					access_token: {
+						type: 'string',
+						required: true
+					}
+				}
+			}
 		});
 
-		assert.deepEqual(requiredKeys, ['age']);
+		assert.deepEqual(requiredKeys, ['age', 'access_token']);
 
 	});
 
@@ -85,7 +94,7 @@ describe('#bindMessage', function () {
 				boundMessage = message;
 			},
 			hasRequiredParams: function (keys) {}
-		});
+		}, {});
 
 		assert.equal(boundMessage, 'my-message');
 

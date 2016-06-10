@@ -6,8 +6,8 @@ var _ 		 = require('lodash');
 
 module.exports = {
 
-	// url: 'https://{{dc}}.api.mailchimp.com/2.0',
-	url: 'http://localhost:8000',
+	url: 'https://{{dc}}.api.mailchimp.com/2.0',
+	// url: 'http://localhost:8000',
 
 	expects: 200,
 
