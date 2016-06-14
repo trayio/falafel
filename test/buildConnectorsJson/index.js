@@ -197,4 +197,8 @@ describe('#buildConnectorsJson', function () {
 		assert.equal(parsed[0].messages.length, 1);
 	});
 
+	it.skip('should add global auth scopes if not declared on a local level', function () {
+
+	});
+
 });
