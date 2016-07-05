@@ -4,6 +4,7 @@
     "title": "MailChimp",
     "description": "Interact with the MailChimp API",
     "version": "1.0",
+    "help": "## This is a markdown file\n\nWith some exciting content.\n",
     "messages": [
       {
         "name": "get_list",
