@@ -3,7 +3,7 @@ var _ 	             = require('lodash');
 var parseRequestBody = require('../../lib/bindConnectors/parseRequestBody');
 
 
-describe.only('#parseRequestBody', function () {
+describe('#parseRequestBody', function () {
 
 
   it('should decode json when content-type is application/json', function () {

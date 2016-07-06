@@ -224,10 +224,12 @@ This is simple - just **don't add** the `schema.js` and `response.sample.json` f
 
 ## Trigger connectors
 
-Trigger connectors follow a normal file structure, but you'll also need to:
+Trigger connectors follow a similar file structure to regular connectors, but the message
+folder also needs to contain:
 
-* Add a `trigger.js` file
-* Add `init_destroy` methods for each message
+* `destroy.js` - a file to remove the webhook created, if any (`message_destroy`)
+* `request.js` - a file to handle incoming HTTP triggers (`message_request`)
+* `response.js` - a file to format and handle the reply from a workflow to the connector (`message_response`). Only required if your connector is request/response.
 
 
 ```
@@ -237,12 +239,82 @@ connectors/
       model.js
       schema.js
       response.sample.json
-    user_subscribe_destroy/
-      model.js
-    trigger.js
+      destroy.js
+      request.js
+      response.js (optional)
     connector.js
     global_model.js (optional)
     global_schema.js (optional)
+```
+
+
+### Init (`message`)
+
+This "trigger initialisation" happens when the workflow is enabled or changed, and is designed
+to create webhooks in third party systems.
+
+The message coming in triggers the `model.js` file - which is configured like any other message.
+
+
+### Destroy (`message_destroy`)
+
+This message should undo whatever the "initialisation" message did above. Usually this means deleting
+a webhook in a third party system.
+
+This message triggers the `destroy.js` file method, which is configured like any other message.
+
+
+### Request (`message_request`)
+
+This is a HTTP trigger message, forwarded by the tray platform to the connector. It can be declared like so:
+
+```js
+module.exports = {
+
+  // Filter function to determine whether the request should result
+  // in a workflow being triggered.
+  filter: function (params, http) {
+    return (http.method === 'POST');
+  },
+
+  // Async formatting and ad-hoc additional API function. Return a promise
+  // for async behaviour.
+  before: function (params, http) {
+    return {
+      data: http.body
+    };
+  }
+
+};
+```
+
+If you'd like more fine grained control, declare it as a function returning a promise:
+
+```js
+module.exports = function (params, http) {
+  return when.promise(function (resolve, reject) {
+
+    if (http.method === 'post') {
+      resolve(http.body);
+    } else {
+      reject('#trigger_ignore');
+    }
+
+  });
+};
+```
+
+### Response (`message_response`)
+
+This file handles the formatting of the response to the connector for a request/response
+trigger. The output from this message will be sent in the response back to the third party service.
+
+The formatting is a simple & functional one:
+
+```js
+module.exports = function (params, http, reply) {
+  
+}
 ```
 
 
@@ -267,7 +339,7 @@ Encodings are automatically handled behind the scenes based on the `Content-Type
 
 * `application/json` - parsed as JSON
 * `application/x-www-form-urlencoded` - parsed as encoded URL
-* `text/html` - parsed as text
+* Everything else - parsed as text
 
 
 ```js

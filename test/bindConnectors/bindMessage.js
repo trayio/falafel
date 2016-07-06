@@ -35,7 +35,7 @@ describe('#bindMessage', function () {
 
 	});
 
-	it('should ensure required keys, including with global', function () {
+	it.skip('should ensure required keys, including with global', function () {
 		var requiredKeys;
 
 		bindMessage({
@@ -77,7 +77,7 @@ describe('#bindMessage', function () {
 
 	});
 
-	it('should bind the connector message', function () {
+	it.skip('should bind the connector message', function () {
 
 		var boundMessage;
 
