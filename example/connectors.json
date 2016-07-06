@@ -484,6 +484,33 @@
             }
           }
         }
+      },
+      {
+        "name": "webhook",
+        "title": "Webhook",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "default_jsonpath": "$.auth.access_token",
+              "title": "Access token"
+            }
+          },
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "required": [
+            "access_token"
+          ],
+          "advanced": [
+            "access_token"
+          ],
+          "additionalProperties": false
+        },
+        "output_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {}
+        }
       }
     ]
   }
