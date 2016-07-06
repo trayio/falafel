@@ -45,16 +45,17 @@ apptalk([{
 		},
 		"http": {
 			"headers": {
-				// "Content-Type": ["application/json"]
-				"Content-Type": ["application/x-www-form-urlencoded"]
+				"Content-Type": ["application/json"]
+				// "Content-Type": ["application/x-www-form-urlencoded"]
 			},
-			// "body": 'eyJpZCI6MTIzLCJuYW1lIjoiQ2hyaXMgSG91Z2h0b24ifQ==',
-			"body": "Zm9vW2Jhcl09YmF6",
+			"body": 'eyJpZCI6MTIzLCJuYW1lIjoiQ2hyaXMgSG91Z2h0b24ifQ==',
+			// "body": "Zm9vW2Jhcl09YmF6",
 			"form": []
 		}
   }
 }], {}, function (err, result) {
 
+	console.log(err);
 	console.log(util.inspect(result, false, null));
 
 });
