@@ -18,8 +18,10 @@ as on the operational level.
 * [Global message schemas](#global-message-schemas)
 * [Private methods](#private-methods)
 * [Trigger connectors](#trigger-connectors)
-  * [Init and init destroy](#init-and-init-destroy)
-  * [Handling triggers](#handling-triggers)
+  * [Init](#init-message)
+  * [Destroy](#destroy-message_destroy)
+  * [Request](#request-message_request)
+  * [Response](#response-message_response)
 * [Generating connectors.json](#generating-connectorsjson)
 
 
@@ -313,7 +315,7 @@ The formatting is a simple & functional one:
 
 ```js
 module.exports = function (params, http, reply) {
-  
+
 }
 ```
 
@@ -331,36 +333,15 @@ messages as they're never exposed to the UI.
 
 
 
-### Handling triggers
+### Trigger decoding
 
-The `trigger.js` file within the connector folder will be passed straight to `connector.trigger(fn)` in the Node.js SDK.
+By default Falafel automatically parses messages for the following `Content-Type`s:
 
-Encodings are automatically handled behind the scenes based on the `Content-Type` header:
+* `application/json`
+* `application/x-www-form-urlencoded`
 
-* `application/json` - parsed as JSON
-* `application/x-www-form-urlencoded` - parsed as encoded URL
-* Everything else - parsed as text
-
-
-```js
-module.exports = function (req, res, metadata, requestMetadata, triggerWorkflow) {
-
-  // Respond ok
-  res.status(200).json({ success: true });
-
-  // Trigger the workflow
-  triggerWorkflow(req.body);
-
-};
-```
-
-For reference:
-
-* `req` - the express request object
-* `res` - the express response object
-* `metadata` - the data originally sent to the init operation
-* `requestMetadata` - metadata that the cluster service adds
-* `triggerWorkflow` - a function to trigger the workflow
+There is also a `rawBody` object attached to the `http` object for the request and response messages,
+which contains the raw HTTP body, rather than the parsed version.
 
 
 ## Generating connectors.json
