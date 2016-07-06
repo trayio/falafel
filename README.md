@@ -315,7 +315,7 @@ The formatting is a simple & functional one:
 
 ```js
 module.exports = function (params, http, reply) {
-
+  return when.resolve(reply);
 }
 ```
 
