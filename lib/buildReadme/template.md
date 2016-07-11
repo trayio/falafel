@@ -26,6 +26,15 @@
 {{/if}}
 {{/each}}
 
+
+{{#if docs.auth}}
+***
+
+## Authentication
+
+{{{docs.auth}}}
+{{/if}}
+
 {{#if docs.quickstart}}
 ***
 

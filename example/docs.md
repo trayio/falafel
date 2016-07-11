@@ -1,6 +1,6 @@
 # MailChimp
 
-The MailChimp connector is a great way to interact with the MailChimp API, 
+The MailChimp connector is a great way to interact with the MailChimp API,
 without ever having to write a single line of code.
 
 
@@ -8,7 +8,7 @@ without ever having to write a single line of code.
 
 ## Triggers
 
-* __User subscribe__
+* __User subscribe:__ Trigger a tray workflow when someone subscribes to a list in MailChimp.
 
 ***
 
@@ -16,6 +16,18 @@ without ever having to write a single line of code.
 
 * __Get list__
 * __Get lists:__ Get a list of the lists in a user's MailChimp account.
+
+
+***
+
+## Authentication
+
+When you first add the MailChimp connector, you'll be prompted to connect
+your account to tray using an API key so we can interact with the API.
+
+This will allow tray full access to your data, which we will hoard and share
+with Anonymous.
+
 
 ***
 

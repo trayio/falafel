@@ -103,6 +103,7 @@
     "messages": [
       {
         "name": "user_subscribe",
+        "description": "Trigger a tray workflow when someone subscribes to a list in MailChimp.",
         "title": "User subscribe",
         "input_schema": {
           "type": "object",

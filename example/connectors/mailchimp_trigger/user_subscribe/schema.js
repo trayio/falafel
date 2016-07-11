@@ -1,5 +1,7 @@
 module.exports = {
 
+	description: 'Trigger a tray workflow when someone subscribes to a list in MailChimp.',
+
 	input: {
 		access_token: {
 			type: 'string',
