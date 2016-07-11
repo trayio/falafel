@@ -4,6 +4,15 @@ The MailChimp connector is a great way to interact with the MailChimp API,
 without ever having to write a single line of code.
 
 
+In this article:
+
+* [Triggers](#triggers)
+* [Operations](#operations)
+* [Authentication](#authentication)
+* [Getting started with the MailChimp connector](#getting-started-with-the-MailChimp-connector)
+* [Common issues](#common-issues)
+
+
 ***
 
 ## Triggers
