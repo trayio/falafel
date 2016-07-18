@@ -15,9 +15,9 @@ exports.apptalk = apptalk;
 // FOR TESTING:
 // ------------
 
-var util = require('util');
-
-// Send some exac
+// var util = require('util');
+//
+// // Send some exac
 // apptalk([{
 //   "id": "123-def",
 //   "header": {
