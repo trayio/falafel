@@ -10,6 +10,7 @@ describe('#prettyTitle', function () {
 		assert.equal(prettyTitle('list-name'), 'List name');
 		assert.equal(prettyTitle('listName'), 'List name');
 		assert.equal(prettyTitle('ListName'), 'List name');
+		assert.equal(prettyTitle('listName'), 'List name');
 	});
 
 	it.skip('should handle some clever edge cases', function () {
