@@ -268,7 +268,9 @@ This message triggers the `destroy.js` file method, which is configured like any
 
 ### Request (`message_request`)
 
-This is a HTTP trigger message, forwarded by the tray platform to the connector. It can be declared like so:
+This is a HTTP trigger message, forwarded by the tray platform to the connector. It comes in to the `request.js.` file.
+
+This can be declared like so:
 
 ```js
 module.exports = {
@@ -318,18 +320,6 @@ module.exports = function (params, http, reply) {
   return when.resolve(reply);
 }
 ```
-
-
-### Init and init destroy
-
-Init messages are usually to set up things like webhooks. These normally correspond
-to a singular API call as a result - just like any normal operation.
-
-As such, `init` and `init_destroy` messages should be declared in separate folders, just
-like any other message. Just add `_destroy` on the end of whatever your init message is called.
-
-__Tip:__ you don't need to declare a schema or provide a sample response for `init_destroy`
-messages as they're never exposed to the UI.
 
 
 
