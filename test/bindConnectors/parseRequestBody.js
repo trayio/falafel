@@ -17,7 +17,7 @@ describe('#parseRequestBody', function () {
 
     var originalBody = _.clone(http.body);
 
-    var newHttp = parseRequestBody(http);
+    var newHttp = parseRequestBody(http, {});
 
     assert.notEqual(originalBody, newHttp.body);
     assert.deepEqual(newHttp.body, {
@@ -37,7 +37,7 @@ describe('#parseRequestBody', function () {
 		};
 
     assert(!http.rawBody);
-    var newHttp = parseRequestBody(http);
+    var newHttp = parseRequestBody(http, {});
 
     assert(_.isString(newHttp.rawBody));
     assert.strictEqual(newHttp.rawBody, '{"id":123,"name":"Chris Houghton"}')
@@ -55,7 +55,7 @@ describe('#parseRequestBody', function () {
 
     var originalBody = _.clone(http.body);
 
-    var newHttp = parseRequestBody(http);
+    var newHttp = parseRequestBody(http, {});
     assert.notEqual(originalBody, newHttp.body);
 
     assert.deepEqual(newHttp.body, {
@@ -76,7 +76,7 @@ describe('#parseRequestBody', function () {
 
     var originalBody = _.clone(http.body);
 
-    var newHttp = parseRequestBody(http);
+    var newHttp = parseRequestBody(http, {});
     assert.notEqual(originalBody, newHttp.body);
 
     assert.strictEqual(newHttp.body, 'Chris Houghton contents here');

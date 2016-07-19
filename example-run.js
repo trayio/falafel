@@ -15,7 +15,7 @@ exports.apptalk = apptalk;
 // FOR TESTING:
 // ------------
 
-// var util = require('util');
+var util = require('util');
 //
 // // Send some exac
 // apptalk([{
@@ -34,31 +34,34 @@ exports.apptalk = apptalk;
 
 
 // REQUEST: Sample body, base 64 encoded
-// apptalk([{
-//   "id": "123-def",
-//   "header": {
-//     "message": "webhook_request"
-//   },
-//   "body": {
-// 		"input": {
-//     	"access_token": "50349efe7fc91a5566b3f4ccc5a4c815ac98e400"
-// 		},
-// 		"http": {
-// 			"headers": {
-// 				"Content-Type": ["application/json"]
-// 				// "Content-Type": ["application/x-www-form-urlencoded"]
-// 			},
-// 			"body": 'eyJpZCI6MTIzLCJuYW1lIjoiQ2hyaXMgSG91Z2h0b24ifQ==',
-// 			// "body": "Zm9vW2Jhcl09YmF6",
-// 			"form": []
-// 		}
-//   }
-// }], {}, function (err, result) {
-//
-// 	console.log('error', err);
-// 	console.log(util.inspect(result, false, null));
-//
-// });
+apptalk([{
+  "id": "123-def",
+  "header": {
+    "message": "webhook_request"
+  },
+  "body": {
+		"input": {
+    	"access_token": "50349efe7fc91a5566b3f4ccc5a4c815ac98e400"
+		},
+		"http": {
+			"headers": {
+				"Content-Type": ["application/json"]
+				// "Content-Type": ["application/x-www-form-urlencoded"]
+			},
+			"body": JSON.stringify({
+				"id":123,
+				"name":"Chris Houghton"
+			}),
+			// "body": "Zm9vW2Jhcl09YmF6",
+			"form": []
+		}
+  }
+}], {}, function (err, result) {
+
+	console.log('error', err);
+	console.log(util.inspect(result, false, null));
+
+});
 
 
 // RESPONSE: Sample workflow data
