@@ -23,6 +23,7 @@ as on the operational level.
   * [Request](#request-message_request)
   * [Response](#response-message_response)
 * [Generating connectors.json](#generating-connectorsjson)
+* [Testing the connector](#testing-the-connector)
 
 
 ## Getting started
@@ -339,3 +340,9 @@ which contains the raw HTTP body, rather than the parsed version.
 The `connectors.json` file will get auto generated when starting the server with `NODE_ENV` set to `development`.
 
 Depends on the `generate-schema` module being installed as a `devDependency` of the parent module. (It is automatically from the Yeoman generator)
+
+
+## Testing the connector
+
+Running the connector with `NODE_ENV` set to `development` also spins up a testing HTTP server, which
+you can send sample connector messages too via a tool like Postman.
