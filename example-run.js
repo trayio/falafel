@@ -48,10 +48,10 @@ apptalk([{
 				"Content-Type": ["application/json"]
 				// "Content-Type": ["application/x-www-form-urlencoded"]
 			},
-			"body": JSON.stringify({
+			"body": {
 				"id":123,
 				"name":"Chris Houghton"
-			}),
+			},
 			// "body": "Zm9vW2Jhcl09YmF6",
 			"form": []
 		}
