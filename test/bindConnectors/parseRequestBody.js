@@ -85,6 +85,27 @@ describe('#parseRequestBody', function () {
     });
   });
 
+  it('should decode url form encoded when content-type starts with application/x-www-form-urlencoded', function () {
+    var http = {
+			"headers": {
+				"Content-Type": ["application/x-www-form-urlencoded; charset=utf-8"]
+			},
+			"body": "Zm9vW2Jhcl09YmF6",
+			"form": []
+		};
+
+    var originalBody = _.clone(http.body);
+
+    var newHttp = parseRequestBody(http, {});
+    assert.notEqual(originalBody, newHttp.body);
+
+    assert.deepEqual(newHttp.body, {
+      foo: {
+        bar: 'baz'
+      }
+    });
+  });
+
 
   it('should spit out the decoded body for everything else', function () {
     var http = {
