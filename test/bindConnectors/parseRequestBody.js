@@ -26,6 +26,26 @@ describe('#parseRequestBody', function () {
     });
   });
 
+  it('should decode json when content-type starts with application/json', function () {
+    var http = {
+			"headers": {
+				"Content-Type": ["application/json; charset=utf-8"]
+			},
+			"body": 'eyJpZCI6MTIzLCJuYW1lIjoiQ2hyaXMgSG91Z2h0b24ifQ==',
+			"form": []
+		};
+
+    var originalBody = _.clone(http.body);
+
+    var newHttp = parseRequestBody(http, {});
+
+    assert.notEqual(originalBody, newHttp.body);
+    assert.deepEqual(newHttp.body, {
+      id: 123,
+      name: 'Chris Houghton'
+    });
+  });
+
 
   it('should add a rawBody to the http', function () {
     var http = {
