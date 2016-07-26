@@ -6,17 +6,18 @@ module.exports = function (params) {
 
     falafel.files.download(params.file)
 
-    .then(function (result) {
+    .done(function (result) {
       console.log(result);
       fs.writeFileSync('/Users/chrishoughton/Desktop/'+result.name, result.contents);
-    })
-
-    .done(function () {
-      resolve({
-        success: true,
-        message: 'You\'d normally show an API response here.'
-      });
+      resolve(result);
     }, reject);
+    //
+    // .done(function () {
+    //   resolve({
+    //     success: true,
+    //     message: 'You\'d normally show an API response here.'
+    //   });
+    // }, reject);
 
   });
 }
