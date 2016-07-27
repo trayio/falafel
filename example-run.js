@@ -4,8 +4,7 @@ var Falafel = require('./');
 
 // Start the server
 var apptalk = new Falafel().wrap({
-	directory: __dirname+'/example',
-	aws: require('./aws.json')
+	directory: __dirname+'/example'
 });
 
 exports.apptalk = apptalk;
