@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "@trayio/threadneedle": "^1.0.17",
+    "knox": "^0.9.2",
     "lodash": "^4.1.0",
+    "mmmagic": "^0.4.4",
     "mout": "^0.11.1",
     "qs": "^6.2.0",
     "requireindex": "^1.1.0",
