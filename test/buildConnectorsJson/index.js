@@ -30,7 +30,8 @@ describe('#buildConnectorsJson', function () {
 			},
 			version: '2.0',
 			description: 'This is a great connector',
-			customkey: 'This won\'t get added'
+			customkey: 'This won\'t get added',
+			auth: false
 		}]);
 
 		assert.strictEqual(JSON.stringify([
@@ -43,6 +44,7 @@ describe('#buildConnectorsJson', function () {
 		      "value": "http://myicon.com/icon.png",
 		      "type": "url"
 		    },
+				"auth": false,
 		    "messages": []
 		  }
 		], null, '  '), output);
@@ -108,8 +110,9 @@ describe('#buildConnectorsJson', function () {
 		}]);
 
 		assert.equal(parsed[0].messages.length, 2);
-		assert.equal(parsed[0].messages[0].title, 'My message');
-		assert.equal(parsed[0].messages[1].title, 'My amazing second message');
+														// remember - operations are sorted by title
+		assert.equal(parsed[0].messages[1].title, 'My message');
+		assert.equal(parsed[0].messages[0].title, 'My amazing second message');
 	});
 
 	it('should create from specified output schema if specified', function () {
