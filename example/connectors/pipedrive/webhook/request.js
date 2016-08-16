@@ -64,6 +64,16 @@ module.exports = {
     //   api_key: params.api_key
     // });
 
+  },
+
+  reply: function (input, http, output) {
+    return {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/xml'
+      },
+      body: '<myxml>test</myxml>'
+    }
   }
 
 };

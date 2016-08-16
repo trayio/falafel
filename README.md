@@ -277,7 +277,8 @@ This can be declared like so:
 module.exports = {
 
   // Filter function to determine whether the request should result
-  // in a workflow being triggered.
+  // in a workflow being triggered. If you want to pass all http requests
+  // to the connector then just return true here.
   filter: function (params, http) {
     return (http.method === 'POST');
   },
@@ -288,7 +289,22 @@ module.exports = {
     return {
       data: http.body
     };
+  },
+
+  // If you'd like to respond to the HTTP message from the third party because
+  // they're expecting a response (Salesforce notification), then also add a reply
+  // method here, passing a `http` object.
+  reply: function (params, http, output) {
+    return {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/xml'
+      },
+      body: '<myxml>test</myxml>'
+    }
   }
+
+
 
 };
 ```
