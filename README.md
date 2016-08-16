@@ -279,6 +279,7 @@ module.exports = {
   // Filter function to determine whether the request should result
   // in a workflow being triggered. If you want to pass all http requests
   // to the connector then just return true here.
+  // NOTE: this is a sync-only method and does not accept promises.
   filter: function (params, http) {
     return (http.method === 'POST');
   },
@@ -294,6 +295,7 @@ module.exports = {
   // If you'd like to respond to the HTTP message from the third party because
   // they're expecting a response (Salesforce notification), then also add a reply
   // method here, passing a `http` object.
+  // NOTE: this is a sync-only method and does not accept promises.
   reply: function (params, http, output) {
     return {
       status: 200,
