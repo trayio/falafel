@@ -95,7 +95,8 @@ describe('#buildConnectorsJson', function () {
 						name: {
 							type: 'string'
 						}
-					}
+					},
+					delivery: 'acknowledge'
 				},
 				model: {
 					url: '..'
@@ -103,7 +104,8 @@ describe('#buildConnectorsJson', function () {
 			}, {
 				schema: {
 					name: 'my_second_message',
-					title: 'My amazing second message'
+					title: 'My amazing second message',
+					delivery: 'request_response',
 				},
 				model: {}
 			}]
@@ -112,7 +114,9 @@ describe('#buildConnectorsJson', function () {
 		assert.equal(parsed[0].messages.length, 2);
 														// remember - operations are sorted by title
 		assert.equal(parsed[0].messages[1].title, 'My message');
+		assert.equal(parsed[0].messages[1].delivery, 'acknowledge');
 		assert.equal(parsed[0].messages[0].title, 'My amazing second message');
+		assert.equal(parsed[0].messages[0].delivery, 'request_response');
 	});
 
 	it('should create from specified output schema if specified', function () {
