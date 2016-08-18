@@ -70,7 +70,7 @@ module.exports = {
     return {
       status: 200,
       headers: {
-        'Content-Type': 'application/xml'
+        'Content-Type': ['application/xml']
       },
       body: '<myxml>test</myxml>'
     }
