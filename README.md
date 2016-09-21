@@ -18,9 +18,12 @@ as on the operational level.
 * [Global message schemas](#global-message-schemas)
 * [Private methods](#private-methods)
 * [Trigger connectors](#trigger-connectors)
-  * [Init and init destroy](#init-and-init-destroy)
-  * [Handling triggers](#handling-triggers)
+  * [Init](#init-message)
+  * [Destroy](#destroy-message_destroy)
+  * [Request](#request-message_request)
+  * [Response](#response-message_response)
 * [Generating connectors.json](#generating-connectorsjson)
+* [Testing the connector](#testing-the-connector)
 
 
 ## Getting started
@@ -224,10 +227,12 @@ This is simple - just **don't add** the `schema.js` and `response.sample.json` f
 
 ## Trigger connectors
 
-Trigger connectors follow a normal file structure, but you'll also need to:
+Trigger connectors follow a similar file structure to regular connectors, but the message
+folder also needs to contain:
 
-* Add a `trigger.js` file
-* Add `init_destroy` methods for each message
+* `destroy.js` - a file to remove the webhook created, if any (`message_destroy`)
+* `request.js` - a file to handle incoming HTTP triggers (`message_request`)
+* `response.js` - a file to format and handle the reply from a workflow to the connector (`message_response`). Only required if your connector is request/response.
 
 
 ```
@@ -237,58 +242,115 @@ connectors/
       model.js
       schema.js
       response.sample.json
-    user_subscribe_destroy/
-      model.js
-    trigger.js
+      destroy.js
+      request.js
+      response.js (optional)
     connector.js
     global_model.js (optional)
     global_schema.js (optional)
 ```
 
 
-### Init and init destroy
+### Init (`message`)
 
-Init messages are usually to set up things like webhooks. These normally correspond
-to a singular API call as a result - just like any normal operation.
+This "trigger initialisation" happens when the workflow is enabled or changed, and is designed
+to create webhooks in third party systems.
 
-As such, `init` and `init_destroy` messages should be declared in separate folders, just
-like any other message. Just add `_destroy` on the end of whatever your init message is called.
-
-__Tip:__ you don't need to declare a schema or provide a sample response for `init_destroy`
-messages as they're never exposed to the UI.
+The message coming in triggers the `model.js` file - which is configured like any other message.
 
 
+### Destroy (`message_destroy`)
 
-### Handling triggers
+This message should undo whatever the "initialisation" message did above. Usually this means deleting
+a webhook in a third party system.
 
-The `trigger.js` file within the connector folder will be passed straight to `connector.trigger(fn)` in the Node.js SDK.
+This message triggers the `destroy.js` file method, which is configured like any other message.
 
-Encodings are automatically handled behind the scenes based on the `Content-Type` header:
 
-* `application/json` - parsed as JSON
-* `application/x-www-form-urlencoded` - parsed as encoded URL
-* `text/html` - parsed as text
+### Request (`message_request`)
 
+This is a HTTP trigger message, forwarded by the tray platform to the connector. It comes in to the `request.js.` file.
+
+This can be declared like so:
 
 ```js
-module.exports = function (req, res, metadata, requestMetadata, triggerWorkflow) {
+module.exports = {
 
-  // Respond ok
-  res.status(200).json({ success: true });
+  // Filter function to determine whether the request should result
+  // in a workflow being triggered. If you want to pass all http requests
+  // to the connector then just return true here.
+  // NOTE: this is a sync-only method and does not accept promises.
+  filter: function (params, http) {
+    return (http.method === 'POST');
+  },
 
-  // Trigger the workflow
-  triggerWorkflow(req.body);
+  // Async formatting and ad-hoc additional API function. Return a promise
+  // for async behaviour.
+  before: function (params, http) {
+    return {
+      data: http.body
+    };
+  },
+
+  // If you'd like to respond to the HTTP message from the third party because
+  // they're expecting a response (Salesforce notification), then also add a reply
+  // method here, passing a `http` object.
+  // NOTE: this is a sync-only method and does not accept promises.
+  reply: function (params, http, output) {
+    return {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/xml'
+      },
+      body: '<myxml>test</myxml>'
+    }
+  }
+
+
 
 };
 ```
 
-For reference:
+If you'd like more fine grained control, declare it as a function returning a promise:
 
-* `req` - the express request object
-* `res` - the express response object
-* `metadata` - the data originally sent to the init operation
-* `requestMetadata` - metadata that the cluster service adds
-* `triggerWorkflow` - a function to trigger the workflow
+```js
+module.exports = function (params, http) {
+  return when.promise(function (resolve, reject) {
+
+    if (http.method === 'post') {
+      resolve(http.body);
+    } else {
+      reject('#trigger_ignore');
+    }
+
+  });
+};
+```
+
+### Response (`message_response`)
+
+This file handles the formatting of the response to the connector for a request/response
+trigger. The output from this message will be sent in the response back to the third party service.
+
+The formatting is a simple & functional one:
+
+```js
+module.exports = function (params, http, reply) {
+  return when.resolve(reply);
+}
+```
+
+
+
+### Trigger decoding
+
+By default Falafel automatically parses messages for the following `Content-Type`s:
+
+* `application/json`
+* `application/x-www-form-urlencoded`
+
+There is also a `rawBody` object attached to the `http` object for the request and response messages,
+which contains the raw HTTP body, rather than the parsed version.
 
 
 ## Generating connectors.json
@@ -296,3 +358,9 @@ For reference:
 The `connectors.json` file will get auto generated when starting the server with `NODE_ENV` set to `development`.
 
 Depends on the `generate-schema` module being installed as a `devDependency` of the parent module. (It is automatically from the Yeoman generator)
+
+
+## Testing the connector
+
+Running the connector with `NODE_ENV` set to `development` also spins up a testing HTTP server, which
+you can send sample connector messages too via a tool like Postman.
