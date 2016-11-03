@@ -364,3 +364,19 @@ Depends on the `generate-schema` module being installed as a `devDependency` of 
 
 Running the connector with `NODE_ENV` set to `development` also spins up a testing HTTP server, which
 you can send sample connector messages too via a tool like Postman.
+
+HTTP requests can be sent to `http://localhost:8989/send/123-def` with a body format like
+
+```
+{
+  "id": "123-def",
+  "header": {
+    "message": "[OPERATION NAME]"
+  },
+  "body": {
+    ...[INPUT PARAMETERS]
+  }
+}
+```
+
+The id `123-def` is used when testing.
