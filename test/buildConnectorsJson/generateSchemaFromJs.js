@@ -170,7 +170,7 @@ describe('#generateSchemaFromJs', function () {
 	});
 
 	it('should default to allowing additionalItems', function () {
-		
+
 	});
 
 	it('should recursively generate schema for arrays', function () {
@@ -232,6 +232,100 @@ describe('#generateSchemaFromJs', function () {
 		assert.equal(output.properties.deepData.items.properties.subObject.properties.color.default, 'red');
 	});
 
+	it('should add expand "oneOf" property properly (object)', function () {
+		var outputObject = generateSchemaFromJs({
+			body_type: {
+				title: 'Body Type',
+				type: 'object',
+				additionalProperties: false,
+				oneOf: [
+
+					{
+						title: 'raw',
+						type: 'object',
+						additionalProperties: false,
+						properties: {
+							id: {
+								type: 'string',
+								default: 'raw',
+								format: 'hidden'
+							},
+							content: {
+								type: 'string',
+								title: 'raw',
+								format: 'code'
+							}
+						}
+					},
+
+					{
+						title: 'form-urlencoded',
+						type: 'object',
+						additionalProperties: false,
+						properties: {
+							id: {
+								type: 'string',
+								default: 'form-urlencoded',
+								format: 'hidden'
+							},
+							content: {
+								type: 'object',
+								title: 'form-urlencoded',
+								additionalProperties: true
+							}
+						}
+					}
+
+				]
+			}
+		});
+
+		assert.equal(_.isArray(outputObject['properties']['body_type']['oneOf']), true);
+	});
+
+	it('should add expand "oneOf" property properly (array)', function () {
+		var outputArray = generateSchemaFromJs({
+			content: {
+				type: 'array',
+				title: 'form-data',
+				items: {
+					oneOf: [
+
+						{
+							id: 'text',
+							title: 'text',
+							type: 'object',
+							properties: {
+								key: {
+									type: 'string'
+								},
+								value: {
+									type: 'string'
+								}
+							}
+						},
+
+						{
+							id: 'file',
+							title: 'file',
+							format: 'file',
+							type: 'object',
+							properties: {
+								key: {
+									type: 'string'
+								},
+								value: {
+									type: 'object'
+								}
+							}
+						}
+
+					]
+				}
+			}
+		});
+
+		assert.equal(_.isArray(outputArray['properties']['content']['items']['oneOf']), true);
+	});
+
 });
-
-

@@ -1,5 +1,10 @@
 [
   {
+    "name": "mailchimp",
+    "help": "## This is a markdown file\n\nWith some exciting content.\n",
+    "messages": []
+  },
+  {
     "name": "pipedrive",
     "title": "Pipedrive",
     "description": "Interact with the Pipedrive API.",

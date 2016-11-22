@@ -35,3 +35,7 @@ node_modules
 
 
 aws.json
+
+.DS_Store
+
+.DS_Store
