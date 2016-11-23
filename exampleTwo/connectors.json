@@ -32,7 +32,6 @@
                 }
               },
               "required": [],
-              "advanced": [],
               "additionalProperties": false,
               "title": "Basic auth"
             },
@@ -46,7 +45,6 @@
                 }
               },
               "required": [],
-              "advanced": [],
               "additionalProperties": true,
               "title": "Headers"
             },
@@ -54,14 +52,11 @@
               "type": "object",
               "properties": {},
               "required": [],
-              "advanced": [],
               "additionalProperties": true,
               "title": "Queries"
             },
             "parse_response": {
               "type": "string",
-              "description": "Automatically parse incoming data to Javascript objects if possible",
-              "default": true,
               "enum": [
                 {
                   "text": "Any",
@@ -80,13 +75,14 @@
                   "value": false
                 }
               ],
+              "default": true,
+              "description": "Automatically parse incoming data to Javascript objects if possible",
               "title": "Parse response"
             },
             "body_type": {
               "type": "object",
               "properties": {},
               "required": [],
-              "advanced": [],
               "additionalProperties": false,
               "title": "Body Type",
               "oneOf": [
@@ -123,7 +119,6 @@
                       "items": {
                         "oneOf": [
                           {
-                            "id": "text",
                             "title": "text",
                             "type": "object",
                             "properties": {
@@ -136,7 +131,6 @@
                             }
                           },
                           {
-                            "id": "file",
                             "title": "file",
                             "format": "file",
                             "type": "object",
@@ -191,12 +185,12 @@
               ]
             }
           },
-          "$schema": "http://json-schema.org/draft-04/schema#",
           "required": [],
           "advanced": [
             "basic_auth",
             "parse_response"
           ],
+          "$schema": "http://json-schema.org/draft-04/schema#",
           "additionalProperties": false
         }
       }

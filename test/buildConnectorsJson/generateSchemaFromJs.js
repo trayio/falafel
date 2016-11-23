@@ -119,8 +119,9 @@ describe('#generateSchemaFromJs', function () {
 		});
 
 		assert(_.isUndefined(output.properties.data.$schema));
+		assert(_.isUndefined(output.properties.data.advanced));
+		assert(_.isArray(output.required));
 		assert(_.isArray(output.properties.data.required));
-		assert(_.isArray(output.properties.data.advanced));
 		assert(_.isObject(output.properties.data.properties));
 
 		output = generateSchemaFromJs({
@@ -219,7 +220,7 @@ describe('#generateSchemaFromJs', function () {
 
 		assert.equal(output.properties.deepData.type, 'array');
 		assert.equal(output.properties.deepData.items.type, 'object');
-		assert.equal(output.properties.deepData.items.title, 'Items');
+		assert.equal(output.properties.deepData.items.title, 'Item');
 		assert.equal(output.properties.deepData.items.properties.name.type, 'string');
 		assert.equal(output.properties.deepData.items.properties.age.type, 'number');
 		assert.equal(output.properties.deepData.items.properties.subArray.type, 'array');
@@ -230,6 +231,38 @@ describe('#generateSchemaFromJs', function () {
 		assert.equal(output.properties.deepData.items.properties.subObject.type, 'object');
 		assert.equal(output.properties.deepData.items.properties.subObject.properties.color.type, 'string');
 		assert.equal(output.properties.deepData.items.properties.subObject.properties.color.default, 'red');
+	});
+
+	it('should recursively generate schema for deep arrays', function () {
+		var output = generateSchemaFromJs({
+			deepData: {
+				type: 'array',
+				items: {
+					type: 'array',
+					items: {
+						type: 'array',
+						items: {
+							type: 'string'
+						}
+					}
+				}
+			},
+			deepDataX: {
+				type: 'array',
+				items: {
+					type: 'object',
+					additionalProperties: true
+				}
+			}
+		});
+
+		assert.equal(output.properties.deepData.type, 'array');
+		assert.equal(output.properties.deepData.items.type, 'array');
+		assert.equal(output.properties.deepData.items.title, 'Item');
+		assert.equal(output.properties.deepData.items.items.type, 'array');
+		assert.equal(output.properties.deepData.items.items.items.type, 'string');
+		assert.equal(output.properties.deepDataX.items.type, 'object');
+
 	});
 
 	it('should add expand "oneOf" property properly (object)', function () {
@@ -279,7 +312,6 @@ describe('#generateSchemaFromJs', function () {
 				]
 			}
 		});
-
 		assert.equal(_.isArray(outputObject['properties']['body_type']['oneOf']), true);
 	});
 

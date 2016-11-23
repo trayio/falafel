@@ -62,13 +62,13 @@
               "title": "Sort"
             }
           },
-          "$schema": "http://json-schema.org/draft-04/schema#",
           "required": [
             "access_token"
           ],
           "advanced": [
             "access_token"
           ],
+          "$schema": "http://json-schema.org/draft-04/schema#",
           "additionalProperties": false
         },
         "output_schema": {
@@ -502,13 +502,13 @@
               "title": "Access token"
             }
           },
-          "$schema": "http://json-schema.org/draft-04/schema#",
           "required": [
             "access_token"
           ],
           "advanced": [
             "access_token"
           ],
+          "$schema": "http://json-schema.org/draft-04/schema#",
           "additionalProperties": false
         },
         "output_schema": {

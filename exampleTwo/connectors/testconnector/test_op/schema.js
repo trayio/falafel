@@ -105,7 +105,6 @@ module.exports = {
     							oneOf: [
 
     								{
-    									id: 'text',
     									title: 'text',
     									type: 'object',
     									properties: {
@@ -119,7 +118,6 @@ module.exports = {
     								},
 
     								{
-    									id: 'file',
     									title: 'file',
     									format: 'file',
     									type: 'object',
