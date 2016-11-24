@@ -323,7 +323,7 @@ describe('#generateSchemaFromJs', function () {
 		assert.equal(_.isArray(outputObject['properties']['body_type']['oneOf']), true);
 		assert(_.isUndefined(outputObject['properties']['body_type']['oneOf'][0]['random']));
 		assert.equal(outputObject['properties']['body_type']['oneOf'][0]['title'], 'raw');
-		assert.equal(outputObject['properties']['body_type']['oneOf'][2]['title'], 'Item 2');
+		assert.equal(outputObject['properties']['body_type']['oneOf'][2]['title'], 'Schema 3');
 
 	});
 
