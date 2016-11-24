@@ -265,7 +265,7 @@ describe('#generateSchemaFromJs', function () {
 
 	});
 
-	it('should add expand "oneOf" property properly (object)', function () {
+	it('should add expand "oneOf" property properly', function () {
 		var outputObject = generateSchemaFromJs({
 			body_type: {
 				title: 'Body Type',
@@ -288,7 +288,8 @@ describe('#generateSchemaFromJs', function () {
 								title: 'raw',
 								format: 'code'
 							}
-						}
+						},
+						random: 'random'
 					},
 
 					{
@@ -307,15 +308,27 @@ describe('#generateSchemaFromJs', function () {
 								additionalProperties: true
 							}
 						}
-					}
+					},
 
+					{
+						random: 'random'
+					},
+
+					{
+						type: 'string'
+					}
 				]
 			}
 		});
+
 		assert.equal(_.isArray(outputObject['properties']['body_type']['oneOf']), true);
+		assert(_.isUndefined(outputObject['properties']['body_type']['oneOf'][0]['random']));
+		assert.equal(outputObject['properties']['body_type']['oneOf'][0]['title'], 'raw');
+		assert.equal(outputObject['properties']['body_type']['oneOf'][2]['title'], 'Item 2');
+
 	});
 
-	it('should add expand "oneOf" property properly (array)', function () {
+	it('should add expand "oneOf" property properly (array in arrays)', function () {
 		var outputArray = generateSchemaFromJs({
 			content: {
 				type: 'array',

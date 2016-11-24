@@ -87,31 +87,32 @@
               "title": "Body Type",
               "oneOf": [
                 {
-                  "title": "raw",
                   "type": "object",
-                  "additionalProperties": false,
                   "properties": {
                     "id": {
                       "type": "string",
                       "default": "raw",
-                      "format": "hidden"
+                      "format": "hidden",
+                      "title": "Id"
                     },
                     "content": {
                       "type": "string",
                       "title": "raw",
                       "format": "code"
                     }
-                  }
+                  },
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "raw"
                 },
                 {
-                  "title": "form-data",
                   "type": "object",
-                  "additionalProperties": false,
                   "properties": {
                     "id": {
                       "type": "string",
                       "default": "form-data",
-                      "format": "hidden"
+                      "format": "hidden",
+                      "title": "Id"
                     },
                     "content": {
                       "type": "array",
@@ -119,68 +120,93 @@
                       "items": {
                         "oneOf": [
                           {
-                            "title": "text",
                             "type": "object",
                             "properties": {
                               "key": {
-                                "type": "string"
+                                "type": "string",
+                                "title": "Key"
                               },
                               "value": {
-                                "type": "string"
+                                "type": "string",
+                                "title": "Value"
                               }
-                            }
+                            },
+                            "required": [],
+                            "additionalProperties": false,
+                            "title": "text"
                           },
                           {
-                            "title": "file",
-                            "format": "file",
                             "type": "object",
                             "properties": {
                               "key": {
-                                "type": "string"
+                                "type": "string",
+                                "title": "Key"
                               },
                               "value": {
-                                "type": "object"
+                                "type": "object",
+                                "properties": {},
+                                "required": [],
+                                "additionalProperties": false,
+                                "title": "Value"
                               }
-                            }
+                            },
+                            "required": [],
+                            "additionalProperties": false,
+                            "title": "file",
+                            "format": "file"
                           }
-                        ]
-                      }
+                        ],
+                        "title": "Item"
+                      },
+                      "additionalItems": true
                     }
-                  }
+                  },
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "form-data"
                 },
                 {
-                  "title": "form-urlencoded",
                   "type": "object",
-                  "additionalProperties": false,
                   "properties": {
                     "id": {
                       "type": "string",
                       "default": "form-urlencoded",
-                      "format": "hidden"
+                      "format": "hidden",
+                      "title": "Id"
                     },
                     "content": {
                       "type": "object",
-                      "title": "form-urlencoded",
-                      "additionalProperties": true
+                      "properties": {},
+                      "required": [],
+                      "additionalProperties": true,
+                      "title": "form-urlencoded"
                     }
-                  }
+                  },
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "form-urlencoded"
                 },
                 {
-                  "title": "binary",
                   "type": "object",
-                  "additionalProperties": false,
                   "properties": {
                     "id": {
                       "type": "string",
                       "default": "binary",
-                      "format": "hidden"
+                      "format": "hidden",
+                      "title": "Id"
                     },
                     "content": {
                       "type": "object",
+                      "properties": {},
+                      "required": [],
+                      "additionalProperties": false,
                       "title": "binary",
                       "format": "file"
                     }
-                  }
+                  },
+                  "required": [],
+                  "additionalProperties": false,
+                  "title": "binary"
                 }
               ]
             }
