@@ -32,6 +32,7 @@
                 }
               },
               "required": [],
+              "advanced": [],
               "additionalProperties": false,
               "title": "Basic auth"
             },
@@ -45,6 +46,7 @@
                 }
               },
               "required": [],
+              "advanced": [],
               "additionalProperties": true,
               "title": "Headers"
             },
@@ -52,6 +54,7 @@
               "type": "object",
               "properties": {},
               "required": [],
+              "advanced": [],
               "additionalProperties": true,
               "title": "Queries"
             },
@@ -83,6 +86,7 @@
               "type": "object",
               "properties": {},
               "required": [],
+              "advanced": [],
               "additionalProperties": false,
               "title": "Body Type",
               "oneOf": [
@@ -102,6 +106,7 @@
                     }
                   },
                   "required": [],
+                  "advanced": [],
                   "additionalProperties": false,
                   "title": "raw"
                 },
@@ -132,6 +137,7 @@
                               }
                             },
                             "required": [],
+                            "advanced": [],
                             "additionalProperties": false,
                             "title": "text"
                           },
@@ -146,11 +152,13 @@
                                 "type": "object",
                                 "properties": {},
                                 "required": [],
+                                "advanced": [],
                                 "additionalProperties": false,
                                 "title": "Value"
                               }
                             },
                             "required": [],
+                            "advanced": [],
                             "additionalProperties": false,
                             "title": "file",
                             "format": "file"
@@ -162,6 +170,7 @@
                     }
                   },
                   "required": [],
+                  "advanced": [],
                   "additionalProperties": false,
                   "title": "form-data"
                 },
@@ -178,11 +187,13 @@
                       "type": "object",
                       "properties": {},
                       "required": [],
+                      "advanced": [],
                       "additionalProperties": true,
                       "title": "form-urlencoded"
                     }
                   },
                   "required": [],
+                  "advanced": [],
                   "additionalProperties": false,
                   "title": "form-urlencoded"
                 },
@@ -199,12 +210,14 @@
                       "type": "object",
                       "properties": {},
                       "required": [],
+                      "advanced": [],
                       "additionalProperties": false,
                       "title": "binary",
                       "format": "file"
                     }
                   },
                   "required": [],
+                  "advanced": [],
                   "additionalProperties": false,
                   "title": "binary"
                 }
