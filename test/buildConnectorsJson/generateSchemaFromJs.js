@@ -119,7 +119,6 @@ describe('#generateSchemaFromJs', function () {
 		});
 
 		assert(_.isUndefined(output.properties.data.$schema));
-		assert(_.isUndefined(output.properties.data.advanced));
 		assert(_.isArray(output.required));
 		assert(_.isArray(output.properties.data.required));
 		assert(_.isObject(output.properties.data.properties));
