@@ -1,0 +1,238 @@
+[
+  {
+    "name": "testconnector",
+    "title": "Test connector",
+    "description": "Test connector to test things in.",
+    "version": "1.0",
+    "tags": [
+      "service"
+    ],
+    "icon": {
+      "type": "streamline",
+      "value": "globe-2"
+    },
+    "messages": [
+      {
+        "name": "test_op",
+        "title": "Test operation",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "basic_auth": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "title": "Username"
+                },
+                "password": {
+                  "type": "string",
+                  "format": "password",
+                  "title": "Password"
+                }
+              },
+              "required": [],
+              "advanced": [],
+              "additionalProperties": false,
+              "title": "Basic auth"
+            },
+            "headers": {
+              "type": "object",
+              "properties": {
+                "content_type": {
+                  "type": "string",
+                  "title": "Content-Type",
+                  "default": "application/json"
+                }
+              },
+              "required": [],
+              "advanced": [],
+              "additionalProperties": true,
+              "title": "Headers"
+            },
+            "queries": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "advanced": [],
+              "additionalProperties": true,
+              "title": "Queries"
+            },
+            "parse_response": {
+              "type": "string",
+              "enum": [
+                {
+                  "text": "Any",
+                  "value": true
+                },
+                {
+                  "text": "JSON only",
+                  "value": "json"
+                },
+                {
+                  "text": "XML only",
+                  "value": "xml"
+                },
+                {
+                  "text": "None",
+                  "value": false
+                }
+              ],
+              "default": true,
+              "description": "Automatically parse incoming data to Javascript objects if possible",
+              "title": "Parse response"
+            },
+            "body_type": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "advanced": [],
+              "additionalProperties": false,
+              "title": "Body Type",
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "default": "raw",
+                      "format": "hidden",
+                      "title": "Id"
+                    },
+                    "content": {
+                      "type": "string",
+                      "title": "raw",
+                      "format": "code"
+                    }
+                  },
+                  "required": [],
+                  "advanced": [],
+                  "additionalProperties": false,
+                  "title": "raw"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "default": "form-data",
+                      "format": "hidden",
+                      "title": "Id"
+                    },
+                    "content": {
+                      "type": "array",
+                      "title": "form-data",
+                      "items": {
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "key": {
+                                "type": "string",
+                                "title": "Key"
+                              },
+                              "value": {
+                                "type": "string",
+                                "title": "Value"
+                              }
+                            },
+                            "required": [],
+                            "advanced": [],
+                            "additionalProperties": false,
+                            "title": "text"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "key": {
+                                "type": "string",
+                                "title": "Key"
+                              },
+                              "value": {
+                                "type": "object",
+                                "properties": {},
+                                "required": [],
+                                "advanced": [],
+                                "additionalProperties": false,
+                                "title": "Value"
+                              }
+                            },
+                            "required": [],
+                            "advanced": [],
+                            "additionalProperties": false,
+                            "title": "file",
+                            "format": "file"
+                          }
+                        ],
+                        "title": "Item"
+                      },
+                      "additionalItems": true
+                    }
+                  },
+                  "required": [],
+                  "advanced": [],
+                  "additionalProperties": false,
+                  "title": "form-data"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "default": "form-urlencoded",
+                      "format": "hidden",
+                      "title": "Id"
+                    },
+                    "content": {
+                      "type": "object",
+                      "properties": {},
+                      "required": [],
+                      "advanced": [],
+                      "additionalProperties": true,
+                      "title": "form-urlencoded"
+                    }
+                  },
+                  "required": [],
+                  "advanced": [],
+                  "additionalProperties": false,
+                  "title": "form-urlencoded"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "default": "binary",
+                      "format": "hidden",
+                      "title": "Id"
+                    },
+                    "content": {
+                      "type": "object",
+                      "properties": {},
+                      "required": [],
+                      "advanced": [],
+                      "additionalProperties": false,
+                      "title": "binary",
+                      "format": "file"
+                    }
+                  },
+                  "required": [],
+                  "advanced": [],
+                  "additionalProperties": false,
+                  "title": "binary"
+                }
+              ]
+            }
+          },
+          "required": [],
+          "advanced": [
+            "basic_auth",
+            "parse_response"
+          ],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        }
+      }
+    ]
+  }
+]

@@ -119,8 +119,8 @@ describe('#generateSchemaFromJs', function () {
 		});
 
 		assert(_.isUndefined(output.properties.data.$schema));
+		assert(_.isArray(output.required));
 		assert(_.isArray(output.properties.data.required));
-		assert(_.isArray(output.properties.data.advanced));
 		assert(_.isObject(output.properties.data.properties));
 
 		output = generateSchemaFromJs({
@@ -170,7 +170,7 @@ describe('#generateSchemaFromJs', function () {
 	});
 
 	it('should default to allowing additionalItems', function () {
-		
+
 	});
 
 	it('should recursively generate schema for arrays', function () {
@@ -219,7 +219,7 @@ describe('#generateSchemaFromJs', function () {
 
 		assert.equal(output.properties.deepData.type, 'array');
 		assert.equal(output.properties.deepData.items.type, 'object');
-		assert.equal(output.properties.deepData.items.title, 'Items');
+		assert.equal(output.properties.deepData.items.title, 'Item');
 		assert.equal(output.properties.deepData.items.properties.name.type, 'string');
 		assert.equal(output.properties.deepData.items.properties.age.type, 'number');
 		assert.equal(output.properties.deepData.items.properties.subArray.type, 'array');
@@ -232,6 +232,144 @@ describe('#generateSchemaFromJs', function () {
 		assert.equal(output.properties.deepData.items.properties.subObject.properties.color.default, 'red');
 	});
 
+	it('should recursively generate schema for deep arrays', function () {
+		var output = generateSchemaFromJs({
+			deepData: {
+				type: 'array',
+				items: {
+					type: 'array',
+					items: {
+						type: 'array',
+						items: {
+							type: 'string'
+						}
+					}
+				}
+			},
+			deepDataX: {
+				type: 'array',
+				items: {
+					type: 'object',
+					additionalProperties: true
+				}
+			}
+		});
+
+		assert.equal(output.properties.deepData.type, 'array');
+		assert.equal(output.properties.deepData.items.type, 'array');
+		assert.equal(output.properties.deepData.items.title, 'Item');
+		assert.equal(output.properties.deepData.items.items.type, 'array');
+		assert.equal(output.properties.deepData.items.items.items.type, 'string');
+		assert.equal(output.properties.deepDataX.items.type, 'object');
+
+	});
+
+	it('should add expand "oneOf" property properly', function () {
+		var outputObject = generateSchemaFromJs({
+			body_type: {
+				title: 'Body Type',
+				type: 'object',
+				additionalProperties: false,
+				oneOf: [
+
+					{
+						title: 'raw',
+						type: 'object',
+						additionalProperties: false,
+						properties: {
+							id: {
+								type: 'string',
+								default: 'raw',
+								format: 'hidden'
+							},
+							content: {
+								type: 'string',
+								title: 'raw',
+								format: 'code'
+							}
+						},
+						random: 'random'
+					},
+
+					{
+						title: 'form-urlencoded',
+						type: 'object',
+						additionalProperties: false,
+						properties: {
+							id: {
+								type: 'string',
+								default: 'form-urlencoded',
+								format: 'hidden'
+							},
+							content: {
+								type: 'object',
+								title: 'form-urlencoded',
+								additionalProperties: true
+							}
+						}
+					},
+
+					{
+						random: 'random'
+					},
+
+					{
+						type: 'string'
+					}
+				]
+			}
+		});
+
+		assert.equal(_.isArray(outputObject['properties']['body_type']['oneOf']), true);
+		assert(_.isUndefined(outputObject['properties']['body_type']['oneOf'][0]['random']));
+		assert.equal(outputObject['properties']['body_type']['oneOf'][0]['title'], 'raw');
+		assert.equal(outputObject['properties']['body_type']['oneOf'][2]['title'], 'Schema 3');
+
+	});
+
+	it('should add expand "oneOf" property properly (array in arrays)', function () {
+		var outputArray = generateSchemaFromJs({
+			content: {
+				type: 'array',
+				title: 'form-data',
+				items: {
+					oneOf: [
+
+						{
+							id: 'text',
+							title: 'text',
+							type: 'object',
+							properties: {
+								key: {
+									type: 'string'
+								},
+								value: {
+									type: 'string'
+								}
+							}
+						},
+
+						{
+							id: 'file',
+							title: 'file',
+							format: 'file',
+							type: 'object',
+							properties: {
+								key: {
+									type: 'string'
+								},
+								value: {
+									type: 'object'
+								}
+							}
+						}
+
+					]
+				}
+			}
+		});
+
+		assert.equal(_.isArray(outputArray['properties']['content']['items']['oneOf']), true);
+	});
+
 });
-
-
