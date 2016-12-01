@@ -277,12 +277,7 @@ describe('#generateSchemaFromJs', function () {
 						type: 'object',
 						additionalProperties: false,
 						properties: {
-							id: {
-								type: 'string',
-								default: 'raw',
-								format: 'hidden'
-							},
-							content: {
+							raw: {
 								type: 'string',
 								title: 'raw',
 								format: 'code'
@@ -296,12 +291,7 @@ describe('#generateSchemaFromJs', function () {
 						type: 'object',
 						additionalProperties: false,
 						properties: {
-							id: {
-								type: 'string',
-								default: 'form-urlencoded',
-								format: 'hidden'
-							},
-							content: {
+							form_urlencoded: {
 								type: 'object',
 								title: 'form-urlencoded',
 								additionalProperties: true
@@ -315,7 +305,37 @@ describe('#generateSchemaFromJs', function () {
 
 					{
 						type: 'string'
+					},
+
+					{
+						title: 'form-data',
+						type: 'object',
+						additionalProperties: false,
+						properties: {
+							form_data: {
+								type: 'object',
+								title: 'form-data',
+								additionalProperties: {
+									oneOf: [
+
+										{
+											title: 'Text',
+											type: 'string'
+										},
+
+										{
+											title: 'File',
+											type: 'object',
+											format: 'file',
+											additionalProperties: false
+										}
+
+									]
+								}
+							}
+						}
 					}
+
 				]
 			}
 		});
@@ -324,9 +344,12 @@ describe('#generateSchemaFromJs', function () {
 		assert(_.isUndefined(outputObject['properties']['body_type']['oneOf'][0]['random']));
 		assert.equal(outputObject['properties']['body_type']['oneOf'][0]['title'], 'raw');
 		assert.equal(outputObject['properties']['body_type']['oneOf'][2]['title'], 'Schema 3');
+		assert.equal(_.isBoolean(outputObject['properties']['body_type']['oneOf'][0]['additionalProperties']), true);
+		assert.equal(_.isBoolean(outputObject['properties']['body_type']['oneOf'][1]['properties']['form_urlencoded']['additionalProperties']), true);
+		assert.equal(_.isObject(outputObject['properties']['body_type']['oneOf'][3]['properties']['form_data']['additionalProperties']), true);
 
 	});
-
+	
 	it('should add expand "oneOf" property properly (array in arrays)', function () {
 		var outputArray = generateSchemaFromJs({
 			content: {
