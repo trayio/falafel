@@ -4,7 +4,7 @@ var util 							   = require('util');
 var generateSchemaFromJs = require('../../lib/buildConnectorsJson/generateSchemaFromJs');
 
 
-describe('#generateSchemaFromJs', function () {
+describe.only('#generateSchemaFromJs', function () {
 
 	it('should set the standard top level schema keys', function () {
 		var output = generateSchemaFromJs({});
@@ -349,7 +349,7 @@ describe('#generateSchemaFromJs', function () {
 		assert.equal(_.isObject(outputObject['properties']['body_type']['oneOf'][3]['properties']['form_data']['additionalProperties']), true);
 
 	});
-	
+
 	it('should add expand "oneOf" property properly (array in arrays)', function () {
 		var outputArray = generateSchemaFromJs({
 			content: {
@@ -394,5 +394,24 @@ describe('#generateSchemaFromJs', function () {
 
 		assert.equal(_.isArray(outputArray['properties']['content']['items']['oneOf']), true);
 	});
+
+	it('should error if format hidden does not have a default', function () {
+		assert.throws(
+			function () {
+				generateSchemaFromJs({
+					body_type: {
+						title: 'Body Type',
+						type: 'object',
+						additionalProperties: false,
+						format: 'hidden'
+					}
+				})
+			},
+			Error,
+			'Error: Schema\'s that have "format":"hidden" require a default to also be provided.'
+		);
+
+	});
+
 
 });
