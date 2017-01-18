@@ -4,7 +4,7 @@ var util 							   = require('util');
 var generateSchemaFromJs = require('../../lib/buildConnectorsJson/generateSchemaFromJs');
 
 
-describe.only('#generateSchemaFromJs', function () {
+describe('#generateSchemaFromJs', function () {
 
 	it('should set the standard top level schema keys', function () {
 		var output = generateSchemaFromJs({});
@@ -171,6 +171,18 @@ describe.only('#generateSchemaFromJs', function () {
 
 	it('should default to allowing additionalItems', function () {
 
+		var output = generateSchemaFromJs({
+			data: {
+				type: 'array',
+				items: {
+					type: 'string',
+					enum: ['Option 1', 'Option 2']
+				}
+			}
+		});
+
+		assert.equal(output.properties.data.additionalItems, true);
+
 	});
 
 	it('should recursively generate schema for arrays', function () {
@@ -268,8 +280,6 @@ describe.only('#generateSchemaFromJs', function () {
 		var outputObject = generateSchemaFromJs({
 			body_type: {
 				title: 'Body Type',
-				type: 'object',
-				additionalProperties: false,
 				oneOf: [
 
 					{
@@ -313,8 +323,8 @@ describe.only('#generateSchemaFromJs', function () {
 						additionalProperties: false,
 						properties: {
 							form_data: {
-								type: 'object',
 								title: 'form-data',
+								type: 'object',
 								additionalProperties: {
 									oneOf: [
 
