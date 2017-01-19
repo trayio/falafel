@@ -20,7 +20,7 @@ describe('#bindHelpers', function () {
 			'../utils/getDirectories': function () {
 				return ['helpers'];
 			},
-			requireindex: function () {
+			'../utils/requireAll': function () {
 				requiredIn = true;
 				return {
 					getMetadata: 'chris'
@@ -31,7 +31,7 @@ describe('#bindHelpers', function () {
 		bindHelpers('/');
 
 		assert(requiredIn);
-		assert.deepEqual(falafel.helpers, { 
+		assert.deepEqual(falafel.helpers, {
 			getMetadata: 'chris'
 		});
 	});
@@ -43,7 +43,7 @@ describe('#bindHelpers', function () {
 			'./utils/getDirectories': function () {
 				return [];
 			},
-			requireindex: function () {
+			'../utils/requireAll': function () {
 				requiredIn = false;
 			}
 		});
