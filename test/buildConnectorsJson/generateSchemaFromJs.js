@@ -405,6 +405,29 @@ describe('#generateSchemaFromJs', function () {
 		assert.equal(_.isArray(outputArray['properties']['content']['items']['oneOf']), true);
 	});
 
+	it('should not error if format hidden has either default or defaultJsonPath', function () {
+		assert(
+			generateSchemaFromJs({
+				body_type: {
+					title: 'Test',
+					type: 'string',
+					format: 'hidden',
+					default: '123'
+				}
+			})
+		);
+		assert(
+			generateSchemaFromJs({
+				body_type: {
+					title: 'Test',
+					type: 'string',
+					format: 'hidden',
+					defaultJsonPath: '$.config.a'
+				}
+			})
+		);
+	});
+
 	it('should error if format hidden does not have a default', function () {
 		assert.throws(
 			function () {
@@ -420,7 +443,6 @@ describe('#generateSchemaFromJs', function () {
 			Error,
 			'Error: Schema\'s that have "format":"hidden" require a default to also be provided.'
 		);
-
 	});
 
 
