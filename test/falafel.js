@@ -58,20 +58,4 @@ describe('falafel', function () {
 		assert.strictEqual(called, false);
 	});
 
-	it.skip('should work with a sample message', function () {
-
-	});
-
-	it.skip('should work with a sample destroy', function () {
-
-	});
-
-	it.skip('should work with a sample request', function () {
-
-	});
-
-	it.skip('should work with a sample response', function () {
-
-	});
-
 });

@@ -1,6 +1,6 @@
-var _ 				 = require('lodash');
-var assert 		 = require('assert');
-var proxyquire = require('proxyquire');
+var _ 			= require('lodash');
+var assert 		= require('assert');
+var proxyquire	= require('proxyquire');
 
 
 describe('#buildConnectorsJson', function () {

@@ -171,6 +171,18 @@ describe('#generateSchemaFromJs', function () {
 
 	it('should default to allowing additionalItems', function () {
 
+		var output = generateSchemaFromJs({
+			data: {
+				type: 'array',
+				items: {
+					type: 'string',
+					enum: ['Option 1', 'Option 2']
+				}
+			}
+		});
+
+		assert.equal(output.properties.data.additionalItems, true);
+
 	});
 
 	it('should recursively generate schema for arrays', function () {
@@ -268,8 +280,6 @@ describe('#generateSchemaFromJs', function () {
 		var outputObject = generateSchemaFromJs({
 			body_type: {
 				title: 'Body Type',
-				type: 'object',
-				additionalProperties: false,
 				oneOf: [
 
 					{
@@ -313,8 +323,8 @@ describe('#generateSchemaFromJs', function () {
 						additionalProperties: false,
 						properties: {
 							form_data: {
-								type: 'object',
 								title: 'form-data',
+								type: 'object',
 								additionalProperties: {
 									oneOf: [
 
@@ -349,7 +359,7 @@ describe('#generateSchemaFromJs', function () {
 		assert.equal(_.isObject(outputObject['properties']['body_type']['oneOf'][3]['properties']['form_data']['additionalProperties']), true);
 
 	});
-	
+
 	it('should add expand "oneOf" property properly (array in arrays)', function () {
 		var outputArray = generateSchemaFromJs({
 			content: {
@@ -394,5 +404,24 @@ describe('#generateSchemaFromJs', function () {
 
 		assert.equal(_.isArray(outputArray['properties']['content']['items']['oneOf']), true);
 	});
+
+	it('should error if format hidden does not have a default', function () {
+		assert.throws(
+			function () {
+				generateSchemaFromJs({
+					body_type: {
+						title: 'Body Type',
+						type: 'object',
+						additionalProperties: false,
+						format: 'hidden'
+					}
+				})
+			},
+			Error,
+			'Error: Schema\'s that have "format":"hidden" require a default to also be provided.'
+		);
+
+	});
+
 
 });
