@@ -353,6 +353,20 @@ There is also a `rawBody` object attached to the `http` object for the request a
 which contains the raw HTTP body, rather than the parsed version.
 
 
+## Dynamic output schemas
+If an operation is to support dynamic output schemas, a `dynamic_output.js` file simply needs to be included in the operation's folder.
+The file should always export a promise function to be run, like so:
+```JavaScript
+module.exports = function () {
+	return when.promise(function (resolve, reject) {
+		//Return an object
+	});
+};
+```
+Falafel will deal with transforming the (javascript) object into JSON schema when processing the return from `dynamic_output.js`, so **do not return a JSON schema**, only the return output data/object.
+
+**Note:** Depending on whether a `dynamic_output.js` is included or not, Falafel will automatically set the `dynamic_output` key in `connectors.json` for each operation; thus `dynamic_output` does not need to be added in `schema.js`.
+
 ## Generating connectors.json
 
 The `connectors.json` file will get auto generated when starting the server with `NODE_ENV` set to `development`.
