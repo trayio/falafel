@@ -3,8 +3,6 @@ module.exports = {
 
     title: 'Test operation',
 
-    dynamic_accumulation: true,
-
     input: {
 
     	test: {

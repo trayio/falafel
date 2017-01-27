@@ -231,7 +231,8 @@
           ],
           "$schema": "http://json-schema.org/draft-04/schema#",
           "additionalProperties": false
-        }
+        },
+        "dynamic_output": false
       },
       {
         "name": "test_op2",
