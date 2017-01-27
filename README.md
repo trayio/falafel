@@ -365,7 +365,8 @@ module.exports = function () {
 ```
 Falafel will deal with transforming the (javascript) object into JSON schema when processing the return from `dynamic_output.js`, so **do not return a JSON schema**, only the return output data/object.
 
-**Note:** Depending on whether a `dynamic_output.js` is included or not, Falafel will automatically set the `dynamic_output` key in `connectors.json` for each operation; thus `dynamic_output` does not need to be added in `schema.js`.
+**Note:** Depending on whether a `dynamic_output.js` is included or not, Falafel will automatically set the `dynamic_output` key in `connectors.json` for each operation; thus `dynamic_output` does not need to be added in `schema.js`.  
+Additionally, the dynamic output sub-operation can be referenced as `message_dynamic_output`.
 
 ## Generating connectors.json
 
