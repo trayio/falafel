@@ -488,7 +488,8 @@
               }
             }
           }
-        }
+        },
+        "dynamic_output": false
       },
       {
         "name": "webhook",
@@ -515,7 +516,8 @@
           "$schema": "http://json-schema.org/draft-04/schema#",
           "type": "object",
           "properties": {}
-        }
+        },
+        "dynamic_output": false
       }
     ]
   }
