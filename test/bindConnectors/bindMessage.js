@@ -61,8 +61,7 @@ describe('#bindMessage', function () {
 			on: function () {},
 			hasRequiredParams: function (keys) {
 				requiredKeys = keys;
-			}
-		}, {
+			},
 			globalSchema: {
 				input: {
 					access_token: {
