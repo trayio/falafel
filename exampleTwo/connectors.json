@@ -231,7 +231,43 @@
           ],
           "$schema": "http://json-schema.org/draft-04/schema#",
           "additionalProperties": false
-        }
+        },
+        "dynamic_output": false
+      },
+      {
+        "name": "test_op2",
+        "title": "Test operation",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "test": {
+              "type": "string",
+              "default": "Hello world",
+              "title": "Test"
+            }
+          },
+          "required": [
+            "test"
+          ],
+          "advanced": [],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        },
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "response": {
+              "type": "string",
+              "default": "response Hello world",
+              "title": "Response"
+            }
+          },
+          "required": [],
+          "advanced": [],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        },
+        "dynamic_output": true
       }
     ]
   }
