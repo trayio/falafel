@@ -354,8 +354,7 @@ which contains the raw HTTP body, rather than the parsed version.
 
 
 ## Dynamic output schemas
-If an operation is to support dynamic output schemas, a `output.js` file simply needs to be included in the operation's folder.
-The file should always export a promise function to be run, like so:
+If an operation is to support dynamic output schemas, an `output.js` file simply needs to be included in the operation's folder. The file should always export a promise function to be run, like so:
 ```JavaScript
 module.exports = function (params) {
 	return when.promise(function (resolve, reject) {
