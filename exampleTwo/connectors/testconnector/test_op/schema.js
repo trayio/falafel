@@ -3,6 +3,8 @@ module.exports = {
 
   title: 'Test operation',
 
+  globals: false,
+
   input: {
 
 		basic_auth: {
