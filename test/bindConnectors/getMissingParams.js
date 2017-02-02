@@ -50,7 +50,7 @@ describe('#getMissingParams', function () {
 
 		);
 
-		assert(missingParams);
+		assert(missingParams.length === 0);
 
 	});
 
@@ -148,6 +148,67 @@ describe('#getMissingParams', function () {
 		);
 
 		assert.notEqual(missingParams[0], 'test1');
+
+	});
+
+	it('should pass even if messageSchema is undefined', function () {
+
+		var missingParams = getMissingParams(
+			{
+				test1: '123'
+			},
+			undefined,
+			{
+
+				input: {
+					test1: {
+						type: 'string',
+						required: true
+					}
+				}
+
+			}
+
+		);
+
+		assert(missingParams.length === 0);
+
+	});
+
+	it('should pass even if globalSchema is undefined', function () {
+
+		var missingParams = getMissingParams(
+			{
+				test1: '123'
+			},
+			{
+
+				input: {
+					test1: {
+						type: 'string',
+						required: true
+					}
+				}
+
+			},
+			undefined
+		);
+
+		assert(missingParams.length === 0);
+
+	});
+
+	it('should pass even if both schemas are undefined', function () {
+
+		var missingParams = getMissingParams(
+			{
+				test1: '123'
+			},
+			undefined,
+			undefined
+		);
+
+		assert(missingParams.length === 0);
 
 	});
 
