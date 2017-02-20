@@ -244,6 +244,57 @@ describe('#generateSchemaFromJs', function () {
 		assert.equal(output.properties.deepData.items.properties.subObject.properties.color.default, 'red');
 	});
 
+	it('should generate array of schemas if items is an array of schemas', function () {
+		var output = generateSchemaFromJs({
+			data: {
+				type: 'array',
+				items: [
+
+					{
+						type: 'string'
+					},
+
+					{
+						type: 'array',
+						items: {
+							type: 'string'
+						}
+					},
+
+					{
+						type: 'object',
+						properties: {
+
+							abc: {
+								type: 'array'
+							},
+
+							xyz: {
+								type: 'string'
+							},
+
+							pqr: {
+								type: 'object',
+								properties: {
+
+									test: {
+										type: 'string'
+									}
+
+								}
+							}
+
+						}
+					}
+
+				]
+			}
+		});
+
+		console.log(require('util').inspect(output, false, null));
+		assert.equal(_.isArray(output.properties.data.items), true);
+	});
+
 	it('should recursively generate schema for deep arrays', function () {
 		var output = generateSchemaFromJs({
 			deepData: {
