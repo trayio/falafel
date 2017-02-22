@@ -13,6 +13,24 @@
     },
     "messages": [
       {
+        "name": "test_date_formatter",
+        "title": "Test date formatter",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "title": "Date"
+            }
+          },
+          "required": [],
+          "advanced": [],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        },
+        "dynamic_output": false
+      },
+      {
         "name": "test_op",
         "title": "Test operation",
         "input_schema": {
