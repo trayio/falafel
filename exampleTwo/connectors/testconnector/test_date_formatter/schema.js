@@ -4,8 +4,9 @@ module.exports = {
   input: {
 
     date: {
-      type: 'string',
-      date_format: 'X'
+      type: 'number',
+      format: 'date',
+      date_mask: 'YYYY-MM-DD'
     }
 
   }
