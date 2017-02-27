@@ -4,9 +4,9 @@ module.exports = {
   input: {
 
     date: {
-      type: 'string',
+      type: 'number',
       format: 'date',
-      date_mask: 'YYYY-MM-DD'
+      date_mask: 'x'
     },
 
     list_of_dates: {
@@ -14,7 +14,7 @@ module.exports = {
       items: {
         type: 'string',
         format: 'date',
-        date_mask: 'X'
+        date_mask: 'YY-MM-DD'
       }
     },
 

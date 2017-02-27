@@ -19,7 +19,7 @@
           "type": "object",
           "properties": {
             "date": {
-              "type": "string",
+              "type": "number",
               "format": "date",
               "title": "Date"
             },
