@@ -47,7 +47,7 @@ describe('#formatInputBody', function () {
   });
 
 
-  it.only('should change nested paramters', function () {
+  it('should change nested paramters', function () {
     var body = {
       my_date: '2017-10-02T00:00:00.000Z',
       query: {
