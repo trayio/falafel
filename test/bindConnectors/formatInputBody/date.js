@@ -87,6 +87,14 @@ describe('#date', function () {
     );
     assert.strictEqual(
       formatDate('2017-01-20', {
+        type: ['number', 'string'],
+        format: 'date',
+        date_mask: 'X'
+      }),
+      1484870400
+    );
+    assert.strictEqual(
+      formatDate('2017-01-20', {
         type: 'string',
         format: 'date',
         date_mask: 'dddd, MMMM Do YYYY, h:mm:ss a'
