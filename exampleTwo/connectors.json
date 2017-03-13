@@ -13,6 +13,92 @@
     },
     "messages": [
       {
+        "name": "test_date_formatter",
+        "title": "Test date formatter",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "number",
+              "format": "date",
+              "title": "Date"
+            },
+            "list_of_dates": {
+              "type": "array",
+              "title": "List of dates",
+              "items": {
+                "type": "string",
+                "format": "date",
+                "title": "Item"
+              },
+              "additionalItems": true
+            },
+            "very_nested_list_of_dates": {
+              "type": "array",
+              "title": "Very nested list of dates",
+              "items": {
+                "type": "array",
+                "title": "Item",
+                "items": {
+                  "type": "string",
+                  "format": "date",
+                  "title": "Item"
+                },
+                "additionalItems": true
+              },
+              "additionalItems": true
+            },
+            "my_object": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date",
+                  "title": "Date"
+                },
+                "sub_object": {
+                  "type": "object",
+                  "properties": {
+                    "sub_date": {
+                      "type": "number",
+                      "format": "date",
+                      "title": "Sub date"
+                    },
+                    "sub_sub_object": {
+                      "type": "object",
+                      "properties": {
+                        "sub_sub_date": {
+                          "type": "string",
+                          "format": "date",
+                          "title": "Sub sub date"
+                        }
+                      },
+                      "required": [],
+                      "advanced": [],
+                      "additionalProperties": false,
+                      "title": "Sub sub object"
+                    }
+                  },
+                  "required": [],
+                  "advanced": [],
+                  "additionalProperties": false,
+                  "title": "Sub object"
+                }
+              },
+              "required": [],
+              "advanced": [],
+              "additionalProperties": false,
+              "title": "My object"
+            }
+          },
+          "required": [],
+          "advanced": [],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        },
+        "dynamic_output": false
+      },
+      {
         "name": "test_op",
         "title": "Test operation",
         "input_schema": {
