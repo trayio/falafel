@@ -203,4 +203,57 @@ describe('#formatInputBody', function () {
     assert.strictEqual(result.list_of_dates[5], 'steve');
   });
 
+
+  it('should ignore oneOf', function () {
+    var body = {
+      my_obj: {
+        obj_date: '2017-10-02T00:00:00.000Z'
+      }
+    };
+    var schema = {
+      input: {
+        my_obj: {
+          type: 'object',
+          oneOf: [
+            {
+              title: 'None',
+              type: 'object',
+              properties:{
+                obj_date: {
+                  type: 'string',
+                  format: 'date',
+                  date_mask: 'X'
+                },
+                none: {
+                  type: 'null'
+                }
+              }
+            },
+            {
+              title: 'Basic Auth',
+              type: 'object',
+              properties: {
+                basic_auth: {
+                  type: 'object',
+                  properties: {
+                    username: {
+                      type: 'string'
+                    },
+                    password: {
+                      type: 'string',
+                      format: 'password'
+                    }
+                  },
+                },
+              }
+            }]
+          }
+        }
+      };
+
+    var result = formatInputBody(body, schema);
+
+    assert.strictEqual(result.my_obj.obj_date, '2017-10-02T00:00:00.000Z');
+  })
+
 });
