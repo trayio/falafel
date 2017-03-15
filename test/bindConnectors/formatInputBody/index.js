@@ -256,4 +256,14 @@ describe('#formatInputBody', function () {
     assert.strictEqual(result.my_obj.obj_date, '2017-10-02T00:00:00.000Z');
   })
 
+  it('should be ok with an undefined schema', function () {
+    var body = {
+      my_date: '2017-10-02T00:00:00.000Z'
+    };
+    var schema;
+
+    var result = formatInputBody(body, schema);
+    assert.strictEqual(result.my_date, '2017-10-02T00:00:00.000Z');
+  });
+
 });
