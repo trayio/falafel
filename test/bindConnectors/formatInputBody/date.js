@@ -150,4 +150,15 @@ describe('#date', function () {
     }
   });
 
+  it('should treat "now" as a special input value', function () {
+    assert.strictEqual(
+      formatDate('now', {
+        type: 'string',
+        format: 'date',
+        date_mask: 'YYYY'
+      }),
+      String(new Date().getFullYear())
+    );
+  });
+
 });
