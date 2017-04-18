@@ -150,7 +150,7 @@ describe('#date', function () {
     }
   });
 
-  it('should treat "now" as a special input value', function () {
+  it.only('should treat "now" as a special input value', function () {
     assert.strictEqual(
       formatDate('now', {
         type: 'string',

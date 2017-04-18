@@ -15,6 +15,7 @@
       {
         "name": "test_date_formatter",
         "title": "Test date formatter",
+        "description": "Auto formats dates.",
         "input_schema": {
           "type": "object",
           "properties": {
