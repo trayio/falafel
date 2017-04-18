@@ -11,7 +11,8 @@
     "version": "2.0",
     "tags": [
       "service",
-      "crm"
+      "crm",
+      "trigger"
     ],
     "icon": {
       "type": "url",
