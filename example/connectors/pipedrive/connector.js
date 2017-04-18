@@ -19,7 +19,7 @@ module.exports = {
   version: '2.0',
 
   // Tags attached to the connector
-  tags: ['service', 'crm'],
+  tags: ['service', 'crm', 'trigger'],
 
   // Icon of the connector.
   icon: {
