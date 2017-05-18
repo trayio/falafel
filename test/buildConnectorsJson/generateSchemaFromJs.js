@@ -290,8 +290,7 @@ describe('#generateSchemaFromJs', function () {
 				]
 			}
 		});
-
-		console.log(require('util').inspect(output, false, null));
+		
 		assert.equal(_.isArray(output.properties.data.items), true);
 	});
 

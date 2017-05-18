@@ -1,6 +1,6 @@
 {
   "name": "@trayio/falafel",
-  "version": "1.5.1",
+  "version": "1.5.3",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@trayio/threadneedle": "^1.1.4",
+    "@trayio/threadneedle": "^1.1.5",
     "generate-schema": "^2.3.3",
     "knox": "^0.9.2",
     "lodash": "^4.1.0",
