@@ -161,4 +161,23 @@ describe('#date', function () {
     );
   });
 
+  it('should do nothing with a blank string date input', function () {
+    assert.strictEqual(
+      formatDate('', {
+        type: 'string',
+        format: 'date',
+        date_mask: 'YYYY-MM-DD'
+      }),
+      ''
+    );
+    assert.strictEqual(
+      formatDate(' ', {
+        type: 'string',
+        format: 'date',
+        date_mask: 'YYYY-MM-DD'
+      }),
+      ' '
+    );
+  });
+
 });
