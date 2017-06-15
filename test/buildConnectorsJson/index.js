@@ -64,6 +64,27 @@ describe('#buildConnectorsJson', function () {
 		assert.equal(parsed[0].messages.length, 0);
 	});
 
+	it('should not add messages which start with "#" in their name', function () {
+		buildConnectorsJson('meh', [{
+			name: 'mailchimp',
+			messages: [{
+				name: '#my_message',
+				model: {
+					url: '..'
+				},
+				schema: {
+					input: {
+						name: {
+							type: 'string'
+						}
+					}
+				}
+			}]
+		}]);
+
+		assert.equal(parsed[0].messages.length, 0);
+	});
+
 	it('should add messages with schemas', function () {
 		buildConnectorsJson('meh', [{
 			name: 'mailchimp',
