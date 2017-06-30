@@ -5,50 +5,65 @@
     "value": "https://myicon.png"
   },
   "model": {
-    "type": "basic",
+    "type": "object",
     "value": {
       "after_failure": {
         "type": "function"
       },
       "after_success": {
         "type": "function",
-        "value": "function (body) {  }"
+        "value": ""
       },
       "auth": {
-        "type": "basic",
+        "type": "object",
         "value": {
-          "type": "oauth2",
-          "headers": [{
-            "name": "Authorization",
-            "value": "Bearer {{{access_token}}}"
-          }]
+          "type": {
+            "type": "string",
+            "value": "oauth2"
+          },
+          "headers": {
+            "type": "array",
+            "value": [{
+              "type": "object",
+              "value": {
+                "name": {
+                  "type": "string",
+                  "value": "Authorization"
+                },
+                "value": {
+                  "type": "string",
+                  "value": "Bearer {{{access_token}}}"
+                } 
+              }
+            }]
+          }
         }
       },
       "base_url": {
-        "type": "basic",
+        "type": "string",
         "value": "https://app.asana.com/api/1.0"
       },
       "before": {
         "type": "function",
-        "value": "function (input) { input.test = 'chris'; }"
+        "value": ""
       },
       "data": {
-        "type": "basic",
+        "type": "object",
         "value": {}
       },
       "expects": {
-        "type": "basic",
+        "type": "string",
         "value": "2xx"
       },
       "headers": {
-        "type": "basic",
+        "type": "array",
         "value": []
       },
       "not_expects": {
-        "type": "basic"
+        "type": "string"
       },
       "query": {
-        "type": "basic",
+        "type": "array",
         "value": []
       }
     }
@@ -69,7 +84,7 @@
       },
       "is_default": false,
       "model": {
-        "type": "basic",
+        "type": "object",
         "value": {
           "after_failure": {
             "type": "function"
@@ -81,32 +96,38 @@
             "type": "function"
           },
           "data": {
-            "type": "basic",
+            "type": "object",
             "value": {}
           },
           "expects": {
-            "type": "basic"
+            "type": "string"
           },
           "headers": {
-            "type": "basic",
+            "type": "array",
             "value": []
           },
           "method": {
-            "type": "basic",
+            "type": "string",
             "value": "get"
           },
           "not_expects": {
-            "type": "basic"
+            "type": "string"
           },
           "query": {
-            "type": "basic",
+            "type": "array",
             "value": [{
-                "key": "opt_fields",
-                "value": "id,name,is_organization"
+                "key": {
+                    "type": "string",
+                    "value": "opt_fields"
+                },
+                "value": {
+                    "type": "string",
+                    "value": "function (input) { }"
+                }
             }]
           },
           "url": {
-            "type": "basic",
+            "type": "string",
             "value": "/workspaces"
           }
         }
@@ -138,7 +159,7 @@
       },
       "is_default": false,
       "model": {
-        "type": "basic",
+        "type": "object",
         "value": {
           "after_failure": {
             "type": "function"
@@ -150,7 +171,7 @@
             "type": "function"
           },
           "data": {
-            "type": "basic",
+            "type": "object",
             "value": {
                 "data": {
                     "type": "object",
@@ -170,28 +191,34 @@
             }
           },
           "expects": {
-            "type": "basic"
+            "type": "string"
           },
           "headers": {
-            "type": "basic",
+            "type": "array",
             "value": [{
-                "name": "Content-Type",
-                "value": "application/json"
+                "name": {
+                    "value": "Content-Type",
+                    "type": "string"
+                },
+                "value": {
+                    "value": "application/json",
+                    "type": "string"
+                }
             }]
           },
           "method": {
-            "type": "basic",
+            "type": "string",
             "value": "post"
           },
           "not_expects": {
-            "type": "basic"
+            "type": "string"
           },
           "query": {
-            "type": "basic",
+            "type": "array",
             "value": []
           },
           "url": {
-            "type": "basic",
+            "type": "string",
             "value": "/tasks"
           }
         }
