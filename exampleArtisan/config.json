@@ -1,0 +1,140 @@
+{
+  "description": "Connect with your Asana account using the Tray.io platform.",
+  "icon": {
+    "type": "url",
+    "value": "https://myicon.png"
+  },
+  "model": {
+    "type": "basic",
+    "value": {
+      "after_failure": {
+        "type": "function"
+      },
+      "after_success": {
+        "type": "function"
+      },
+      "auth": {
+        "type": "basic",
+        "value": {
+          "type": "oauth2",
+          "headers": [{
+            "name": "Authorization",
+            "value": "Bearer {{{access_token}}}"
+          }]
+        }
+      },
+      "base_url": {
+        "type": "basic",
+        "value": "https://app.asana.com/api/1.0"
+      },
+      "before": {
+        "type": "function",
+        "value": "function (input) { input.test = 'chris'; }"
+      },
+      "data": {
+        "type": "basic",
+        "value": {}
+      },
+      "expects": {
+        "type": "basic",
+        "value": "2xx"
+      },
+      "headers": {
+        "type": "basic",
+        "value": []
+      },
+      "not_expects": {
+        "type": "basic"
+      },
+      "query": {
+        "type": "basic",
+        "value": []
+      }
+    }
+  },
+  "name": "asana",
+  "operations": [
+    {
+      "description": "Create a task in your Asana account.",
+      "dynamic_output": false,
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "additionalProperties": false,
+        "advanced": [],
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "task_id": {
+            "title": "Task ID",
+            "type": "integer"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "is_default": false,
+      "model": {
+        "type": "basic",
+        "value": {
+          "after_failure": {
+            "type": "function"
+          },
+          "after_success": {
+            "type": "function"
+          },
+          "before": {
+            "type": "function"
+          },
+          "data": {
+            "type": "basic",
+            "value": {}
+          },
+          "expects": {
+            "type": "basic"
+          },
+          "headers": {
+            "type": "basic",
+            "value": []
+          },
+          "method": {
+            "type": "basic",
+            "value": "get"
+          },
+          "not_expects": {
+            "type": "basic"
+          },
+          "query": {
+            "type": "basic",
+            "value": [{
+                "key": "opt_fields",
+                "value": "id,name,is_organization"
+            }]
+          },
+          "url": {
+            "type": "basic",
+            "value": "/workspaces"
+          }
+        }
+      },
+      "output_schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "additionalProperties": false,
+        "advanced": [],
+        "properties": {},
+        "required": [],
+        "type": "object"
+      },
+      "timeout": 15000,
+      "title": "List workspaces",
+      "name": "list_workspaces",
+      "type": "public"
+    }
+  ],
+  "schema": {},
+  "service": {},
+  "tags": [],
+  "title": "Asana",
+  "trigger": false
+}
