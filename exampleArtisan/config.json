@@ -11,7 +11,8 @@
         "type": "function"
       },
       "after_success": {
-        "type": "function"
+        "type": "function",
+        "value": "function (body) {  }"
       },
       "auth": {
         "type": "basic",
@@ -55,21 +56,13 @@
   "name": "asana",
   "operations": [
     {
-      "description": "Create a task in your Asana account.",
+      "description": "List workspaces in your Asana account.",
       "dynamic_output": false,
       "input_schema": {
         "$schema": "http://json-schema.org/draft-04/schema#",
         "additionalProperties": false,
         "advanced": [],
         "properties": {
-          "name": {
-            "title": "Name",
-            "type": "string"
-          },
-          "task_id": {
-            "title": "Task ID",
-            "type": "integer"
-          }
         },
         "required": [],
         "type": "object"
@@ -129,6 +122,98 @@
       "timeout": 15000,
       "title": "List workspaces",
       "name": "list_workspaces",
+      "type": "public"
+    },
+    {
+      "description": "Create a Task in your Asana account.",
+      "dynamic_output": false,
+      "input_schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "additionalProperties": false,
+        "advanced": [],
+        "properties": {
+        },
+        "required": [],
+        "type": "object"
+      },
+      "is_default": false,
+      "model": {
+        "type": "basic",
+        "value": {
+          "after_failure": {
+            "type": "function"
+          },
+          "after_success": {
+            "type": "function"
+          },
+          "before": {
+            "type": "function"
+          },
+          "data": {
+            "type": "basic",
+            "value": {
+                "name": {
+                   "type": "string",
+                    "value": "Chris",
+                    "metadata": {} 
+                },
+                "data": {
+                    "type": "object",
+                    "value": {
+                        "assignee": {
+                            "type": "integer",
+                            "value": 123,
+                            "metadata": {}
+                        }
+                    }
+                },
+                "items": {
+                    "type": "array",
+                    "value": [{
+                        "type": "number",
+                        "value": 1
+                    }, {
+                        "type": "boolean",
+                        "value": true
+                    }]
+                }
+            }
+          },
+          "expects": {
+            "type": "basic"
+          },
+          "headers": {
+            "type": "basic",
+            "value": []
+          },
+          "method": {
+            "type": "basic",
+            "value": "post"
+          },
+          "not_expects": {
+            "type": "basic"
+          },
+          "query": {
+            "type": "basic",
+            "value": []
+          },
+          "url": {
+            "type": "basic",
+            "value": "/tasks"
+          }
+        }
+      },
+      "output_schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "additionalProperties": false,
+        "advanced": [],
+        "properties": {},
+        "required": [],
+        "type": "object"
+      },
+      "timeout": 15000,
+      "title": "Create Task",
+      "name": "create_task",
       "type": "public"
     }
   ],
