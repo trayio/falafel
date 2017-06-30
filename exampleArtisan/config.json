@@ -152,30 +152,20 @@
           "data": {
             "type": "basic",
             "value": {
-                "name": {
-                   "type": "string",
-                    "value": "Chris",
-                    "metadata": {} 
-                },
                 "data": {
                     "type": "object",
                     "value": {
-                        "assignee": {
-                            "type": "integer",
-                            "value": 123,
+                        "name": {
+                            "type": "string",
+                            "value": "{{{name}}}",
+                            "metadata": {}
+                        },
+                        "workspace": {
+                            "type": "string",
+                            "value": "{{{workspace_id}}}",
                             "metadata": {}
                         }
                     }
-                },
-                "items": {
-                    "type": "array",
-                    "value": [{
-                        "type": "number",
-                        "value": 1
-                    }, {
-                        "type": "boolean",
-                        "value": true
-                    }]
                 }
             }
           },
@@ -184,7 +174,10 @@
           },
           "headers": {
             "type": "basic",
-            "value": []
+            "value": [{
+                "name": "Content-Type",
+                "value": "application/json"
+            }]
           },
           "method": {
             "type": "basic",
