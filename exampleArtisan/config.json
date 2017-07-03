@@ -41,7 +41,7 @@
           }
         }
       },
-      "base_url": {
+      "baseUrl": {
         "type": "string",
         "value": "https://app.asana.com/api/1.0"
       },
@@ -61,7 +61,7 @@
         "type": "array",
         "value": []
       },
-      "not_expects": {
+      "notExpects": {
         "type": "string"
       },
       "query": {
@@ -74,8 +74,8 @@
   "operations": [
     {
       "description": "List workspaces in your Asana account.",
-      "dynamic_output": false,
-      "input_schema": {
+      "dynamicOutput": false,
+      "inputSchema": {
         "$schema": "http://json-schema.org/draft-04/schema#",
         "additionalProperties": false,
         "advanced": [],
@@ -83,14 +83,14 @@
         "required": [],
         "type": "object"
       },
-      "is_default": false,
+      "isDefault": false,
       "model": {
         "type": "object",
         "value": {
-          "after_failure": {
+          "afterFailure": {
             "type": "function"
           },
-          "after_success": {
+          "afterSuccess": {
             "type": "function"
           },
           "before": {
@@ -111,7 +111,7 @@
             "type": "string",
             "value": "get"
           },
-          "not_expects": {
+          "notExpects": {
             "type": "string"
           },
           "query": {
@@ -135,7 +135,7 @@
           }
         }
       },
-      "output_schema": {
+      "outputSchema": {
         "$schema": "http://json-schema.org/draft-04/schema#",
         "additionalProperties": false,
         "advanced": [],
@@ -150,8 +150,8 @@
     },
     {
       "description": "Create a Task in your Asana account.",
-      "dynamic_output": false,
-      "input_schema": {
+      "dynamicOutput": false,
+      "inputSchema": {
         "$schema": "http://json-schema.org/draft-04/schema#",
         "additionalProperties": false,
         "advanced": [],
@@ -174,14 +174,14 @@
         "required": [],
         "type": "object"
       },
-      "is_default": false,
+      "isDefault": false,
       "model": {
         "type": "object",
         "value": {
-          "after_failure": {
+          "afterFailure": {
             "type": "function"
           },
-          "after_success": {
+          "afterSuccess": {
             "type": "function"
           },
           "before": {
@@ -236,7 +236,7 @@
             "type": "string",
             "value": "post"
           },
-          "not_expects": {
+          "notExpects": {
             "type": "string"
           },
           "query": {
@@ -249,7 +249,7 @@
           }
         }
       },
-      "output_schema": {
+      "outputSchema": {
         "$schema": "http://json-schema.org/draft-04/schema#",
         "additionalProperties": false,
         "advanced": [],
@@ -266,10 +266,10 @@
       "title": "Get Task",
       "description": "",
       "type": "public",
-      "is_default": false,
+      "isDefault": false,
       "timeout": 15000,
-      "dynamic_output": false,
-      "input_schema": {
+      "dynamicOutput": false,
+      "inputSchema": {
         "properties": {
           "task_id": {
             "title": "Task ID",
@@ -283,7 +283,7 @@
         "advanced": [],
         "additionalProperties": false
       },
-      "output_schema": {
+      "outputSchema": {
         "type": "object",
         "properties": {},
         "$schema": "http://json-schema.org/draft-04/schema#",
@@ -317,13 +317,13 @@
           "expects": {
             "type": "string"
           },
-          "not_expects": {
+          "notExpects": {
             "type": "string"
           },
-          "after_success": {
+          "afterSuccess": {
             "type": "function"
           },
-          "after_failure": {
+          "afterFailure": {
             "type": "function"
           },
           "before": {

@@ -11,11 +11,11 @@ describe('#getGlobalModel', function () {
 		sampleGlobalModel = {
 		    "type": "object",
 		    "value": {
-		      "after_failure": {
+		      "afterFailure": {
 		        "type": "function",
 		        "value": "function () { }"
 		      },
-		      "after_success": {
+		      "afterSuccess": {
 		        "type": "function",
 		        "value": "function () { }"
 		      },
@@ -23,7 +23,7 @@ describe('#getGlobalModel', function () {
 		        "type": "object",
 		        "value": {}
 		      },
-		      "base_url": {
+		      "baseUrl": {
 		        "type": "string",
 		        "value": "https://app.asana.com/api/1.0"
 		      },
@@ -73,7 +73,7 @@ describe('#getGlobalModel', function () {
 		        	}
 		        }]
 		      },
-		      "not_expects": {
+		      "notExpects": {
 		        "type": "function",
 		        "value": "function (input) {}"
 		      },
@@ -118,7 +118,7 @@ describe('#getGlobalModel', function () {
 
 		assert.strictEqual(globalModel.baseUrl, 'https://app.asana.com/api/1.0');
 
-		sampleGlobalModel.value.base_url = {
+		sampleGlobalModel.value.baseUrl = {
 			type: 'function',
 			value: 'function (input) { return \'https://app.asana.com/api/1.0\'; }',
 		}

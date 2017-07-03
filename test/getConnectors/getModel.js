@@ -11,11 +11,11 @@ describe('#getModel', function () {
 		sampleModel = {
 		    "type": "object",
 		    "value": {
-		      "after_failure": {
+		      "afterFailure": {
 		        "type": "function",
 		        "value": "function () { }"
 		      },
-		      "after_success": {
+		      "afterSuccess": {
 		        "type": "function",
 		        "value": "function () { }"
 		      },
@@ -73,7 +73,7 @@ describe('#getModel', function () {
 		        	}
 		        }]
 		      },
-		      "not_expects": {
+		      "notExpects": {
 		        "type": "function",
 		        "value": "function (input) {}"
 		      },
