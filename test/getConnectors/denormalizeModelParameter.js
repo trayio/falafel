@@ -56,6 +56,23 @@ describe('#denormalizeModelParameter', function () {
 	});
 
 
+	it('should denormalize a blank object parameter', function () {
+		var data = {
+			type: 'object',
+			value: {
+				employees: {
+					type: 'object',
+					value: {}
+				}
+			}
+		};
+
+		assert.deepEqual(denormalize(data), {
+			employees: {}
+		});
+	});
+
+
 	it('should denormalize array parameters', function () {
 		var data = {
 			type: 'object',
@@ -113,5 +130,6 @@ describe('#denormalizeModelParameter', function () {
 			}]
 		});
 	});
+
 
 });
