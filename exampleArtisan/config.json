@@ -23,19 +23,21 @@
           },
           "headers": {
             "type": "array",
-            "value": [{
-              "type": "object",
-              "value": {
-                "name": {
-                  "type": "string",
-                  "value": "Authorization"
-                },
+            "value": [
+              {
+                "type": "object",
                 "value": {
-                  "type": "string",
-                  "value": "Bearer {{{access_token}}}"
-                } 
+                  "name": {
+                    "type": "string",
+                    "value": "Authorization"
+                  },
+                  "value": {
+                    "type": "string",
+                    "value": "Bearer {{{access_token}}}"
+                  }
+                }
               }
-            }]
+            ]
           }
         }
       },
@@ -77,8 +79,7 @@
         "$schema": "http://json-schema.org/draft-04/schema#",
         "additionalProperties": false,
         "advanced": [],
-        "properties": {
-        },
+        "properties": {},
         "required": [],
         "type": "object"
       },
@@ -115,16 +116,18 @@
           },
           "query": {
             "type": "array",
-            "value": [{
+            "value": [
+              {
                 "key": {
-                    "type": "string",
-                    "value": "opt_fields"
+                  "type": "string",
+                  "value": "opt_fields"
                 },
                 "value": {
-                    "type": "string",
-                    "value": "function (input) { }"
+                  "type": "string",
+                  "value": "function (input) { }"
                 }
-            }]
+              }
+            ]
           },
           "url": {
             "type": "string",
@@ -152,8 +155,7 @@
         "$schema": "http://json-schema.org/draft-04/schema#",
         "additionalProperties": false,
         "advanced": [],
-        "properties": {
-        },
+        "properties": {},
         "required": [],
         "type": "object"
       },
@@ -173,21 +175,21 @@
           "data": {
             "type": "object",
             "value": {
-                "data": {
-                    "type": "object",
-                    "value": {
-                        "name": {
-                            "type": "string",
-                            "value": "{{{name}}}",
-                            "metadata": {}
-                        },
-                        "workspace": {
-                            "type": "string",
-                            "value": "{{{workspace_id}}}",
-                            "metadata": {}
-                        }
-                    }
+              "data": {
+                "type": "object",
+                "value": {
+                  "name": {
+                    "type": "string",
+                    "value": "{{{name}}}",
+                    "metadata": {}
+                  },
+                  "workspace": {
+                    "type": "string",
+                    "value": "{{{workspace_id}}}",
+                    "metadata": {}
+                  }
                 }
+              }
             }
           },
           "expects": {
@@ -195,16 +197,18 @@
           },
           "headers": {
             "type": "array",
-            "value": [{
+            "value": [
+              {
                 "name": {
-                    "value": "Content-Type",
-                    "type": "string"
+                  "value": "Content-Type",
+                  "type": "string"
                 },
                 "value": {
-                    "value": "application/json",
-                    "type": "string"
+                  "value": "application/json",
+                  "type": "string"
                 }
-            }]
+              }
+            ]
           },
           "method": {
             "type": "string",
@@ -235,6 +239,77 @@
       "title": "Create Task",
       "name": "create_task",
       "type": "public"
+    },
+    {
+      "title": "Get Task",
+      "description": "",
+      "type": "public",
+      "is_default": false,
+      "timeout": 15000,
+      "dynamic_output": false,
+      "input_schema": {
+        "properties": {
+          "task_id": {
+            "title": "Task ID",
+            "type": "integer",
+            "required": true
+          }
+        },
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "required": [],
+        "advanced": [],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "required": [],
+        "advanced": [],
+        "additionalProperties": false
+      },
+      "model": {
+        "type": "object",
+        "value": {
+          "method": {
+            "type": "string",
+            "value": "get"
+          },
+          "url": {
+            "type": "string",
+            "value": "/tasks/{{task_id}}"
+          },
+          "query": {
+            "type": "array",
+            "value": []
+          },
+          "data": {
+            "type": "object",
+            "value": {}
+          },
+          "headers": {
+            "type": "array",
+            "value": []
+          },
+          "expects": {
+            "type": "string"
+          },
+          "not_expects": {
+            "type": "string"
+          },
+          "after_success": {
+            "type": "function"
+          },
+          "after_failure": {
+            "type": "function"
+          },
+          "before": {
+            "type": "function"
+          }
+        }
+      },
+      "name": "get_task"
     }
   ],
   "schema": {},
