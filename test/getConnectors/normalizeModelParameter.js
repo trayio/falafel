@@ -1,11 +1,11 @@
 var _ 			= require('lodash');
 var assert 		= require('assert');
-var denormalize = require('../../lib/getConnectors/denormalizeModelParameter');
+var normalize = require('../../lib/getConnectors/normalizeModelParameter');
 
 
-describe('#denormalizeModelParameter', function () {
+describe('#normalizeModelParameter', function () {
 
-	it('should denormalize a flat parameter', function () {
+	it('should normalize a flat parameter', function () {
 		var data = {
 			type: 'object',
 			value: {
@@ -20,14 +20,14 @@ describe('#denormalizeModelParameter', function () {
 			}
 		};
 
-		assert.deepEqual(denormalize(data), {
+		assert.deepEqual(normalize(data), {
 			name: 'Chris',
 			age: 27
 		});
 	});
 
 
-	it('should denormalize a nested object parameter', function () {
+	it('should normalize a nested object parameter', function () {
 		var data = {
 			type: 'object',
 			value: {
@@ -47,7 +47,7 @@ describe('#denormalizeModelParameter', function () {
 			}
 		};
 
-		assert.deepEqual(denormalize(data), {
+		assert.deepEqual(normalize(data), {
 			employees: {
 				adrien: false,
 				chris: true,
@@ -56,7 +56,7 @@ describe('#denormalizeModelParameter', function () {
 	});
 
 
-	it('should denormalize a blank object parameter', function () {
+	it('should normalize a blank object parameter', function () {
 		var data = {
 			type: 'object',
 			value: {
@@ -67,13 +67,13 @@ describe('#denormalizeModelParameter', function () {
 			}
 		};
 
-		assert.deepEqual(denormalize(data), {
+		assert.deepEqual(normalize(data), {
 			employees: {}
 		});
 	});
 
 
-	it('should denormalize array parameters', function () {
+	it('should normalize array parameters', function () {
 		var data = {
 			type: 'object',
 			value: {
@@ -120,7 +120,7 @@ describe('#denormalizeModelParameter', function () {
 			}
 		};
 
-		assert.deepEqual(denormalize(data), {
+		assert.deepEqual(normalize(data), {
 			users: [{
 				name: 'Ali',
 				favorite_foods: ['Katsu Wrap', 'Byron Milkshake']
