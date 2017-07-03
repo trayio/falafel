@@ -1,6 +1,6 @@
 var _ 			= require('lodash');
 var assert 		= require('assert');
-var getFunctionParameter = require('../../lib/getConnectors/getFunctionParameter');
+var getFunctionParameter = require('../../lib/parseConfig/getFunctionParameter');
 
 
 describe('#getFunctionParameter', function () {

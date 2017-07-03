@@ -1,6 +1,6 @@
 var _ 			= require('lodash');
 var assert 		= require('assert');
-var getGlobalModel = require('../../lib/getConnectors/getGlobalModel');
+var getGlobalModel = require('../../lib/parseConfig/getGlobalModel');
 
 
 describe('#getGlobalModel', function () {

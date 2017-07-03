@@ -1,6 +1,6 @@
 var _ 			= require('lodash');
 var assert 		= require('assert');
-var normalize = require('../../lib/getConnectors/normalizeModelParameter');
+var normalize = require('../../lib/parseConfig/normalizeModelParameter');
 
 
 describe('#normalizeModelParameter', function () {
