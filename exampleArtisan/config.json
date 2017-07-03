@@ -155,7 +155,22 @@
         "$schema": "http://json-schema.org/draft-04/schema#",
         "additionalProperties": false,
         "advanced": [],
-        "properties": {},
+        "properties": {
+          "name": {
+            "title": "Task Name",
+            "type": "string",
+            "required": true
+          },
+          "workspace": {
+            "title": "Workspace ID",
+            "type": "integer"
+          },
+          "due_on": {
+            "type": ["string", "integer"],
+            "format": "datetime",
+            "date_mask": "YYYY-MM-DD"
+          }
+        },
         "required": [],
         "type": "object"
       },
@@ -187,6 +202,10 @@
                     "type": "string",
                     "value": "{{{workspace_id}}}",
                     "metadata": {}
+                  },
+                  "due_on": {
+                    "type": "string",
+                    "value": "{{{due_on}}}"
                   }
                 }
               }
@@ -199,13 +218,16 @@
             "type": "array",
             "value": [
               {
-                "name": {
-                  "value": "Content-Type",
-                  "type": "string"
-                },
+                "type": "object",
                 "value": {
-                  "value": "application/json",
-                  "type": "string"
+                  "name": {
+                    "value": "Content-Type",
+                    "type": "string"
+                  },
+                  "value": {
+                    "value": "application/json",
+                    "type": "string"
+                  }
                 }
               }
             ]
