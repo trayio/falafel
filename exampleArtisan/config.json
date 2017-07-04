@@ -38,6 +38,83 @@
                 }
               }
             ]
+          },
+          "oauthRefresh": {
+            "type": "object",
+            "value": {
+              "statusCodes": {
+                "type": "array",
+                "value": [
+                  {
+                    "type": "integer",
+                    "value": 401
+                  }
+                ]
+              },
+              "bodyContains": {
+                "type": "array",
+                "value": [
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "headers": {
+                "type": "array",
+                "value": [
+                  {
+                    "type": "object",
+                    "value": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "query": {
+            "type": "array",
+            "value": [
+              {
+                "type": "object",
+                "value": {
+                  "key": {
+                    "type": "string",
+                    "value": "agreagrea"
+                  },
+                  "value": {
+                    "type": "string",
+                    "value": "ragragreagreagrea"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "value": {
+                  "key": {
+                    "type": "string",
+                    "value": "frea"
+                  },
+                  "value": {
+                    "type": "string",
+                    "value": "agr"
+                  }
+                }
+              }
+            ]
+          },
+          "username": {
+            "type": "string",
+            "value": "testa"
+          },
+          "password": {
+            "type": "string",
+            "value": "raegreagrea"
           }
         }
       },
@@ -166,7 +243,10 @@
             "type": "integer"
           },
           "due_on": {
-            "type": ["string", "integer"],
+            "type": [
+              "string",
+              "integer"
+            ],
             "format": "datetime",
             "date_mask": "YYYY-MM-DD"
           }
