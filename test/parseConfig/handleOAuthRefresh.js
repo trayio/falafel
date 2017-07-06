@@ -70,6 +70,64 @@ describe('#handleOAuthRefresh', function () {
 	});
 
 
+	it('should trigger refresh on matching header pattern', function () {
+		var err = {
+			code: 'bad-error',
+			response: {
+				body: 'Your access token has expired'
+			}
+		};
+		sampleAuth.oauthRefresh.statusCodes = [];
+		sampleAuth.oauthRefresh.headers = [{
+			name: 'X-Key-Expired',
+			value: true
+		}];
+
+		var wrappedAfterFailure = handleOAuthRefresh(sampleAuth);
+
+		wrappedAfterFailure(err, { my: 'param' }, {
+			statusCode: 200,
+			headers: {
+				'X-Key-expired': true 
+			}
+		});
+		assert.strictEqual(err.code, 'oauth_refresh');
+
+		wrappedAfterFailure(err, { my: 'param' }, {
+			statusCode: 200,
+			headers: {
+				'x-key-expired': 'true '
+			}
+		});
+		assert.strictEqual(err.code, 'oauth_refresh');
+	});
+
+
+	it('should trigger refresh on matching header existing', function () {
+		var err = {
+			code: 'bad-error',
+			response: {
+				body: 'Your access token has expired'
+			}
+		};
+		sampleAuth.oauthRefresh.statusCodes = [];
+		sampleAuth.oauthRefresh.headers = [{
+			name: 'X-Key-Expired',
+			value: undefined
+		}];
+
+		var wrappedAfterFailure = handleOAuthRefresh(sampleAuth);
+		wrappedAfterFailure(err, { my: 'param' }, {
+			statusCode: 200,
+			headers: {
+				'x-key-Expired': 123
+			}
+		});
+
+		assert.strictEqual(err.code, 'oauth_refresh');
+	});
+
+
 	it('should trigger refresh when all conditions match', function () {
 		var err = {
 			code: 'bad-error',

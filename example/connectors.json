@@ -204,7 +204,12 @@
                         "primary": {
                           "type": "boolean"
                         }
-                      }
+                      },
+                      "required": [
+                        "value",
+                        "primary",
+                        "label"
+                      ]
                     }
                   },
                   "email": {
@@ -221,7 +226,12 @@
                         "primary": {
                           "type": "boolean"
                         }
-                      }
+                      },
+                      "required": [
+                        "value",
+                        "primary",
+                        "label"
+                      ]
                     }
                   },
                   "first_char": {
