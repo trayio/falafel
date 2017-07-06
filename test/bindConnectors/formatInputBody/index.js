@@ -266,4 +266,5 @@ describe('#formatInputBody', function () {
     assert.strictEqual(result.my_date, '2017-10-02T00:00:00.000Z');
   });
 
+
 });
