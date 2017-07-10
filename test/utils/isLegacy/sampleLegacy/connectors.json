@@ -1,0 +1,525 @@
+[
+  {
+    "name": "mailchimp",
+    "help": "## This is a markdown file\n\nWith some exciting content.\n",
+    "messages": []
+  },
+  {
+    "name": "pipedrive",
+    "title": "Pipedrive",
+    "description": "Interact with the Pipedrive API.",
+    "version": "2.0",
+    "tags": [
+      "service",
+      "crm",
+      "trigger"
+    ],
+    "icon": {
+      "type": "url",
+      "value": "//s3.amazonaws.com/images.tray.io/static/icons/pipedrive.png"
+    },
+    "messages": [
+      {
+        "name": "list_persons",
+        "title": "List people",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "default_jsonpath": "$.auth.access_token",
+              "title": "Access token"
+            },
+            "filter_id": {
+              "type": "string",
+              "lookup": {
+                "url": "{{{step.ephemeral_url}}}",
+                "body": {
+                  "message": "private_list_person_filters",
+                  "auth_id": "{{{step.auth_id}}}",
+                  "step_settings": {
+                    "access_token": {
+                      "type": "jsonpath",
+                      "value": "$.auth.access_token"
+                    }
+                  }
+                }
+              },
+              "title": "Filter id"
+            },
+            "start": {
+              "type": "number",
+              "description": "Pagination start",
+              "title": "Start"
+            },
+            "limit": {
+              "type": "number",
+              "description": "Items shown per page",
+              "title": "Limit"
+            },
+            "sort": {
+              "type": "string",
+              "description": "Field names and sorting mode separated by comma (field_name_1 ASC, field_name_2 DESC). Only first-level field keys are supported (no nested keys).",
+              "title": "Sort"
+            }
+          },
+          "required": [
+            "access_token"
+          ],
+          "advanced": [
+            "access_token"
+          ],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        },
+        "output_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {
+            "success": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "company_id": {
+                    "type": "number"
+                  },
+                  "owner_id": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "has_pic": {
+                        "type": "boolean"
+                      },
+                      "pic_hash": {
+                        "type": "null"
+                      },
+                      "active_flag": {
+                        "type": "boolean"
+                      },
+                      "value": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "org_id": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "people_count": {
+                        "type": "number"
+                      },
+                      "owner_id": {
+                        "type": "number"
+                      },
+                      "address": {
+                        "type": "null"
+                      },
+                      "cc_email": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "first_name": {
+                    "type": "string"
+                  },
+                  "last_name": {
+                    "type": "string"
+                  },
+                  "open_deals_count": {
+                    "type": "number"
+                  },
+                  "closed_deals_count": {
+                    "type": "null"
+                  },
+                  "participant_open_deals_count": {
+                    "type": "number"
+                  },
+                  "email_messages_count": {
+                    "type": "number"
+                  },
+                  "activities_count": {
+                    "type": "null"
+                  },
+                  "done_activities_count": {
+                    "type": "null"
+                  },
+                  "undone_activities_count": {
+                    "type": "null"
+                  },
+                  "reference_activities_count": {
+                    "type": "null"
+                  },
+                  "files_count": {
+                    "type": "null"
+                  },
+                  "notes_count": {
+                    "type": "number"
+                  },
+                  "followers_count": {
+                    "type": "number"
+                  },
+                  "won_deals_count": {
+                    "type": "number"
+                  },
+                  "lost_deals_count": {
+                    "type": "number"
+                  },
+                  "active_flag": {
+                    "type": "boolean"
+                  },
+                  "phone": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        },
+                        "primary": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "email": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        },
+                        "primary": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "first_char": {
+                    "type": "string"
+                  },
+                  "update_time": {
+                    "type": "string"
+                  },
+                  "add_time": {
+                    "type": "string"
+                  },
+                  "visible_to": {
+                    "type": "string"
+                  },
+                  "picture_id": {
+                    "type": "null"
+                  },
+                  "next_activity_date": {
+                    "type": "null"
+                  },
+                  "next_activity_time": {
+                    "type": "null"
+                  },
+                  "next_activity_id": {
+                    "type": "null"
+                  },
+                  "last_activity_id": {
+                    "type": "null"
+                  },
+                  "last_activity_date": {
+                    "type": "null"
+                  },
+                  "9c2a50010305f0c37f8b6761c0c5a33fe38ebf13": {
+                    "type": "null"
+                  },
+                  "last_incoming_mail_time": {
+                    "type": "null"
+                  },
+                  "last_outgoing_mail_time": {
+                    "type": "null"
+                  },
+                  "org_name": {
+                    "type": "string"
+                  },
+                  "owner_name": {
+                    "type": "string"
+                  },
+                  "cc_email": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "company_id",
+                  "owner_id",
+                  "org_id",
+                  "name",
+                  "first_name",
+                  "last_name",
+                  "open_deals_count",
+                  "closed_deals_count",
+                  "participant_open_deals_count",
+                  "email_messages_count",
+                  "activities_count",
+                  "done_activities_count",
+                  "undone_activities_count",
+                  "reference_activities_count",
+                  "files_count",
+                  "notes_count",
+                  "followers_count",
+                  "won_deals_count",
+                  "lost_deals_count",
+                  "active_flag",
+                  "phone",
+                  "email",
+                  "first_char",
+                  "update_time",
+                  "add_time",
+                  "visible_to",
+                  "picture_id",
+                  "next_activity_date",
+                  "next_activity_time",
+                  "next_activity_id",
+                  "last_activity_id",
+                  "last_activity_date",
+                  "9c2a50010305f0c37f8b6761c0c5a33fe38ebf13",
+                  "last_incoming_mail_time",
+                  "last_outgoing_mail_time",
+                  "org_name",
+                  "owner_name",
+                  "cc_email"
+                ]
+              }
+            },
+            "additional_data": {
+              "type": "object",
+              "properties": {
+                "pagination": {
+                  "type": "object",
+                  "properties": {
+                    "start": {
+                      "type": "number"
+                    },
+                    "limit": {
+                      "type": "number"
+                    },
+                    "more_items_in_collection": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            },
+            "related_objects": {
+              "type": "object",
+              "properties": {
+                "organization": {
+                  "type": "object",
+                  "properties": {
+                    "1": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "people_count": {
+                          "type": "number"
+                        },
+                        "owner_id": {
+                          "type": "number"
+                        },
+                        "address": {
+                          "type": "null"
+                        },
+                        "cc_email": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "7": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "people_count": {
+                          "type": "number"
+                        },
+                        "owner_id": {
+                          "type": "number"
+                        },
+                        "address": {
+                          "type": "null"
+                        },
+                        "cc_email": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "20": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "people_count": {
+                          "type": "number"
+                        },
+                        "owner_id": {
+                          "type": "number"
+                        },
+                        "address": {
+                          "type": "null"
+                        },
+                        "cc_email": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "27": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "people_count": {
+                          "type": "number"
+                        },
+                        "owner_id": {
+                          "type": "number"
+                        },
+                        "address": {
+                          "type": "null"
+                        },
+                        "cc_email": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "570430": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "has_pic": {
+                          "type": "boolean"
+                        },
+                        "pic_hash": {
+                          "type": "null"
+                        },
+                        "active_flag": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
+                    "1400387": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "has_pic": {
+                          "type": "boolean"
+                        },
+                        "pic_hash": {
+                          "type": "null"
+                        },
+                        "active_flag": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dynamic_output": false
+      },
+      {
+        "name": "webhook",
+        "title": "Webhook",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "default_jsonpath": "$.auth.access_token",
+              "title": "Access token"
+            }
+          },
+          "required": [
+            "access_token"
+          ],
+          "advanced": [
+            "access_token"
+          ],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        },
+        "output_schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "dynamic_output": false
+      }
+    ]
+  }
+]

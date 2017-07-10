@@ -1,0 +1,422 @@
+{
+  "description": "Connect with your Asana account using the Tray.io platform.",
+  "icon": {
+    "type": "url",
+    "value": "https://myicon.png"
+  },
+  "model": {
+    "type": "object",
+    "value": {
+      "after_failure": {
+        "type": "function"
+      },
+      "after_success": {
+        "type": "function",
+        "value": ""
+      },
+      "auth": {
+        "type": "object",
+        "value": {
+          "type": {
+            "type": "string",
+            "value": "oauth2"
+          },
+          "headers": {
+            "type": "array",
+            "value": [
+              {
+                "type": "object",
+                "value": {
+                  "name": {
+                    "type": "string",
+                    "value": "Authorization"
+                  },
+                  "value": {
+                    "type": "string",
+                    "value": "Bearer {{{access_token}}}"
+                  }
+                }
+              }
+            ]
+          },
+          "oauthRefresh": {
+            "type": "object",
+            "value": {
+              "statusCodes": {
+                "type": "array",
+                "value": [
+                  {
+                    "type": "integer",
+                    "value": 401
+                  }
+                ]
+              },
+              "bodyContains": {
+                "type": "array",
+                "value": [
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "headers": {
+                "type": "array",
+                "value": [
+                  {
+                    "type": "object",
+                    "value": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "query": {
+            "type": "array",
+            "value": [
+              {
+                "type": "object",
+                "value": {
+                  "key": {
+                    "type": "string",
+                    "value": "agreagrea"
+                  },
+                  "value": {
+                    "type": "string",
+                    "value": "ragragreagreagrea"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "value": {
+                  "key": {
+                    "type": "string",
+                    "value": "frea"
+                  },
+                  "value": {
+                    "type": "string",
+                    "value": "agr"
+                  }
+                }
+              }
+            ]
+          },
+          "username": {
+            "type": "string",
+            "value": "testa"
+          },
+          "password": {
+            "type": "string",
+            "value": "raegreagrea"
+          }
+        }
+      },
+      "baseUrl": {
+        "type": "string",
+        "value": "https://app.asana.com/api/1.0"
+      },
+      "before": {
+        "type": "function",
+        "value": ""
+      },
+      "data": {
+        "type": "object",
+        "value": {}
+      },
+      "expects": {
+        "type": "string",
+        "value": "2xx"
+      },
+      "headers": {
+        "type": "array",
+        "value": []
+      },
+      "notExpects": {
+        "type": "string"
+      },
+      "query": {
+        "type": "array",
+        "value": []
+      }
+    }
+  },
+  "name": "asana",
+  "operations": [
+    {
+      "description": "List workspaces in your Asana account.",
+      "dynamicOutput": false,
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "additionalProperties": false,
+        "advanced": [],
+        "properties": {},
+        "required": [],
+        "type": "object"
+      },
+      "isDefault": false,
+      "model": {
+        "type": "object",
+        "value": {
+          "afterFailure": {
+            "type": "function"
+          },
+          "afterSuccess": {
+            "type": "function"
+          },
+          "before": {
+            "type": "function"
+          },
+          "data": {
+            "type": "object",
+            "value": {}
+          },
+          "expects": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "array",
+            "value": []
+          },
+          "method": {
+            "type": "string",
+            "value": "get"
+          },
+          "notExpects": {
+            "type": "string"
+          },
+          "query": {
+            "type": "array",
+            "value": [
+              {
+                "key": {
+                  "type": "string",
+                  "value": "opt_fields"
+                },
+                "value": {
+                  "type": "string",
+                  "value": "function (input) { }"
+                }
+              }
+            ]
+          },
+          "url": {
+            "type": "string",
+            "value": "/workspaces"
+          }
+        }
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "additionalProperties": false,
+        "advanced": [],
+        "properties": {},
+        "required": [],
+        "type": "object"
+      },
+      "timeout": 15000,
+      "title": "List workspaces",
+      "name": "list_workspaces",
+      "type": "public"
+    },
+    {
+      "description": "Create a Task in your Asana account.",
+      "dynamicOutput": false,
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "additionalProperties": false,
+        "advanced": [],
+        "properties": {
+          "name": {
+            "title": "Task Name",
+            "type": "string",
+            "required": true
+          },
+          "workspace": {
+            "title": "Workspace ID",
+            "type": "integer"
+          },
+          "due_on": {
+            "type": [
+              "string",
+              "integer"
+            ],
+            "format": "datetime",
+            "date_mask": "YYYY-MM-DD"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "isDefault": false,
+      "model": {
+        "type": "object",
+        "value": {
+          "afterFailure": {
+            "type": "function"
+          },
+          "afterSuccess": {
+            "type": "function"
+          },
+          "before": {
+            "type": "function"
+          },
+          "data": {
+            "type": "object",
+            "value": {
+              "data": {
+                "type": "object",
+                "value": {
+                  "name": {
+                    "type": "string",
+                    "value": "{{{name}}}",
+                    "metadata": {}
+                  },
+                  "workspace": {
+                    "type": "string",
+                    "value": "{{{workspace_id}}}",
+                    "metadata": {}
+                  },
+                  "due_on": {
+                    "type": "string",
+                    "value": "{{{due_on}}}"
+                  }
+                }
+              }
+            }
+          },
+          "expects": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "array",
+            "value": [
+              {
+                "type": "object",
+                "value": {
+                  "name": {
+                    "value": "Content-Type",
+                    "type": "string"
+                  },
+                  "value": {
+                    "value": "application/json",
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "method": {
+            "type": "string",
+            "value": "post"
+          },
+          "notExpects": {
+            "type": "string"
+          },
+          "query": {
+            "type": "array",
+            "value": []
+          },
+          "url": {
+            "type": "string",
+            "value": "/tasks"
+          }
+        }
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "additionalProperties": false,
+        "advanced": [],
+        "properties": {},
+        "required": [],
+        "type": "object"
+      },
+      "timeout": 15000,
+      "title": "Create Task",
+      "name": "create_task",
+      "type": "public"
+    },
+    {
+      "title": "Get Task",
+      "description": "",
+      "type": "public",
+      "isDefault": false,
+      "timeout": 15000,
+      "dynamicOutput": false,
+      "inputSchema": {
+        "properties": {
+          "task_id": {
+            "title": "Task ID",
+            "type": "integer",
+            "required": true
+          }
+        },
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "required": [],
+        "advanced": [],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "required": [],
+        "advanced": [],
+        "additionalProperties": false
+      },
+      "model": {
+        "type": "object",
+        "value": {
+          "method": {
+            "type": "string",
+            "value": "get"
+          },
+          "url": {
+            "type": "string",
+            "value": "/tasks/{{task_id}}"
+          },
+          "query": {
+            "type": "array",
+            "value": []
+          },
+          "data": {
+            "type": "object",
+            "value": {}
+          },
+          "headers": {
+            "type": "array",
+            "value": []
+          },
+          "expects": {
+            "type": "string"
+          },
+          "notExpects": {
+            "type": "string"
+          },
+          "afterSuccess": {
+            "type": "function"
+          },
+          "afterFailure": {
+            "type": "function"
+          },
+          "before": {
+            "type": "function"
+          }
+        }
+      },
+      "name": "get_task"
+    }
+  ],
+  "schema": {},
+  "service": {},
+  "tags": [],
+  "title": "Asana",
+  "trigger": false
+}
