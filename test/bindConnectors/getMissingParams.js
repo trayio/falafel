@@ -246,6 +246,7 @@ describe('#getMissingParams', function () {
 				input: {
 					my_param: {
 						type: 'number',
+						required: true
 					},
 					my_other_param: {
 						type: 'string'
@@ -262,7 +263,8 @@ describe('#getMissingParams', function () {
 			}
 		);
 
-		assert.equal(missingParams[0], 'api_key');
+		assert.equal(missingParams[0], 'my_param');
+		assert.equal(missingParams[1], 'api_key');
 	})
 
 
