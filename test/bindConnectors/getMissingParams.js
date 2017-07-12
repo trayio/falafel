@@ -213,4 +213,57 @@ describe('#getMissingParams', function () {
 	});
 
 
+	it('should handle the new schema format where properties are declared at the top', function () {
+
+		var missingParams = getMissingParams(
+			{
+				my_other_param: 'chris'
+			},
+			{
+				input: {
+					my_param: {
+						type: 'number',
+					},
+					my_other_param: {
+						type: 'string'
+					}
+				},
+				required: ['my_param']
+			},
+			undefined
+		);
+
+		assert.equal(missingParams[0], 'my_param');
+	})
+
+	it('should work with the new schema format where properties are declared at the top (global)', function () {
+
+		var missingParams = getMissingParams(
+			{
+				my_other_param: 'chris'
+			},
+			{
+				input: {
+					my_param: {
+						type: 'number',
+					},
+					my_other_param: {
+						type: 'string'
+					}
+				},
+			},
+			{
+				input: {
+					api_key: {
+						type: 'string',
+					}
+				},
+				required: ['api_key']
+			}
+		);
+
+		assert.equal(missingParams[0], 'api_key');
+	})
+
+
 });
