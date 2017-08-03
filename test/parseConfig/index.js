@@ -41,9 +41,8 @@ describe('#parseConfig', function () {
 	it('should parse the sub operations, if declared', function () {
 		var parsed = parseConfig(sampleConfig);
 
-		assert.equal(parsed[0].messages[1].name, 'create_task');
-		assert.equal(parsed[0].messages[2].name, 'create_task_destroy');
-		assert(_.isObject(parsed[0].messages[2].model));
+		assert(_.isUndefined(parsed[0].messages[0].destroy));
+		assert(_.isObject(parsed[0].messages[1].destroy));
 	});
 
 });

@@ -242,48 +242,6 @@
                         "value": {
                             "method": {
                                 "type": "string",
-                                "value": "delete"
-                            },
-                            "headers": {
-                                "type": "array",
-                                "value": []
-                            },
-                            "notExpects": {
-                                "type": "string"
-                            },
-                            "afterSuccess": {
-                                "type": "function"
-                            },
-                            "query": {
-                                "type": "array",
-                                "value": []
-                            },
-                            "data": {
-                                "type": "object",
-                                "value": {}
-                            },
-                            "afterFailure": {
-                                "type": "function"
-                            },
-                            "url": {
-                                "type": "string",
-                                "value": "/webhooks/29053"
-                            },
-                            "expects": {
-                                "type": "string"
-                            },
-                            "before": {
-                                "type": "function"
-                            }
-                        }
-                    }
-                },
-                "request": {
-                    "model": {
-                        "type": "object",
-                        "value": {
-                            "method": {
-                                "type": "string",
                                 "value": "get"
                             },
                             "headers": {
@@ -309,12 +267,28 @@
                             },
                             "url": {
                                 "type": "string",
-                                "value": "/"
+                                "value": "/webhooks"
                             },
                             "expects": {
                                 "type": "string"
                             },
                             "before": {
+                                "type": "function"
+                            }
+                        }
+                    }
+                },
+                "request": {
+                    "model": {
+                        "type": "object",
+                        "value": {
+                            "filter": {
+                                "type": "function"
+                            },
+                            "before": {
+                                "type": "function"
+                            },
+                            "reply": {
                                 "type": "function"
                             }
                         }
