@@ -1,422 +1,565 @@
 {
-  "description": "Connect with your Asana account using the Tray.io platform.",
-  "icon": {
-    "type": "url",
-    "value": "https://myicon.png"
-  },
-  "model": {
-    "type": "object",
-    "value": {
-      "after_failure": {
-        "type": "function"
-      },
-      "after_success": {
-        "type": "function",
-        "value": ""
-      },
-      "auth": {
+    "name": "1daae15d-faa6-4dcc-a797-0aea00edf1c2_pw_trigger",
+    "version": "1.0",
+    "title": "PW Trigger",
+    "description": "",
+    "icon": {
+        "type": "url",
+        "value": "//s3.amazonaws.com/images.tray.io/static/service/icons/prosper-works.png"
+    },
+    "trigger": true,
+    "tags": [],
+    "schema": {
+        "type": "object",
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "advanced": [
+            "api_key",
+            "admin_email_address"
+        ],
+        "required": [
+            "api_key",
+            "admin_email_address"
+        ],
+        "properties": {
+            "api_key": {
+                "type": "string",
+                "title": "API Key",
+                "description": "Your unique ProsperWorks API key.",
+                "default_jsonpath": "$.auth.api_key"
+            },
+            "admin_email_address": {
+                "type": "string",
+                "title": "Admin Email Address",
+                "description": "The email address of the admin that this API key belongs to.",
+                "default_jsonpath": "$.auth.admin_email_address"
+            }
+        },
+        "additionalProperties": false
+    },
+    "model": {
         "type": "object",
         "value": {
-          "type": {
-            "type": "string",
-            "value": "oauth2"
-          },
-          "headers": {
-            "type": "array",
-            "value": [
-              {
+            "auth": {
                 "type": "object",
                 "value": {
-                  "name": {
-                    "type": "string",
-                    "value": "Authorization"
-                  },
-                  "value": {
-                    "type": "string",
-                    "value": "Bearer {{{access_token}}}"
-                  }
-                }
-              }
-            ]
-          },
-          "oauthRefresh": {
-            "type": "object",
-            "value": {
-              "statusCodes": {
-                "type": "array",
-                "value": [
-                  {
-                    "type": "integer",
-                    "value": 401
-                  }
-                ]
-              },
-              "bodyContains": {
-                "type": "array",
-                "value": [
-                  {
-                    "type": "string"
-                  }
-                ]
-              },
-              "headers": {
-                "type": "array",
-                "value": [
-                  {
-                    "type": "object",
-                    "value": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "value": {
-                        "type": "string"
-                      }
+                    "type": {
+                        "type": "string",
+                        "value": "header"
+                    },
+                    "headers": {
+                        "type": "array",
+                        "value": [
+                            {
+                                "type": "object",
+                                "value": {
+                                    "name": {
+                                        "type": "string",
+                                        "value": "X-PW-AccessToken"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "value": "{{{api_key}}}"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "value": {
+                                    "name": {
+                                        "type": "string",
+                                        "value": "X-PW-Application"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "value": "developer_api"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "value": {
+                                    "name": {
+                                        "type": "string",
+                                        "value": "X-PW-UserEmail"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "value": "{{admin_email_address}}"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "value": {
+                                    "name": {
+                                        "type": "string",
+                                        "value": "Content-Type"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "value": "application/json"
+                                    }
+                                }
+                            }
+                        ]
                     }
-                  }
-                ]
-              }
+                }
+            },
+            "data": {
+                "type": "array",
+                "value": {}
+            },
+            "query": {
+                "type": "array",
+                "value": []
+            },
+            "before": {
+                "type": "function"
+            },
+            "baseUrl": {
+                "type": "string",
+                "value": "https://api.prosperworks.com/developer_api/v1"
+            },
+            "expects": {
+                "type": "string",
+                "value": "2xx"
+            },
+            "headers": {
+                "type": "array",
+                "value": []
+            },
+            "notExpects": {
+                "type": "string"
+            },
+            "afterFailure": {
+                "type": "function"
+            },
+            "afterSuccess": {
+                "type": "function"
             }
-          },
-          "query": {
-            "type": "array",
-            "value": [
-              {
-                "type": "object",
-                "value": {
-                  "key": {
-                    "type": "string",
-                    "value": "agreagrea"
-                  },
-                  "value": {
-                    "type": "string",
-                    "value": "ragragreagreagrea"
-                  }
-                }
-              },
-              {
-                "type": "object",
-                "value": {
-                  "key": {
-                    "type": "string",
-                    "value": "frea"
-                  },
-                  "value": {
-                    "type": "string",
-                    "value": "agr"
-                  }
-                }
-              }
-            ]
-          },
-          "username": {
-            "type": "string",
-            "value": "testa"
-          },
-          "password": {
-            "type": "string",
-            "value": "raegreagrea"
-          }
         }
-      },
-      "baseUrl": {
-        "type": "string",
-        "value": "https://app.asana.com/api/1.0"
-      },
-      "before": {
-        "type": "function",
-        "value": ""
-      },
-      "data": {
-        "type": "object",
-        "value": {}
-      },
-      "expects": {
-        "type": "string",
-        "value": "2xx"
-      },
-      "headers": {
-        "type": "array",
-        "value": []
-      },
-      "notExpects": {
-        "type": "string"
-      },
-      "query": {
-        "type": "array",
-        "value": []
-      }
-    }
-  },
-  "name": "asana",
-  "operations": [
-    {
-      "description": "List workspaces in your Asana account.",
-      "dynamicOutput": false,
-      "inputSchema": {
-        "$schema": "http://json-schema.org/draft-04/schema#",
-        "additionalProperties": false,
-        "advanced": [],
-        "properties": {},
-        "required": [],
-        "type": "object"
-      },
-      "isDefault": false,
-      "model": {
-        "type": "object",
-        "value": {
-          "afterFailure": {
-            "type": "function"
-          },
-          "afterSuccess": {
-            "type": "function"
-          },
-          "before": {
-            "type": "function"
-          },
-          "data": {
-            "type": "object",
-            "value": {}
-          },
-          "expects": {
-            "type": "string"
-          },
-          "headers": {
-            "type": "array",
-            "value": []
-          },
-          "method": {
-            "type": "string",
-            "value": "get"
-          },
-          "notExpects": {
-            "type": "string"
-          },
-          "query": {
-            "type": "array",
-            "value": [
-              {
-                "key": {
-                  "type": "string",
-                  "value": "opt_fields"
+    },
+    "operations": [
+        {
+            "name": "on_webhook",
+            "version": 1,
+            "title": "On Webhook",
+            "description": "",
+            "type": "public",
+            "isDefault": false,
+            "timeout": 15000,
+            "isDynamicOutput": false,
+            "branches": {},
+            "branchTemplate": "none",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "public_url": {
+                        "type": "string",
+                        "default_jsonpath": "$.env.public_url",
+                        "title": "Public URL",
+                        "description": "The unique URL of the Tray workflow, where webhook sent to from ProsperWorks."
+                    }
                 },
-                "value": {
-                  "type": "string",
-                  "value": "function (input) { }"
-                }
-              }
-            ]
-          },
-          "url": {
-            "type": "string",
-            "value": "/workspaces"
-          }
-        }
-      },
-      "outputSchema": {
-        "$schema": "http://json-schema.org/draft-04/schema#",
-        "additionalProperties": false,
-        "advanced": [],
-        "properties": {},
-        "required": [],
-        "type": "object"
-      },
-      "timeout": 15000,
-      "title": "List workspaces",
-      "name": "list_workspaces",
-      "type": "public"
-    },
-    {
-      "description": "Create a Task in your Asana account.",
-      "dynamicOutput": false,
-      "inputSchema": {
-        "$schema": "http://json-schema.org/draft-04/schema#",
-        "additionalProperties": false,
-        "advanced": [],
-        "properties": {
-          "name": {
-            "title": "Task Name",
-            "type": "string",
-            "required": true
-          },
-          "workspace": {
-            "title": "Workspace ID",
-            "type": "integer"
-          },
-          "due_on": {
-            "type": [
-              "string",
-              "integer"
-            ],
-            "format": "datetime",
-            "date_mask": "YYYY-MM-DD"
-          }
-        },
-        "required": [],
-        "type": "object"
-      },
-      "isDefault": false,
-      "model": {
-        "type": "object",
-        "value": {
-          "afterFailure": {
-            "type": "function"
-          },
-          "afterSuccess": {
-            "type": "function"
-          },
-          "before": {
-            "type": "function"
-          },
-          "data": {
-            "type": "object",
-            "value": {
-              "data": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "required": [
+                    "public_url"
+                ],
+                "advanced": [
+                    "public_url"
+                ],
+                "additionalProperties": false
+            },
+            "outputSchema": {
+                "type": "object",
+                "properties": {},
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "required": [],
+                "advanced": [],
+                "additionalProperties": false
+            },
+            "replySchema": {},
+            "model": {
                 "type": "object",
                 "value": {
-                  "name": {
-                    "type": "string",
-                    "value": "{{{name}}}",
-                    "metadata": {}
-                  },
-                  "workspace": {
-                    "type": "string",
-                    "value": "{{{workspace_id}}}",
-                    "metadata": {}
-                  },
-                  "due_on": {
-                    "type": "string",
-                    "value": "{{{due_on}}}"
-                  }
+                    "url": {
+                        "type": "string",
+                        "value": "/webhooks"
+                    },
+                    "data": {
+                        "type": "object",
+                        "value": {
+                            "type": {
+                                "type": "string",
+                                "value": "person",
+                                "metadata": {}
+                            },
+                            "event": {
+                                "type": "string",
+                                "value": "update",
+                                "metadata": {}
+                            },
+                            "target": {
+                                "type": "string",
+                                "value": "{{{public_url}}}",
+                                "metadata": {}
+                            }
+                        }
+                    },
+                    "query": {
+                        "type": "array",
+                        "value": []
+                    },
+                    "before": {
+                        "type": "function"
+                    },
+                    "method": {
+                        "type": "string",
+                        "value": "post"
+                    },
+                    "expects": {
+                        "type": "string"
+                    },
+                    "headers": {
+                        "type": "array",
+                        "value": []
+                    },
+                    "notExpects": {
+                        "type": "string"
+                    },
+                    "afterFailure": {
+                        "type": "function"
+                    },
+                    "afterSuccess": {
+                        "type": "function"
+                    }
                 }
-              }
+            },
+            "subOperations": {
+                "destroy": {
+                    "model": {
+                        "type": "object",
+                        "value": {
+                            "method": {
+                                "type": "string",
+                                "value": "delete"
+                            },
+                            "headers": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "notExpects": {
+                                "type": "string"
+                            },
+                            "afterSuccess": {
+                                "type": "function"
+                            },
+                            "query": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "data": {
+                                "type": "object",
+                                "value": {}
+                            },
+                            "afterFailure": {
+                                "type": "function"
+                            },
+                            "url": {
+                                "type": "string",
+                                "value": "/webhooks/29053"
+                            },
+                            "expects": {
+                                "type": "string"
+                            },
+                            "before": {
+                                "type": "function"
+                            }
+                        }
+                    }
+                },
+                "request": {
+                    "model": {
+                        "type": "object",
+                        "value": {
+                            "method": {
+                                "type": "string",
+                                "value": "get"
+                            },
+                            "headers": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "notExpects": {
+                                "type": "string"
+                            },
+                            "afterSuccess": {
+                                "type": "function"
+                            },
+                            "query": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "data": {
+                                "type": "object",
+                                "value": {}
+                            },
+                            "afterFailure": {
+                                "type": "function"
+                            },
+                            "url": {
+                                "type": "string",
+                                "value": "/"
+                            },
+                            "expects": {
+                                "type": "string"
+                            },
+                            "before": {
+                                "type": "function"
+                            }
+                        }
+                    }
+                },
+                "response": {
+                    "model": {
+                        "type": "object",
+                        "value": {
+                            "method": {
+                                "type": "string",
+                                "value": "get"
+                            },
+                            "headers": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "notExpects": {
+                                "type": "string"
+                            },
+                            "afterSuccess": {
+                                "type": "function"
+                            },
+                            "query": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "data": {
+                                "type": "object",
+                                "value": {}
+                            },
+                            "afterFailure": {
+                                "type": "function"
+                            },
+                            "url": {
+                                "type": "string",
+                                "value": "/"
+                            },
+                            "expects": {
+                                "type": "string"
+                            },
+                            "before": {
+                                "type": "function"
+                            }
+                        }
+                    }
+                }
             }
-          },
-          "expects": {
-            "type": "string"
-          },
-          "headers": {
-            "type": "array",
-            "value": [
-              {
+        },
+        {
+            "name": "list_webhooks",
+            "version": 1,
+            "title": "List webhooks",
+            "description": "",
+            "type": "private",
+            "isDefault": false,
+            "timeout": 15000,
+            "isDynamicOutput": false,
+            "branches": {},
+            "branchTemplate": "none",
+            "inputSchema": {
+                "type": "object",
+                "properties": {},
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "required": [],
+                "advanced": [],
+                "additionalProperties": false
+            },
+            "outputSchema": {
+                "type": "object",
+                "properties": {},
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "required": [],
+                "advanced": [],
+                "additionalProperties": false
+            },
+            "replySchema": {},
+            "model": {
                 "type": "object",
                 "value": {
-                  "name": {
-                    "value": "Content-Type",
-                    "type": "string"
-                  },
-                  "value": {
-                    "value": "application/json",
-                    "type": "string"
-                  }
+                    "url": {
+                        "type": "string",
+                        "value": "/webhooks"
+                    },
+                    "data": {
+                        "type": "object",
+                        "value": {}
+                    },
+                    "query": {
+                        "type": "array",
+                        "value": []
+                    },
+                    "before": {
+                        "type": "function"
+                    },
+                    "method": {
+                        "type": "string",
+                        "value": "get"
+                    },
+                    "expects": {
+                        "type": "string"
+                    },
+                    "headers": {
+                        "type": "array",
+                        "value": []
+                    },
+                    "notExpects": {
+                        "type": "string"
+                    },
+                    "afterFailure": {
+                        "type": "function"
+                    },
+                    "afterSuccess": {
+                        "type": "function"
+                    }
                 }
-              }
-            ]
-          },
-          "method": {
-            "type": "string",
-            "value": "post"
-          },
-          "notExpects": {
-            "type": "string"
-          },
-          "query": {
-            "type": "array",
-            "value": []
-          },
-          "url": {
-            "type": "string",
-            "value": "/tasks"
-          }
+            },
+            "subOperations": {
+                "destroy": {
+                    "model": {
+                        "type": "object",
+                        "value": {
+                            "method": {
+                                "type": "string",
+                                "value": "get"
+                            },
+                            "url": {
+                                "type": "string",
+                                "value": "/"
+                            },
+                            "query": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "data": {
+                                "type": "object",
+                                "value": {}
+                            },
+                            "headers": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "expects": {
+                                "type": "string"
+                            },
+                            "notExpects": {
+                                "type": "string"
+                            },
+                            "afterSuccess": {
+                                "type": "function"
+                            },
+                            "afterFailure": {
+                                "type": "function"
+                            },
+                            "before": {
+                                "type": "function"
+                            }
+                        }
+                    }
+                },
+                "request": {
+                    "model": {
+                        "type": "object",
+                        "value": {
+                            "method": {
+                                "type": "string",
+                                "value": "get"
+                            },
+                            "url": {
+                                "type": "string",
+                                "value": "/"
+                            },
+                            "query": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "data": {
+                                "type": "object",
+                                "value": {}
+                            },
+                            "headers": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "expects": {
+                                "type": "string"
+                            },
+                            "notExpects": {
+                                "type": "string"
+                            },
+                            "afterSuccess": {
+                                "type": "function"
+                            },
+                            "afterFailure": {
+                                "type": "function"
+                            },
+                            "before": {
+                                "type": "function"
+                            }
+                        }
+                    }
+                },
+                "response": {
+                    "model": {
+                        "type": "object",
+                        "value": {
+                            "method": {
+                                "type": "string",
+                                "value": "get"
+                            },
+                            "url": {
+                                "type": "string",
+                                "value": "/"
+                            },
+                            "query": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "data": {
+                                "type": "object",
+                                "value": {}
+                            },
+                            "headers": {
+                                "type": "array",
+                                "value": []
+                            },
+                            "expects": {
+                                "type": "string"
+                            },
+                            "notExpects": {
+                                "type": "string"
+                            },
+                            "afterSuccess": {
+                                "type": "function"
+                            },
+                            "afterFailure": {
+                                "type": "function"
+                            },
+                            "before": {
+                                "type": "function"
+                            }
+                        }
+                    }
+                }
+            }
         }
-      },
-      "outputSchema": {
-        "$schema": "http://json-schema.org/draft-04/schema#",
-        "additionalProperties": false,
-        "advanced": [],
-        "properties": {},
-        "required": [],
-        "type": "object"
-      },
-      "timeout": 15000,
-      "title": "Create Task",
-      "name": "create_task",
-      "type": "public"
-    },
-    {
-      "title": "Get Task",
-      "description": "",
-      "type": "public",
-      "isDefault": false,
-      "timeout": 15000,
-      "dynamicOutput": false,
-      "inputSchema": {
-        "properties": {
-          "task_id": {
-            "title": "Task ID",
-            "type": "integer",
-            "required": true
-          }
-        },
-        "type": "object",
-        "$schema": "http://json-schema.org/draft-04/schema#",
-        "required": [],
-        "advanced": [],
-        "additionalProperties": false
-      },
-      "outputSchema": {
-        "type": "object",
-        "properties": {},
-        "$schema": "http://json-schema.org/draft-04/schema#",
-        "required": [],
-        "advanced": [],
-        "additionalProperties": false
-      },
-      "model": {
-        "type": "object",
-        "value": {
-          "method": {
-            "type": "string",
-            "value": "get"
-          },
-          "url": {
-            "type": "string",
-            "value": "/tasks/{{task_id}}"
-          },
-          "query": {
-            "type": "array",
-            "value": []
-          },
-          "data": {
-            "type": "object",
-            "value": {}
-          },
-          "headers": {
-            "type": "array",
-            "value": []
-          },
-          "expects": {
-            "type": "string"
-          },
-          "notExpects": {
-            "type": "string"
-          },
-          "afterSuccess": {
-            "type": "function"
-          },
-          "afterFailure": {
-            "type": "function"
-          },
-          "before": {
-            "type": "function"
-          }
-        }
-      },
-      "name": "get_task"
-    }
-  ],
-  "schema": {},
-  "service": {},
-  "tags": [],
-  "title": "Asana",
-  "trigger": false
+    ]
 }
