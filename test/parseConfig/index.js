@@ -38,4 +38,11 @@ describe('#parseConfig', function () {
 		assert(_.isString(parsed[0].messages[0].name));
 	});
 
+	it('should parse the sub operations, if declared', function () {
+		var parsed = parseConfig(sampleConfig);
+
+		assert(_.isUndefined(parsed[0].messages[0].destroy));
+		assert(_.isObject(parsed[0].messages[1].destroy));
+	});
+
 });

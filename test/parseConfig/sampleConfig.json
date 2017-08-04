@@ -329,6 +329,49 @@
           }
         }
       },
+      "subOperations": {
+        "destroy": {
+          "model": {
+            "type": "object",
+            "value": {
+              "afterFailure": {
+                "type": "function"
+              },
+              "afterSuccess": {
+                "type": "function"
+              },
+              "before": {
+                "type": "function"
+              },
+              "data": {
+                "type": "object"
+              },
+              "expects": {
+                "type": "string"
+              },
+              "headers": {
+                "type": "array",
+                "value": []
+              },
+              "method": {
+                "type": "string",
+                "value": "delete"
+              },
+              "notExpects": {
+                "type": "string"
+              },
+              "query": {
+                "type": "array",
+                "value": []
+              },
+              "url": {
+                "type": "string",
+                "value": "/tasks/{{task_id}}"
+              }
+            }
+          }
+        }
+      },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-04/schema#",
         "additionalProperties": false,
