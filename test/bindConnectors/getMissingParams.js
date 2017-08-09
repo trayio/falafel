@@ -3,7 +3,7 @@ var _ 	        = require('lodash');
 var getMissingParams = require('../../lib/bindConnectors/getMissingParams');
 
 
-describe.only('#getMissingParams', function () {
+describe('#getMissingParams', function () {
 
 	it('should pass - empty array', function () {
 
