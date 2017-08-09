@@ -222,10 +222,6 @@ describe.only('#getMissingParams', function () {
 			{
 
 				input: {
-					test1: {
-						type: 'null',
-						required: true
-					},
 					test2: {
 						type: ['number', 'null'],
 						required: true
@@ -233,7 +229,14 @@ describe.only('#getMissingParams', function () {
 				}
 
 			},
-			undefined
+			{
+				input: {
+					test1: {
+						type: 'null',
+						required: true
+					}
+				}
+			}
 		);
 
 		assert(missingParams1.length === 0);
@@ -247,10 +250,6 @@ describe.only('#getMissingParams', function () {
 			{
 
 				input: {
-					test1: {
-						type: 'string',
-						required: true
-					},
 					test2: {
 						type: ['number'],
 						required: true
@@ -258,7 +257,14 @@ describe.only('#getMissingParams', function () {
 				}
 
 			},
-			undefined
+			{
+				input: {
+					test1: {
+						type: 'string',
+						required: true
+					}
+				}
+			}
 		);
 
 		assert(missingParams2.length === 2);
