@@ -212,6 +212,65 @@ describe('#getMissingParams', function () {
 
 	});
 
+	it('should fail if property is null and null is not a specified type', function () {
+
+		var missingParams1 = getMissingParams(
+			{
+				test1: null,
+				test2: null
+			},
+			{
+
+				input: {
+					test2: {
+						type: ['number', 'null'],
+						required: true
+					}
+				}
+
+			},
+			{
+				input: {
+					test1: {
+						type: 'null',
+						required: true
+					}
+				}
+			}
+		);
+
+		assert(missingParams1.length === 0);
+
+
+		var missingParams2 = getMissingParams(
+			{
+				test1: null,
+				test2: null
+			},
+			{
+
+				input: {
+					test2: {
+						type: ['number'],
+						required: true
+					}
+				}
+
+			},
+			{
+				input: {
+					test1: {
+						type: 'string',
+						required: true
+					}
+				}
+			}
+		);
+
+		assert(missingParams2.length === 2);
+
+	});
+
 
 	it('should handle the new schema format where properties are declared at the top', function () {
 
