@@ -8,7 +8,9 @@
         "value": "//s3.amazonaws.com/images.tray.io/static/service/icons/prosper-works.png"
     },
     "trigger": false,
-    "tags": [],
+    "tags": [
+        "deprecated"
+    ],
     "schema": {
         "type": "object",
         "$schema": "http://json-schema.org/draft-04/schema#",
@@ -177,6 +179,34 @@
                 "required": [],
                 "advanced": []
             },
+            "globalSchema": {
+                "type": "object",
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "advanced": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "required": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "properties": {
+                    "api_key": {
+                        "type": "string",
+                        "title": "API Key",
+                        "description": "Your unique ProsperWorks API key.",
+                        "default_jsonpath": "$.auth.api_key"
+                    },
+                    "admin_email_address": {
+                        "type": "string",
+                        "title": "Admin Email Address",
+                        "description": "The email address of the admin that this API key belongs to.",
+                        "default_jsonpath": "$.auth.admin_email_address"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "excludeGlobalProperties": [],
             "outputSchema": {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "type": "object",
@@ -295,6 +325,34 @@
                 "advanced": [],
                 "additionalProperties": false
             },
+            "globalSchema": {
+                "type": "object",
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "advanced": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "required": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "properties": {
+                    "api_key": {
+                        "type": "string",
+                        "title": "API Key",
+                        "description": "Your unique ProsperWorks API key.",
+                        "default_jsonpath": "$.auth.api_key"
+                    },
+                    "admin_email_address": {
+                        "type": "string",
+                        "title": "Admin Email Address",
+                        "description": "The email address of the admin that this API key belongs to.",
+                        "default_jsonpath": "$.auth.admin_email_address"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "excludeGlobalProperties": [],
             "outputSchema": {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "type": "object",
@@ -434,6 +492,34 @@
                 "advanced": [],
                 "additionalProperties": false
             },
+            "globalSchema": {
+                "type": "object",
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "advanced": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "required": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "properties": {
+                    "api_key": {
+                        "type": "string",
+                        "title": "API Key",
+                        "description": "Your unique ProsperWorks API key.",
+                        "default_jsonpath": "$.auth.api_key"
+                    },
+                    "admin_email_address": {
+                        "type": "string",
+                        "title": "Admin Email Address",
+                        "description": "The email address of the admin that this API key belongs to.",
+                        "default_jsonpath": "$.auth.admin_email_address"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "excludeGlobalProperties": [],
             "outputSchema": {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "type": "object",
@@ -553,6 +639,34 @@
                 ],
                 "advanced": []
             },
+            "globalSchema": {
+                "type": "object",
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "advanced": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "required": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "properties": {
+                    "api_key": {
+                        "type": "string",
+                        "title": "API Key",
+                        "description": "Your unique ProsperWorks API key.",
+                        "default_jsonpath": "$.auth.api_key"
+                    },
+                    "admin_email_address": {
+                        "type": "string",
+                        "title": "Admin Email Address",
+                        "description": "The email address of the admin that this API key belongs to.",
+                        "default_jsonpath": "$.auth.admin_email_address"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "excludeGlobalProperties": [],
             "outputSchema": {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "type": "object",
@@ -644,6 +758,34 @@
                 "advanced": [],
                 "additionalProperties": false
             },
+            "globalSchema": {
+                "type": "object",
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "advanced": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "required": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "properties": {
+                    "api_key": {
+                        "type": "string",
+                        "title": "API Key",
+                        "description": "Your unique ProsperWorks API key.",
+                        "default_jsonpath": "$.auth.api_key"
+                    },
+                    "admin_email_address": {
+                        "type": "string",
+                        "title": "Admin Email Address",
+                        "description": "The email address of the admin that this API key belongs to.",
+                        "default_jsonpath": "$.auth.admin_email_address"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "excludeGlobalProperties": [],
             "outputSchema": {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "type": "object",
@@ -744,6 +886,34 @@
                 "required": [],
                 "advanced": []
             },
+            "globalSchema": {
+                "type": "object",
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "advanced": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "required": [
+                    "api_key",
+                    "admin_email_address"
+                ],
+                "properties": {
+                    "api_key": {
+                        "type": "string",
+                        "title": "API Key",
+                        "description": "Your unique ProsperWorks API key.",
+                        "default_jsonpath": "$.auth.api_key"
+                    },
+                    "admin_email_address": {
+                        "type": "string",
+                        "title": "Admin Email Address",
+                        "description": "The email address of the admin that this API key belongs to.",
+                        "default_jsonpath": "$.auth.admin_email_address"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "excludeGlobalProperties": [],
             "outputSchema": {
                 "type": "object",
                 "properties": {},
