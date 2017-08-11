@@ -1,39 +1,49 @@
 {
-    "name": "1daae15d-faa6-4dcc-a797-0aea00edf1c2_prosperworks",
+    "name": "1daae15d-faa6-4dcc-a797-0aea00edf1c2_christopher",
     "version": "1.0",
-    "title": "ProsperWorks",
-    "description": "",
+    "title": "Christopher",
+    "description": "Here's a super important description about this service.",
     "icon": {
         "type": "url",
-        "value": "//s3.amazonaws.com/images.tray.io/static/service/icons/prosper-works.png"
+        "value": "//s3.amazonaws.com/images.tray.io/static/icons/placeholder.png"
     },
     "trigger": false,
     "tags": [],
     "schema": {
+        "id": 26,
+        "data": {},
+        "help": null,
+        "icon": "//s3.amazonaws.com/images.tray.io/static/icons/placeholder.png",
+        "name": "1daae15d-faa6-4dcc-a797-0aea00edf1c2_christopher-test",
+        "tags": [],
         "type": "object",
-        "$schema": "http://json-schema.org/draft-04/schema#",
-        "advanced": [
-            "api_key",
-            "admin_email_address"
-        ],
-        "required": [
-            "api_key",
-            "admin_email_address"
-        ],
-        "properties": {
-            "api_key": {
-                "type": "string",
-                "title": "API Key",
-                "description": "Your unique ProsperWorks API key.",
-                "default_jsonpath": "$.auth.api_key"
+        "uuid": "b49097de-a07d-49dd-9aa6-d8868594adc1",
+        "blurb": "Here's a super important description about this service.",
+        "owner": 4,
+        "title": "Christopher",
+        "rating": 0,
+        "schema": {
+            "type": "object",
+            "required": [
+                "api_key"
+            ],
+            "properties": {
+                "api_key": {
+                    "type": "string",
+                    "title": "API Key"
+                }
             },
-            "admin_email_address": {
-                "type": "string",
-                "title": "Admin Email Address",
-                "description": "The email address of the admin that this API key belongs to.",
-                "default_jsonpath": "$.auth.admin_email_address"
-            }
+            "additionalProperties": false
         },
+        "scopes": [],
+        "content": null,
+        "version": 1,
+        "advanced": [],
+        "authType": "token",
+        "required": [],
+        "keepAlive": false,
+        "deprecated": false,
+        "properties": {},
         "additionalProperties": false
     },
     "model": {
@@ -43,8 +53,7 @@
                 "type": "object",
                 "value": {
                     "type": {
-                        "type": "string",
-                        "value": "header"
+                        "type": "string"
                     },
                     "query": {
                         "type": "array",
@@ -72,54 +81,23 @@
                                 "value": {
                                     "name": {
                                         "type": "string",
-                                        "value": "X-PW-AccessToken"
+                                        "value": ""
                                     },
                                     "value": {
                                         "type": "string",
-                                        "value": "{{{api_key}}}"
-                                    }
-                                }
-                            },
-                            {
-                                "type": "object",
-                                "value": {
-                                    "name": {
-                                        "type": "string",
-                                        "value": "X-PW-Application"
-                                    },
-                                    "value": {
-                                        "type": "string",
-                                        "value": "developer_api"
-                                    }
-                                }
-                            },
-                            {
-                                "type": "object",
-                                "value": {
-                                    "name": {
-                                        "type": "string",
-                                        "value": "X-PW-UserEmail"
-                                    },
-                                    "value": {
-                                        "type": "string",
-                                        "value": "{{{admin_email_address}}}"
-                                    }
-                                }
-                            },
-                            {
-                                "type": "object",
-                                "value": {
-                                    "name": {
-                                        "type": "string",
-                                        "value": "Content-Type"
-                                    },
-                                    "value": {
-                                        "type": "string",
-                                        "value": "application/json"
+                                        "value": ""
                                     }
                                 }
                             }
                         ]
+                    },
+                    "password": {
+                        "type": "string",
+                        "value": ""
+                    },
+                    "username": {
+                        "type": "string",
+                        "value": ""
                     }
                 }
             },
@@ -136,7 +114,7 @@
             },
             "baseUrl": {
                 "type": "string",
-                "value": "https://api.prosperworks.com/developer_api/v1"
+                "value": "https://requestb.in"
             },
             "expects": {
                 "type": "string",
@@ -159,9 +137,9 @@
     },
     "operations": [
         {
-            "name": "list_pipelines",
+            "name": "bin_1",
             "version": 1,
-            "title": "List pipelines",
+            "title": "Bin 1",
             "description": "",
             "type": "public",
             "isDefault": false,
@@ -172,577 +150,10 @@
             "inputSchema": {
                 "type": "object",
                 "properties": {},
-                "additionalProperties": false,
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "required": [],
-                "advanced": []
-            },
-            "outputSchema": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "type": "object",
-                "properties": {
-                    "results": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "id": {
-                                    "type": "number",
-                                    "title": "ID"
-                                },
-                                "name": {
-                                    "type": "string",
-                                    "title": "Name"
-                                },
-                                "stages": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "id": {
-                                                "type": "number",
-                                                "title": "ID"
-                                            },
-                                            "name": {
-                                                "type": "string",
-                                                "title": "Name"
-                                            },
-                                            "win_probability": {
-                                                "type": "number",
-                                                "title": "Win probability"
-                                            }
-                                        },
-                                        "required": [
-                                            "id",
-                                            "name",
-                                            "win_probability"
-                                        ],
-                                        "title": "Item"
-                                    },
-                                    "title": "Stages"
-                                }
-                            },
-                            "required": [
-                                "id",
-                                "name",
-                                "stages"
-                            ],
-                            "title": "Item"
-                        },
-                        "title": "Results"
-                    }
-                }
-            },
-            "replySchema": {},
-            "model": {
-                "type": "object",
-                "value": {
-                    "url": {
-                        "type": "string",
-                        "value": "/pipelines"
-                    },
-                    "data": {
-                        "type": "object",
-                        "value": {}
-                    },
-                    "query": {
-                        "type": "array",
-                        "value": []
-                    },
-                    "before": {
-                        "type": "function"
-                    },
-                    "method": {
-                        "type": "string",
-                        "value": "get"
-                    },
-                    "expects": {
-                        "type": "string"
-                    },
-                    "headers": {
-                        "type": "array",
-                        "value": []
-                    },
-                    "notExpects": {
-                        "type": "string"
-                    },
-                    "afterFailure": {
-                        "type": "function"
-                    },
-                    "afterSuccess": {
-                        "type": "function"
-                    }
-                }
-            },
-            "subOperations": {}
-        },
-        {
-            "name": "list_projects",
-            "version": 1,
-            "title": "List projects",
-            "description": "",
-            "type": "public",
-            "isDefault": false,
-            "timeout": 15000,
-            "isDynamicOutput": false,
-            "branches": {},
-            "branchTemplate": "none",
-            "inputSchema": {
-                "type": "object",
-                "properties": {},
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "required": [],
                 "advanced": [],
                 "additionalProperties": false
-            },
-            "outputSchema": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "type": "object",
-                "properties": {
-                    "results": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "id": {
-                                    "type": "number",
-                                    "title": "ID"
-                                },
-                                "name": {
-                                    "type": "string",
-                                    "title": "Name"
-                                },
-                                "related_resource": {
-                                    "type": "null",
-                                    "title": "Related resource"
-                                },
-                                "assignee_id": {
-                                    "type": "number",
-                                    "title": "Assignee ID"
-                                },
-                                "status": {
-                                    "type": "string",
-                                    "title": "Status"
-                                },
-                                "details": {
-                                    "type": [
-                                        "string",
-                                        "null"
-                                    ],
-                                    "title": "Details"
-                                },
-                                "tags": {
-                                    "type": "array",
-                                    "items": {
-                                        "title": "Item"
-                                    },
-                                    "title": "Tags"
-                                },
-                                "custom_fields": {
-                                    "type": "array",
-                                    "items": {
-                                        "title": "Item"
-                                    },
-                                    "title": "Custom fields"
-                                },
-                                "date_created": {
-                                    "type": "number",
-                                    "title": "Date created"
-                                },
-                                "date_modified": {
-                                    "type": "number",
-                                    "title": "Date modified"
-                                }
-                            },
-                            "required": [
-                                "id",
-                                "name",
-                                "related_resource",
-                                "assignee_id",
-                                "status",
-                                "details",
-                                "tags",
-                                "custom_fields",
-                                "date_created",
-                                "date_modified"
-                            ],
-                            "title": "Item"
-                        },
-                        "title": "Results"
-                    }
-                }
-            },
-            "replySchema": {},
-            "model": {
-                "type": "object",
-                "value": {
-                    "url": {
-                        "type": "string",
-                        "value": "/projects/search"
-                    },
-                    "data": {
-                        "type": "object",
-                        "value": {}
-                    },
-                    "query": {
-                        "type": "array",
-                        "value": []
-                    },
-                    "before": {
-                        "type": "function"
-                    },
-                    "method": {
-                        "type": "string",
-                        "value": "post"
-                    },
-                    "expects": {
-                        "type": "string"
-                    },
-                    "headers": {
-                        "type": "array",
-                        "value": []
-                    },
-                    "notExpects": {
-                        "type": "string"
-                    },
-                    "afterFailure": {
-                        "type": "function"
-                    },
-                    "afterSuccess": {
-                        "type": "function"
-                    }
-                }
-            },
-            "subOperations": {}
-        },
-        {
-            "name": "list_pipelines_lookup",
-            "version": 1,
-            "title": "List pipelines lookup",
-            "description": "",
-            "type": "ddl",
-            "isDefault": false,
-            "timeout": 15000,
-            "isDynamicOutput": false,
-            "branches": {},
-            "branchTemplate": "none",
-            "inputSchema": {
-                "type": "object",
-                "properties": {},
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "required": [],
-                "advanced": [],
-                "additionalProperties": false
-            },
-            "outputSchema": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "type": "object",
-                "properties": {
-                    "result": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "value": {
-                                    "type": "number",
-                                    "title": "Value"
-                                },
-                                "text": {
-                                    "type": "string",
-                                    "title": "Text"
-                                }
-                            },
-                            "required": [
-                                "value",
-                                "text"
-                            ],
-                            "title": "Item"
-                        },
-                        "title": "Result"
-                    }
-                }
-            },
-            "replySchema": {},
-            "model": {
-                "type": "object",
-                "value": {
-                    "url": {
-                        "type": "string",
-                        "value": "/pipelines"
-                    },
-                    "data": {
-                        "type": "object",
-                        "value": {}
-                    },
-                    "query": {
-                        "type": "array",
-                        "value": []
-                    },
-                    "before": {
-                        "type": "function"
-                    },
-                    "method": {
-                        "type": "string",
-                        "value": "get"
-                    },
-                    "expects": {
-                        "type": "string"
-                    },
-                    "headers": {
-                        "type": "array",
-                        "value": []
-                    },
-                    "notExpects": {
-                        "type": "string"
-                    },
-                    "afterFailure": {
-                        "type": "function"
-                    },
-                    "afterSuccess": {
-                        "type": "function",
-                        "value": "function (body, input, res) {\n  // Here you can tweak the API response before the data is returned to\n  // the workflow. You can edit properties attached to the `body`,\n  // or return an entirely new body structure if you like. \n  return {\n    result: _.map(body.results, (item) => {\n      return {\n        value: item.id,\n        text: item.name,\n      }\n    })\n  }\n}"
-                    }
-                }
-            },
-            "subOperations": {}
-        },
-        {
-            "name": "list_stages_lookup",
-            "version": 1,
-            "title": "List stages (lookup)",
-            "description": "",
-            "type": "ddl",
-            "isDefault": false,
-            "timeout": 15000,
-            "isDynamicOutput": false,
-            "branches": {},
-            "branchTemplate": "none",
-            "inputSchema": {
-                "type": "object",
-                "properties": {
-                    "pipeline_id": {
-                        "title": "Pipeline ID",
-                        "type": "number",
-                        "lookup": {
-                            "url": "{{{step.ephemeral_url}}}",
-                            "body": {
-                                "message": "list_pipelines_lookup",
-                                "auth_id": "{{{step.auth_id}}}",
-                                "step_settings": {
-                                    "api_key": {
-                                        "type": "jsonpath",
-                                        "value": "$.auth.api_key"
-                                    },
-                                    "instance_url": {
-                                        "type": "jsonpath",
-                                        "value": "$.auth.instance_url"
-                                    },
-                                    "admin_email_address": {
-                                        "type": "jsonpath",
-                                        "value": "$.auth.admin_email_address"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "additionalProperties": false,
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "required": [
-                    "pipeline_id"
-                ],
-                "advanced": []
-            },
-            "outputSchema": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "type": "object",
-                "properties": {
-                    "result": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "text": {
-                                    "type": "string",
-                                    "title": "Text"
-                                },
-                                "value": {
-                                    "type": "number",
-                                    "title": "Value"
-                                }
-                            },
-                            "required": [
-                                "text",
-                                "value"
-                            ],
-                            "title": "Item"
-                        },
-                        "title": "Result"
-                    }
-                }
-            },
-            "replySchema": {},
-            "model": {
-                "type": "object",
-                "value": {
-                    "url": {
-                        "type": "string",
-                        "value": "/pipeline_stages"
-                    },
-                    "data": {
-                        "type": "object",
-                        "value": {}
-                    },
-                    "query": {
-                        "type": "array",
-                        "value": []
-                    },
-                    "before": {
-                        "type": "function"
-                    },
-                    "method": {
-                        "type": "string",
-                        "value": "get"
-                    },
-                    "expects": {
-                        "type": "string"
-                    },
-                    "headers": {
-                        "type": "array",
-                        "value": []
-                    },
-                    "notExpects": {
-                        "type": "string"
-                    },
-                    "afterFailure": {
-                        "type": "function"
-                    },
-                    "afterSuccess": {
-                        "type": "function",
-                        "value": "function (body, input, res) {\n  // Here you can tweak the API response before the data is returned to\n  // the workflow. You can edit properties attached to the `body`,\n  // or return an entirely new body structure if you like. \n  \n  return {\n    result: _.map(_.filter(body.results, (item) => {\n      return (item.pipeline_id === input.pipeline_id);\n    }), (item) => {\n      return {\n        text: item.name,\n        value: item.id,\n      }\n    })\n  }\n}"
-                    }
-                }
-            },
-            "subOperations": {}
-        },
-        {
-            "name": "list_users",
-            "version": 1,
-            "title": "List users",
-            "description": "",
-            "type": "ddl",
-            "isDefault": false,
-            "timeout": 15000,
-            "isDynamicOutput": false,
-            "branches": {},
-            "branchTemplate": "none",
-            "inputSchema": {
-                "type": "object",
-                "properties": {},
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "required": [],
-                "advanced": [],
-                "additionalProperties": false
-            },
-            "outputSchema": {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "type": "object",
-                "properties": {
-                    "results": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "id": {
-                                    "type": "number",
-                                    "title": "ID"
-                                },
-                                "name": {
-                                    "type": "string",
-                                    "title": "Name"
-                                },
-                                "email": {
-                                    "type": "string",
-                                    "title": "Email"
-                                }
-                            },
-                            "required": [
-                                "id",
-                                "name",
-                                "email"
-                            ],
-                            "title": "Item"
-                        },
-                        "title": "Results"
-                    }
-                }
-            },
-            "replySchema": {},
-            "model": {
-                "type": "object",
-                "value": {
-                    "url": {
-                        "type": "string",
-                        "value": "/users"
-                    },
-                    "data": {
-                        "type": "object",
-                        "value": {}
-                    },
-                    "query": {
-                        "type": "array",
-                        "value": []
-                    },
-                    "before": {
-                        "type": "function"
-                    },
-                    "method": {
-                        "type": "string",
-                        "value": "get"
-                    },
-                    "expects": {
-                        "type": "string"
-                    },
-                    "headers": {
-                        "type": "array",
-                        "value": []
-                    },
-                    "notExpects": {
-                        "type": "string"
-                    },
-                    "afterFailure": {
-                        "type": "function"
-                    },
-                    "afterSuccess": {
-                        "type": "function"
-                    }
-                }
-            },
-            "subOperations": {}
-        },
-        {
-            "name": "create_person",
-            "version": 1,
-            "title": "Create Person",
-            "description": "",
-            "type": "public",
-            "isDefault": false,
-            "timeout": 15000,
-            "isDynamicOutput": false,
-            "branches": {},
-            "branchTemplate": "none",
-            "inputSchema": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "title": "Name",
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false,
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "required": [],
-                "advanced": []
             },
             "outputSchema": {
                 "type": "object",
@@ -758,17 +169,11 @@
                 "value": {
                     "url": {
                         "type": "string",
-                        "value": "/people"
+                        "value": "/1e0trsb1"
                     },
                     "data": {
                         "type": "object",
-                        "value": {
-                            "name": {
-                                "type": "string",
-                                "value": "{{{name}}}",
-                                "metadata": {}
-                            }
-                        }
+                        "value": {}
                     },
                     "query": {
                         "type": "array",
