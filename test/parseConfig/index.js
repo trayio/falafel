@@ -1,6 +1,5 @@
 var _ 			= require('lodash');
 var assert 		= require('assert');
-var util 		= require('util');
 var parseConfig = require('../../lib/parseConfig');
 var sampleConfig = require('./sampleConfig.json');
 
