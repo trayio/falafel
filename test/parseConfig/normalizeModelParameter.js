@@ -132,4 +132,51 @@ describe('#normalizeModelParameter', function () {
 	});
 
 
+	it('should normalize a top level function parameter', function () {
+		var data = {
+			type: 'function',
+			value: 'function (input) { return { name: "Chris" }; }'
+		};
+
+		const fn = normalize(data);
+
+		assert(_.isFunction(fn));
+		assert.deepEqual(fn(), { name: 'Chris' });
+	});
+
+
+	it('should fallback to a function returning a blank object at the top level if the param has no value. Should only happen at top level', function () {
+		var data = {
+			type: 'function',
+			value: undefined
+		};
+
+		const fn = normalize(data);
+
+		assert(_.isFunction(fn));
+		assert.deepEqual(fn({ test: true, age: 27 }), {});
+
+
+
+		var data2 = {
+			type: 'object',
+			value: {
+				age: {
+					type: 'number',
+					value: 27,
+				},
+				func: {
+					type: 'function',
+					value: undefined
+				}
+			}
+		};
+
+		const obj = normalize(data2);
+		assert(_.isObject(obj));
+		assert.deepEqual(obj, { age: 27 });
+	});
+
+
+
 });
