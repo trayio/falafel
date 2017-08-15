@@ -205,6 +205,17 @@ describe('#getModel', function () {
 		});
 	});
 
+	it('should return a function if the model is a function', function () {
+		var model = getModel({ 
+			model: {
+				type: 'function',
+				value: 'function (input) { return { success: true }; }'
+			}
+		});
+		assert(_.isFunction(model));
+		assert.deepEqual(model(), { success: true });
+	});
+
 
 
 });
