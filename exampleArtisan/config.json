@@ -1,37 +1,39 @@
 {
-    "name": "1daae15d-faa6-4dcc-a797-0aea00edf1c2_pw_trigger",
-    "version": "1.0",
-    "title": "PW Trigger",
+    "name": "Mx_clearbit",
+    "majorVersion": 1,
+    "minorVersion": 0,
+    "title": "Clearbit",
     "description": "",
     "icon": {
         "type": "url",
-        "value": "//s3.amazonaws.com/images.tray.io/static/service/icons/prosper-works.png"
+        "value": "//s3.amazonaws.com/images.tray.io/static/icons/clearbit.png"
     },
-    "trigger": true,
     "tags": [],
+    "isTrigger": false,
+    "service": {
+        "name": "64_clearbit",
+        "version": 1
+    },
+    "helpLink": null,
+    "help": null,
+    "isPrivate": true,
+    "isDraft": true,
+    "headOnly": false,
+    "nodeModules": {},
     "schema": {
         "type": "object",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "advanced": [
-            "api_key",
-            "admin_email_address"
+            "api_key"
         ],
         "required": [
-            "api_key",
-            "admin_email_address"
+            "api_key"
         ],
         "properties": {
             "api_key": {
                 "type": "string",
                 "title": "API Key",
-                "description": "Your unique ProsperWorks API key.",
                 "default_jsonpath": "$.auth.api_key"
-            },
-            "admin_email_address": {
-                "type": "string",
-                "title": "Admin Email Address",
-                "description": "The email address of the admin that this API key belongs to.",
-                "default_jsonpath": "$.auth.admin_email_address"
             }
         },
         "additionalProperties": false
@@ -44,64 +46,33 @@
                 "value": {
                     "type": {
                         "type": "string",
-                        "value": "header"
+                        "value": "basic"
                     },
-                    "headers": {
+                    "query": {
                         "type": "array",
                         "value": [
                             {
                                 "type": "object",
                                 "value": {
-                                    "name": {
+                                    "key": {
                                         "type": "string",
-                                        "value": "X-PW-AccessToken"
+                                        "value": ""
                                     },
                                     "value": {
                                         "type": "string",
-                                        "value": "{{{api_key}}}"
-                                    }
-                                }
-                            },
-                            {
-                                "type": "object",
-                                "value": {
-                                    "name": {
-                                        "type": "string",
-                                        "value": "X-PW-Application"
-                                    },
-                                    "value": {
-                                        "type": "string",
-                                        "value": "developer_api"
-                                    }
-                                }
-                            },
-                            {
-                                "type": "object",
-                                "value": {
-                                    "name": {
-                                        "type": "string",
-                                        "value": "X-PW-UserEmail"
-                                    },
-                                    "value": {
-                                        "type": "string",
-                                        "value": "{{admin_email_address}}"
-                                    }
-                                }
-                            },
-                            {
-                                "type": "object",
-                                "value": {
-                                    "name": {
-                                        "type": "string",
-                                        "value": "Content-Type"
-                                    },
-                                    "value": {
-                                        "type": "string",
-                                        "value": "application/json"
+                                        "value": ""
                                     }
                                 }
                             }
                         ]
+                    },
+                    "password": {
+                        "type": "string",
+                        "value": ""
+                    },
+                    "username": {
+                        "type": "string",
+                        "value": "{{{api_key}}}"
                     }
                 }
             },
@@ -118,7 +89,7 @@
             },
             "baseUrl": {
                 "type": "string",
-                "value": "https://api.prosperworks.com/developer_api/v1"
+                "value": "https://person.clearbit.com"
             },
             "expects": {
                 "type": "string",
@@ -139,55 +110,33 @@
             }
         }
     },
+    "lambdaConfig": {},
     "operations": [
         {
-            "name": "on_webhook",
+            "name": "enrich_person",
             "version": 1,
-            "title": "On Webhook",
+            "title": "Enrich Person",
             "description": "",
-            "type": "public",
+            "operationType": "public",
             "isDefault": false,
             "timeout": 15000,
             "isDynamicOutput": false,
-            "branches": {},
+            "branches": [],
             "branchTemplate": "none",
             "inputSchema": {
                 "type": "object",
                 "properties": {
-       
+                    "email_address": {
+                        "title": "Email Address",
+                        "type": "string"
+                    }
                 },
                 "additionalProperties": false,
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "required": [
+                    "email_address"
                 ],
                 "advanced": []
-            },
-            "globalSchema": {
-                "type": "object",
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "advanced": [
-                    "api_key",
-                    "admin_email_address"
-                ],
-                "required": [
-                    "api_key",
-                    "admin_email_address"
-                ],
-                "properties": {
-                    "api_key": {
-                        "type": "string",
-                        "title": "API Key",
-                        "description": "Your unique ProsperWorks API key.",
-                        "default_jsonpath": "$.auth.api_key"
-                    },
-                    "admin_email_address": {
-                        "type": "string",
-                        "title": "Admin Email Address",
-                        "description": "The email address of the admin that this API key belongs to.",
-                        "default_jsonpath": "$.auth.admin_email_address"
-                    }
-                },
-                "additionalProperties": false
             },
             "excludeGlobalProperties": [],
             "outputSchema": {
@@ -198,140 +147,63 @@
                 "advanced": [],
                 "additionalProperties": false
             },
-            "replySchema": {},
-            "delivery": "fire_and_forget",
+            "replySchema": null,
             "model": {
-                "type": "function",
-                "value": "function (input) { \n  return {\n    result: 'success'\n  };\n}"
-            },
-            "subOperations": {
-                "destroy": {
-                    "model": {
-                        "type": "object",
-                        "value": {
-                            "method": {
-                                "type": "string",
-                                "value": "delete"
-                            },
-                            "headers": {
-                                "type": "array",
-                                "value": []
-                            },
-                            "notExpects": {
-                                "type": "string"
-                            },
-                            "afterSuccess": {
-                                "type": "function"
-                            },
-                            "query": {
-                                "type": "array",
-                                "value": []
-                            },
-                            "data": {
+                "type": "object",
+                "value": {
+                    "method": {
+                        "type": "string",
+                        "value": "get"
+                    },
+                    "url": {
+                        "type": "string",
+                        "value": "/v2/combined/find"
+                    },
+                    "query": {
+                        "type": "array",
+                        "value": [
+                            {
                                 "type": "object",
-                                "value": {}
-                            },
-                            "afterFailure": {
-                                "type": "function"
-                            },
-                            "url": {
-                                "type": "string",
-                                "value": "/webhooks/31630"
-                            },
-                            "expects": {
-                                "type": "string"
-                            },
-                            "before": {
-                                "type": "function"
+                                "value": {
+                                    "key": {
+                                        "type": "string",
+                                        "value": "email"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "value": "{{{email_address}}}"
+                                    }
+                                }
                             }
-                        }
-                    }
-                },
-                "request": {
-                    "model": {
+                        ]
+                    },
+                    "data": {
                         "type": "object",
-                        "value": {
-                            "method": {
-                                "type": "string",
-                                "value": "get"
-                            },
-                            "headers": {
-                                "type": "array",
-                                "value": []
-                            },
-                            "notExpects": {
-                                "type": "string"
-                            },
-                            "afterSuccess": {
-                                "type": "function"
-                            },
-                            "query": {
-                                "type": "array",
-                                "value": []
-                            },
-                            "data": {
-                                "type": "object",
-                                "value": {}
-                            },
-                            "afterFailure": {
-                                "type": "function"
-                            },
-                            "url": {
-                                "type": "string",
-                                "value": "/"
-                            },
-                            "expects": {
-                                "type": "string"
-                            },
-                            "before": {
-                                "type": "function"
-                            }
-                        }
-                    }
-                },
-                "response": {
-                    "model": {
-                        "type": "object",
-                        "value": {
-                            "method": {
-                                "type": "string",
-                                "value": "get"
-                            },
-                            "headers": {
-                                "type": "array",
-                                "value": []
-                            },
-                            "notExpects": {
-                                "type": "string"
-                            },
-                            "afterSuccess": {
-                                "type": "function"
-                            },
-                            "query": {
-                                "type": "array",
-                                "value": []
-                            },
-                            "data": {
-                                "type": "object",
-                                "value": {}
-                            },
-                            "afterFailure": {
-                                "type": "function"
-                            },
-                            "url": {
-                                "type": "string",
-                                "value": "/"
-                            },
-                            "expects": {
-                                "type": "string"
-                            },
-                            "before": {
-                                "type": "function"
-                            }
-                        }
+                        "value": {}
+                    },
+                    "headers": {
+                        "type": "array",
+                        "value": []
+                    },
+                    "expects": {
+                        "type": "string"
+                    },
+                    "notExpects": {
+                        "type": "string"
+                    },
+                    "afterSuccess": {
+                        "type": "function"
+                    },
+                    "afterFailure": {
+                        "type": "function"
+                    },
+                    "before": {
+                        "type": "function"
                     }
                 }
-            }
+            },
+            "subOperations": {},
+            "delivery": "fire_and_forget"
         }
     ]
 }
