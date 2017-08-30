@@ -1,17 +1,17 @@
 {
-    "name": "Mx_clearbit",
+    "name": "Mx_p-works",
     "majorVersion": 1,
     "minorVersion": 0,
-    "title": "Clearbit",
+    "title": "P Works",
     "description": "",
     "icon": {
         "type": "url",
-        "value": "//s3.amazonaws.com/images.tray.io/static/icons/clearbit.png"
+        "value": "//s3.amazonaws.com/images.tray.io/static/icons/prosper-works.png"
     },
     "tags": [],
     "isTrigger": false,
     "service": {
-        "name": "64_clearbit",
+        "name": "64_p-works",
         "version": 1
     },
     "helpLink": null,
@@ -24,9 +24,11 @@
         "type": "object",
         "$schema": "http://json-schema.org/draft-04/schema#",
         "advanced": [
+            "admin_email_address",
             "api_key"
         ],
         "required": [
+            "admin_email_address",
             "api_key"
         ],
         "properties": {
@@ -34,6 +36,11 @@
                 "type": "string",
                 "title": "API Key",
                 "default_jsonpath": "$.auth.api_key"
+            },
+            "admin_email_address": {
+                "type": "string",
+                "title": "Admin Email Address",
+                "default_jsonpath": "$.auth.admin_email_address"
             }
         },
         "additionalProperties": false
@@ -46,33 +53,64 @@
                 "value": {
                     "type": {
                         "type": "string",
-                        "value": "basic"
+                        "value": "header"
                     },
-                    "query": {
+                    "headers": {
                         "type": "array",
                         "value": [
                             {
                                 "type": "object",
                                 "value": {
-                                    "key": {
+                                    "name": {
                                         "type": "string",
-                                        "value": ""
+                                        "value": "Content-Type"
                                     },
                                     "value": {
                                         "type": "string",
-                                        "value": ""
+                                        "value": "application/json"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "value": {
+                                    "name": {
+                                        "type": "string",
+                                        "value": "X-PW-AccessToken\t"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "value": "{{{api_key}}}"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "value": {
+                                    "name": {
+                                        "type": "string",
+                                        "value": "X-PW-UserEmail"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "value": "{{{admin_email_address}}}"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "value": {
+                                    "name": {
+                                        "type": "string",
+                                        "value": "X-PW-Application"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "value": "developer_api"
                                     }
                                 }
                             }
                         ]
-                    },
-                    "password": {
-                        "type": "string",
-                        "value": ""
-                    },
-                    "username": {
-                        "type": "string",
-                        "value": "{{{api_key}}}"
                     }
                 }
             },
@@ -89,7 +127,7 @@
             },
             "baseUrl": {
                 "type": "string",
-                "value": "https://person.clearbit.com"
+                "value": "https://api.prosperworks.com/developer_api/v1"
             },
             "expects": {
                 "type": "string",
@@ -113,9 +151,9 @@
     "lambdaConfig": {},
     "operations": [
         {
-            "name": "enrich_person",
+            "name": "list_users",
             "version": 1,
-            "title": "Enrich Person",
+            "title": "List users",
             "description": "",
             "operationType": "public",
             "isDefault": false,
@@ -125,18 +163,11 @@
             "branchTemplate": "none",
             "inputSchema": {
                 "type": "object",
-                "properties": {
-                    "email_address": {
-                        "title": "Email Address",
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false,
+                "properties": {},
                 "$schema": "http://json-schema.org/draft-04/schema#",
-                "required": [
-                    "email_address"
-                ],
-                "advanced": []
+                "required": [],
+                "advanced": [],
+                "additionalProperties": false
             },
             "excludeGlobalProperties": [],
             "outputSchema": {
@@ -153,29 +184,15 @@
                 "value": {
                     "method": {
                         "type": "string",
-                        "value": "get"
+                        "value": "post"
                     },
                     "url": {
                         "type": "string",
-                        "value": "/v2/combined/find"
+                        "value": "/users/search"
                     },
                     "query": {
                         "type": "array",
-                        "value": [
-                            {
-                                "type": "object",
-                                "value": {
-                                    "key": {
-                                        "type": "string",
-                                        "value": "email"
-                                    },
-                                    "value": {
-                                        "type": "string",
-                                        "value": "{{{email_address}}}"
-                                    }
-                                }
-                            }
-                        ]
+                        "value": []
                     },
                     "data": {
                         "type": "object",
