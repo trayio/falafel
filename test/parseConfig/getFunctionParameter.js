@@ -30,10 +30,18 @@ describe('#getFunctionParameter', function () {
 
 		assert(_.isFunction(fn));
 
-		var err = fn({ sample: 'input' });
+		var didCatch = false;
 
-		assert(_.isError(err));
-		assert.strictEqual(err.message, 'Error evaluating operation "before": Unexpected token {');
+		try {
+			fn({ sample: 'input' });
+		} catch (err) {
+			assert(_.isError(err));
+			assert.strictEqual(err.message, 'Error evaluating operation "before": Unexpected token {');	
+			didCatch = true;
+		}
+
+		assert(didCatch);
+		
 	});
 
 
@@ -42,10 +50,18 @@ describe('#getFunctionParameter', function () {
 
 		assert(_.isFunction(fn));
 
-		var err = fn({ sample: 'input' });
+		var didCatch = false;
 
-		assert(_.isError(err));
-		assert.strictEqual(err.message, 'Error evaluating operation "before": Should be a function');
+		try {
+			fn({ sample: 'input' });
+		} catch (err) {
+			assert(_.isError(err));
+			assert.strictEqual(err.message, 'Error evaluating operation "before": Should be a function');
+			didCatch = true;
+		}
+
+		assert(didCatch);
+		
 	});
 
 
