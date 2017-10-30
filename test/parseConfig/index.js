@@ -93,4 +93,19 @@ describe('#parseConfig', function () {
 		assert(_.isObject(parsed[0].messages[1].destroy));
 	});
 
+
+	it('should get the helper functions correctly', function () {
+		var parsed = parseConfig(sampleConfig);
+		assert(_.isObject(parsed[0].helpers));
+		assert(!_.isArray(parsed[0].helpers));
+
+		assert(_.isFunction(parsed[0].helpers.myHelper));
+		assert.equal(parsed[0].helpers.myHelper('chris'), 'testchris');
+
+		var randomPercent = parsed[0].helpers.getRandomPercentage();
+		assert(_.isInteger(randomPercent));
+		assert(randomPercent >= 0);
+		assert(randomPercent <= 100);
+	});
+
 });

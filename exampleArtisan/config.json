@@ -205,5 +205,11 @@
             "subOperations": {},
             "delivery": "fire_and_forget"
         }
-    ]
+    ],
+    "helpers": {
+        "myHelper": {
+            "type": "function",
+            "value": "function (foo) { return 'test' + foo; }"
+        }
+    }
 }

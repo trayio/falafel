@@ -472,5 +472,15 @@
   "service": {},
   "tags": [],
   "title": "Asana",
-  "trigger": false
+  "trigger": false,
+  "helpers": {
+      "myHelper": {
+          "type": "function",
+          "value": "function (foo) { return 'test' + foo; }"
+      },
+      "getRandomPercentage": {
+          "type": "function",
+          "value": "function () { return Math.round(Math.random() * 100); }"
+      }
+  }
 }
