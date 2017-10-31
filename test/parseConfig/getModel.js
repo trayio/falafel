@@ -151,6 +151,25 @@ describe('#getModel', function () {
 		});
 	});
 
+	it('should not bind query params with no name', function () {
+		sampleModel.value.query.value = [{
+			"type": "object",
+			"value": {
+				"key": {
+					"type": "string",
+					"value": " "
+				},
+				"value": {
+					"type": "string",
+					"value": "application/json"
+				}
+			}
+		}];
+
+		var model = getModel({ model: sampleModel });
+		assert.deepEqual(model.query, []);
+	});
+
 
 	it('should bind the headers', function () {
 		var model = getModel({ model: sampleModel });
@@ -160,12 +179,41 @@ describe('#getModel', function () {
 		});
 	});
 
+	it('should not bind headers with no name', function () {
+		sampleModel.value.headers.value = [{
+			"type": "object",
+			"value": {
+				"name": {
+					"type": "string",
+					"value": " "
+				},
+				"value": {
+					"type": "string",
+					"value": "application/json"
+				}
+			}
+		}];
+
+		var model = getModel({ model: sampleModel });
+		assert.deepEqual(model.options.headers, { });
+	});
 
 	it('should bind the data', function () {
 		var model = getModel({ model: sampleModel });
 		assert.deepEqual(model.data, { 
 			name: 'Chris'
 		});
+	});
+
+	it('should return a function if the model is a function', function () {
+		var model = getModel({ 
+			model: {
+				type: 'function',
+				value: 'function (input) { return { success: true }; }'
+			}
+		});
+		assert(_.isFunction(model));
+		assert.deepEqual(model(), { success: true });
 	});
 
 

@@ -151,6 +151,28 @@ describe('#getGlobalModel', function () {
 		});
 	});
 
+	it('should not bind auth headers with no name', function () {
+		sampleGlobalModel.value.query = {
+			type: 'array',
+			value: [{
+				type: 'object',
+				value: {
+					name: {
+						type: 'string',
+						value: ' '
+					},
+					value: {
+						type: 'string',
+						value: '123abc'
+					}
+				}
+			}]
+		};
+
+		var model = getGlobalModel({ model: sampleGlobalModel });
+		assert.strictEqual(model.query[' '], undefined);
+	});
+
 
 	it('should bind the headers', function () {
 		var globalModel = getGlobalModel({ model: sampleGlobalModel });
@@ -158,6 +180,28 @@ describe('#getGlobalModel', function () {
 			'Content-Type': 'application/json', 
 			'Content-Length': 252
 		});
+	});
+
+	it('should not bind auth headers with no name', function () {
+		sampleGlobalModel.value.headers = {
+			type: 'array',
+			value: [{
+				type: 'object',
+				value: {
+					name: {
+						type: 'string',
+						value: ' '
+					},
+					value: {
+						type: 'string',
+						value: '123abc'
+					}
+				}
+			}]
+		};
+
+		var model = getGlobalModel({ model: sampleGlobalModel });
+		assert.strictEqual(model.options.headers[' '], undefined);
 	});
 
 
@@ -253,6 +297,34 @@ describe('#getGlobalModel', function () {
 		assert.deepEqual(globalModel.query.api_key, '123abc');
 	});
 
+	it('should not bind auth query params with no name', function () {
+		sampleGlobalModel.value.auth.value = {
+			type: {
+				type: 'string',
+				value: 'query'
+			},
+			query: {
+				type: 'array',
+				value: [{
+					type: 'object',
+					value: {
+						key: {
+							type: 'string',
+							value: ' '
+						},
+						value: {
+							type: 'string',
+							value: '123abc'
+						}
+					}
+				}]
+			}
+		};
+
+		var model = getGlobalModel({ model: sampleGlobalModel });
+		assert.strictEqual(model.query[' '], undefined);
+	});
+
 
 	it('should bind auth headers correctly', function () {
 		sampleGlobalModel.value.auth.value = {
@@ -280,6 +352,46 @@ describe('#getGlobalModel', function () {
 
 		var globalModel = getGlobalModel({ model: sampleGlobalModel });
 		assert.deepEqual(globalModel.options.headers['X-PW-AccessKey'], '123abc');
+	});
+
+	it('should not bind auth headers with no name', function () {
+		sampleGlobalModel.value.auth.value = {
+			type: {
+				type: 'string',
+				value: 'query'
+			},
+			headers: {
+				type: 'array',
+				value: [{
+					type: 'object',
+					value: {
+						name: {
+							type: 'string',
+							value: ' '
+						},
+						value: {
+							type: 'string',
+							value: '123abc'
+						}
+					}
+				}]
+			}
+		};
+
+		var model = getGlobalModel({ model: sampleGlobalModel });
+		assert.strictEqual(model.options.headers[' '], undefined);
+	});
+
+
+	it('should return a function if the global model is a function', function () {
+		var model = getGlobalModel({ 
+			model: {
+				type: 'function',
+				value: 'function (input) { return { success: true }; }'
+			}
+		});
+		assert(_.isFunction(model));
+		assert.deepEqual(model(), { success: true });
 	});
 
 

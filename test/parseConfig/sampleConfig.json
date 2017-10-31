@@ -156,10 +156,18 @@
         "$schema": "http://json-schema.org/draft-04/schema#",
         "additionalProperties": false,
         "advanced": [],
-        "properties": {},
-        "required": [],
+        "properties": {
+          "name": {
+            "title": "Task Name",
+            "type": "string"
+          }
+        },
+        "required": ["name"],
         "type": "object"
       },
+      "globalSchema": {},
+      "excludeGlobalProperties": [],
+      "excludeGlobalProperties": [],
       "isDefault": false,
       "model": {
         "type": "object",
@@ -228,6 +236,8 @@
     {
       "description": "Create a Task in your Asana account.",
       "dynamicOutput": false,
+      "globalSchema": {},
+      "excludeGlobalProperties": [],
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-04/schema#",
         "additionalProperties": false,
@@ -235,8 +245,7 @@
         "properties": {
           "name": {
             "title": "Task Name",
-            "type": "string",
-            "required": true
+            "type": "string"
           },
           "workspace": {
             "title": "Workspace ID",
@@ -251,7 +260,7 @@
             "date_mask": "YYYY-MM-DD"
           }
         },
-        "required": [],
+        "required": ["name"],
         "type": "object"
       },
       "isDefault": false,
@@ -389,6 +398,8 @@
       "title": "Get Task",
       "description": "",
       "type": "public",
+      "globalSchema": {},
+      "excludeGlobalProperties": [],
       "isDefault": false,
       "timeout": 15000,
       "dynamicOutput": false,
@@ -461,5 +472,15 @@
   "service": {},
   "tags": [],
   "title": "Asana",
-  "trigger": false
+  "trigger": false,
+  "helpers": {
+      "myHelper": {
+          "type": "function",
+          "value": "function (foo) { return 'test' + foo; }"
+      },
+      "getRandomPercentage": {
+          "type": "function",
+          "value": "function () { return Math.round(Math.random() * 100); }"
+      }
+  }
 }
