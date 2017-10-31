@@ -1,0 +1,84 @@
+[
+  {
+    "name": "testconnector",
+    "title": "Test connector",
+    "description": "Test connector to test things in.",
+    "version": "1.0",
+    "tags": [
+      "service"
+    ],
+    "icon": {
+      "type": "streamline",
+      "value": "globe-2"
+    },
+    "messages": [
+      {
+        "name": "test_op",
+        "title": "Test operation",
+        "input_schema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "advanced": [],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        },
+        "dynamic_output": false
+      },
+      {
+        "name": "test_op2",
+        "title": "Test operation",
+        "input_schema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "advanced": [],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        },
+        "dynamic_output": false
+      }
+    ]
+  },
+  {
+    "name": "testrestconnector",
+    "title": "Test connector",
+    "description": "Test connector to test things in.",
+    "version": "1.0",
+    "tags": [
+      "service"
+    ],
+    "icon": {
+      "type": "streamline",
+      "value": "globe-2"
+    },
+    "messages": [
+      {
+        "name": "test_rest",
+        "title": "Test operation",
+        "input_schema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "advanced": [],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        },
+        "dynamic_output": false
+      },
+      {
+        "name": "test_soap",
+        "title": "Test operation",
+        "input_schema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "advanced": [],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        },
+        "dynamic_output": false
+      }
+    ]
+  }
+]

@@ -37,3 +37,7 @@ node_modules
 aws.json
 
 .DS_Store
+
+
+# Credentials
+dummycredentials.json

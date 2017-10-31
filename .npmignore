@@ -6,3 +6,7 @@ exampleTwo
 #Test Files
 test
 Gruntfile.js
+
+
+# Credentials
+dummycredentials.json
