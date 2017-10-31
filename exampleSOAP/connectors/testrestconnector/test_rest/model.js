@@ -1,10 +1,12 @@
 
 module.exports = {
 
-	method: 'GetEvents',
+	url: 'https://requestb.in/1ma2rqn1',
+
+	method: 'get',
 
 	data: {
-		orderBy: 'ID DESC',
+		orderBy: 'misc'
 	},
 
 	afterSuccess: falafel.helpers.afterSuccess

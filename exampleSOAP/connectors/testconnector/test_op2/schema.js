@@ -1,24 +1,12 @@
 
 module.exports = {
 
-    title: 'Test operation',
+	title: 'Test operation',
 
-    input: {
+	globals: false,
 
-    	test: {
-    		type: 'string',
-    		default: 'Hello world',
-            required: true
-    	},
+	input: {
+		
+	}
 
-    },
-
-    output: {
-        response: {
-    		type: 'string',
-    		default: 'response Hello world'
-    	},
-    }
-
-
-}
+};

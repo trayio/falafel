@@ -1,6 +1,5 @@
 
 module.exports = {
-
 	soap: true,
 
 	wsdl: 'https://www.regonline.com/api/default.asmx?WSDL',
@@ -9,11 +8,19 @@ module.exports = {
 		headers: [{
 			value: {
 				TokenHeader: {
-					APIToken: require('../../../dummycredentials.json').regonline
+					APIToken: require('../../../../dummycredentials.json').regonline
 				}
 			},
 			xmlns: 'http://www.regonline.com/api',
 		}]
-	}
+	},
+
+	method: 'GetRegistrations',
+
+	data: {
+		orderBy: 'ID DESC',
+	},
+
+	afterSuccess: falafel.helpers.afterSuccess
 
 };

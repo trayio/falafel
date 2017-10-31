@@ -1,10 +1,12 @@
 
 module.exports = {
 
-  method: 'get',
+	method: 'GetRegistrations',
 
-  url: 'test',
+	data: {
+		orderBy: 'ID DESC',
+	},
 
+	afterSuccess: falafel.helpers.afterSuccess
 
-
-}
+};
