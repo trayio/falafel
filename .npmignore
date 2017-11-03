@@ -10,3 +10,4 @@ Gruntfile.js
 
 # Credentials
 dummycredentials.json
+aws.json
