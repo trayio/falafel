@@ -69,9 +69,7 @@ describe('#interceptAfterSuccess', function () {
 		assert.deepEqual(
 			message.model.afterSuccess(testArray, {}, {}),
 			{
-				items: {
-					results: testArray
-				}
+				items: testArray
 			}
 		);
 
