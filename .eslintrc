@@ -12,7 +12,11 @@
     "rules": {
         "indent": [
             "error",
-            "tab"
+            "tab",
+            {
+                "MemberExpression": 0,
+                "SwitchCase": 1
+            }
         ],
         "linebreak-style": [
             "error",
