@@ -1,11 +1,12 @@
 var assert      = require('assert');
 var _ 	        = require('lodash');
+var when		= require('when');
 var interceptAfterSuccess = require('../../lib/bindConnectors/interceptAfterSuccess');
 
 
 describe('#interceptAfterSuccess', function () {
 
-	it('should modify afterSuccess if message.model is an object, and wrap arrays', function () {
+	it('should modify afterSuccess if message.model is an object, and wrap arrays', function (done) {
 
 		var message = interceptAfterSuccess({
 			name: 'my-message',
@@ -17,16 +18,25 @@ describe('#interceptAfterSuccess', function () {
 
 		var testArray = ['a', 'b', 'c'];
 
-		assert.deepEqual(
-			message.model.afterSuccess(testArray, {}, {}),
-			{
-				results: testArray
-			}
+		when(
+			message.model.afterSuccess(testArray, {}, {})
+		)
+		.done(
+			function (result) {
+				assert.deepEqual(
+					result,
+					{
+						results: testArray
+					}
+				);
+				done();
+			},
+			done
 		);
 
 	});
 
-	it('should not wrap if not an array', function () {
+	it('should not wrap if not an array', function (done) {
 
 		var message = interceptAfterSuccess({
 			name: 'my-message',
@@ -42,14 +52,23 @@ describe('#interceptAfterSuccess', function () {
 			c: 'c'
 		};
 
-		assert.deepEqual(
-			message.model.afterSuccess(testObject, {}, {}),
-			testObject
+		when(
+			message.model.afterSuccess(testObject, {}, {})
+		)
+		.done(
+			function (result) {
+				assert.deepEqual(
+					result,
+					testObject
+				);
+				done();
+			},
+			done
 		);
 
 	});
 
-	it('original model\'s afterSuccess should work', function () {
+	it('original model\'s afterSuccess should work', function (done) {
 
 		var message = interceptAfterSuccess({
 			name: 'my-message',
@@ -59,18 +78,27 @@ describe('#interceptAfterSuccess', function () {
 				afterSuccess: function (body) {
 					return {
 						items: body
-					}
+					};
 				}
 			}
 		});
 
 		var testArray = ['a', 'b', 'c'];
 
-		assert.deepEqual(
-			message.model.afterSuccess(testArray, {}, {}),
-			{
-				items: testArray
-			}
+		when(
+			message.model.afterSuccess(testArray, {}, {})
+		)
+		.done(
+			function (result) {
+				assert.deepEqual(
+					result,
+					{
+						items: testArray
+					}
+				);
+				done();
+			},
+			done
 		);
 
 	});
@@ -87,7 +115,7 @@ describe('#interceptAfterSuccess', function () {
 		var testArray = ['a', 'b', 'c'];
 
 		assert(_.isFunction(message.model));
-		assert(_.isUndefined(message.model.afterSuccess))
+		assert(_.isUndefined(message.model.afterSuccess));
 		assert.equal(message.model(), 'Hello World.');
 
 	});
