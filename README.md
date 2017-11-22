@@ -40,6 +40,11 @@ Next up, start the server in development mode (will auto-generate `connectors.js
 NODE_ENV=development node main.js
 ```
 
+Later, when packaging for final deployment, run:
+
+```
+rm -rf node_modules && npm install  --production
+```
 
 ## Project structuring
 
