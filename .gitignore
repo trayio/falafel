@@ -38,6 +38,8 @@ aws.json
 
 .DS_Store
 
+# IDE project files
+/.idea
 
 # Credentials
 dummycredentials.json
