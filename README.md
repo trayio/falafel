@@ -1,4 +1,4 @@
-# falafel
+# falafel
 
 A Node.js framework for making it crazy easy to build connectors. Built on top of the
 [threadneedle](https://github.com/trayio/threadneedle) allowing for a declarative operation based approach.
@@ -26,7 +26,7 @@ as on the operational level.
 * [Testing the connector](#testing-the-connector)
 
 
-## Getting started
+## Getting started
 
 Create a connector using the [Yeoman generator](https://github.com/trayio/generator-trayio-nodejs-connector), inputting the settings when prompted:
 
@@ -41,7 +41,7 @@ NODE_ENV=development node main.js
 ```
 
 
-## Project structuring
+## Project structuring
 
 Falafel requires you to follow a strict folder structure for organising connectors:
 
@@ -61,7 +61,7 @@ connectors/
     global_schema.js (optional)
 ```
 
-### Connector file
+### Connector file
 
 The `connector.js` file contains high level config about the connector, mostly related to how the connector appears in the builder UI.
 
@@ -92,7 +92,7 @@ module.exports = {
 };
 ```
 
-### Messages
+### Messages
 
 On a high level, the following rules apply for each message.
 
@@ -101,7 +101,7 @@ On a high level, the following rules apply for each message.
 * The `response.sample.json` provides a sample output - for the output schema
 
 
-### Schema
+### Schema
 
 The `schema.js` file is a higher level JavaScript version of the connectors.json file.
 It takes a declarative approach, allowing for inline `advanced` and `required` variables, auto-generating message and property `title` attributes, and allowing for
@@ -134,7 +134,7 @@ This schema will be used to generate the `input_schema` for each message. Also, 
 `required` variable applies a validation before the operation executes at runtime.
 
 
-### Model
+### Model
 
 Any options in the `model.js` file will be automatically be passed
 to a [threadneedle](https://github.com/trayio/threadneedle) method for the
@@ -153,7 +153,7 @@ module.exports = {
 Variables passed in the input schema will be passed into a Mustache template system.
 
 
-### Sample response
+### Sample response
 
 Output schemas are important in tray - they allow connectors to reference the  
 data coming from a previous connector. However, you don't need fine grained control, handling variables like `required` and `advanced`.
@@ -165,7 +165,7 @@ when building the `connectors.json`.
 
 
 
-## Global models
+## Global models
 
 Threadneedle has a "global models" approach which allows for shared logic across multiple
 messages. If you declare the `connectors/myconnector/global_model.js` (previously `global.js`) file, the options in
@@ -225,7 +225,7 @@ This is simple - just **don't add** the `schema.js` and `response.sample.json` f
 **Note:** the operation will be still be created, but it won't be added to the connectors.json config (so won't appear in the UI).
 
 
-## Trigger connectors
+## Trigger connectors
 
 Trigger connectors follow a similar file structure to regular connectors, but the message
 folder also needs to contain:
@@ -251,7 +251,7 @@ connectors/
 ```
 
 
-### Init (`message`)
+### Init (`message`)
 
 This "trigger initialisation" happens when the workflow is enabled or changed, and is designed
 to create webhooks in third party systems.
@@ -267,7 +267,7 @@ a webhook in a third party system.
 This message triggers the `destroy.js` file method, which is configured like any other message.
 
 
-### Request (`message_request`)
+### Request (`message_request`)
 
 This is a HTTP trigger message, forwarded by the tray platform to the connector. It comes in to the `request.js.` file.
 
@@ -327,7 +327,7 @@ module.exports = function (params, http) {
 };
 ```
 
-### Response (`message_response`)
+### Response (`message_response`)
 
 This file handles the formatting of the response to the connector for a request/response
 trigger. The output from this message will be sent in the response back to the third party service.
