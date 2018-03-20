@@ -7,5 +7,3 @@ var apptalk = new Falafel().wrap({
 });
 
 exports.apptalk = apptalk;
-
-

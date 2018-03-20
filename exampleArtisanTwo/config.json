@@ -1,0 +1,230 @@
+{
+	"name": "test-connector",
+	"version": "1.0",
+	"title": "Test Connector",
+	"description": "",
+	"icon": {
+		"type": "streamline",
+		"value": "tools-boox"
+	},
+	"trigger": false,
+	"tags": [],
+	"nodeModules": {},
+	"schema": {
+		"type": "object",
+		"$schema": "http://json-schema.org/draft-04/schema#",
+		"advanced": [
+			"access_token"
+		],
+		"required": [
+			"access_token"
+		],
+		"properties": {
+			"access_token": {
+				"type": "string",
+				"title": "Token",
+				"default_jsonpath": "$.auth.access_token"
+			}
+		},
+		"additionalProperties": false
+	},
+	"model": {
+		"type": "object",
+		"value": {
+			"auth": {
+				"type": "object",
+				"value": {
+					"type": {
+						"type": "string",
+						"value": "header"
+					},
+					"headers": {
+						"type": "array",
+						"value": [
+							{
+								"type": "object",
+								"value": {
+									"name": {
+										"type": "string",
+										"value": "Token"
+									},
+									"value": {
+										"type": "string",
+										"value": "{{access_token}}"
+									}
+								}
+							}
+						]
+					},
+					"password": {
+						"type": "string",
+						"value": ""
+					},
+					"username": {
+						"type": "string",
+						"value": ""
+					}
+				}
+			},
+			"data": {
+				"type": "array",
+				"value": {}
+			},
+			"query": {
+				"type": "array",
+				"value": []
+			},
+			"before": {
+				"type": "function"
+			},
+			"baseUrl": {
+				"type": "string",
+				"value": "https://..."
+			},
+			"expects": {
+				"type": "string",
+				"value": "2xx"
+			},
+			"headers": {
+				"type": "array",
+				"value": []
+			},
+			"options": {
+				"type": "object",
+				"value": {
+					"json": {
+						"type": "boolean",
+						"value": true,
+						"metadata": {}
+					}
+				},
+				"metadata": {}
+			},
+			"notExpects": {
+				"type": "string"
+			},
+			"afterFailure": {
+				"type": "function"
+			},
+			"afterSuccess": {
+				"type": "function"
+			},
+			"beforeRequest": {
+				"type": "function"
+			}
+		}
+	},
+	"helpers": {},
+	"operations": [
+		{
+			"name": "call_url",
+			"title": "Request Bin",
+			"description": "",
+			"type": "public",
+			"isDefault": false,
+			"timeout": 0,
+			"isDynamicOutput": false,
+			"branches": [],
+			"branchTemplate": "none",
+			"inputSchema": {
+				"type": "object",
+				"properties": {
+					"url": {
+						"title": "URL",
+						"type": "string"
+					}
+				},
+				"additionalProperties": false,
+				"$schema": "http://json-schema.org/draft-04/schema#",
+				"required": [
+					"url"
+				],
+				"advanced": []
+			},
+			"globalSchema": {
+				"type": "object",
+				"$schema": "http://json-schema.org/draft-04/schema#",
+				"advanced": [
+					"access_token"
+				],
+				"required": [
+					"access_token"
+				],
+				"properties": {
+					"access_token": {
+						"type": "string",
+						"title": "Token",
+						"default_jsonpath": "$.auth.access_token"
+					}
+				},
+				"additionalProperties": false
+			},
+			"excludeGlobalProperties": [],
+			"outputSchema": {
+				"type": "object",
+				"properties": {},
+				"$schema": "http://json-schema.org/draft-04/schema#",
+				"required": [],
+				"advanced": [],
+				"additionalProperties": false
+			},
+			"replySchema": null,
+			"delivery": "fire_and_forget",
+			"authScopes": [],
+			"model": {
+				"type": "object",
+				"value": {
+					"method": {
+						"type": "string",
+						"value": "post"
+					},
+					"headers": {
+						"type": "array",
+						"value": []
+					},
+					"notExpects": {
+						"type": "string"
+					},
+					"afterSuccess": {
+						"type": "function"
+					},
+					"query": {
+						"type": "array",
+						"value": []
+					},
+					"data": {
+						"type": "object",
+						"value": {
+							"Test": {
+								"value": "{{access_token}}",
+								"type": "string",
+								"metadata": {}
+							}
+						}
+					},
+					"afterFailure": {
+						"type": "function"
+					},
+					"url": {
+						"type": "string",
+						"value": "{{url}}"
+					},
+					"beforeRequest": {
+						"type": "function"
+					},
+					"expects": {
+						"type": "string"
+					},
+					"options": {
+						"type": "object",
+						"value": {}
+					},
+					"before": {
+						"type": "function"
+					}
+				}
+			},
+			"subOperations": {}
+		}
+	]
+}
