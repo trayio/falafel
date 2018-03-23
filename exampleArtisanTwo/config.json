@@ -217,7 +217,12 @@
 					},
 					"options": {
 						"type": "object",
-						"value": {}
+						"value": {
+							"read_timeout": {
+								"type": "number",
+								"value": 0
+							}
+						}
 					},
 					"before": {
 						"type": "function"
