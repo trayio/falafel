@@ -1,6 +1,6 @@
 {
   "name": "@trayio/falafel",
-  "version": "1.9.7",
+  "version": "1.9.8",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
