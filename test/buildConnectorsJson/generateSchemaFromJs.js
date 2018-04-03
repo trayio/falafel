@@ -84,6 +84,56 @@ describe('#generateSchemaFromJs', function () {
 		assert.equal(output.properties.age.title, 'Age');
 	});
 
+	it('should accept minimum/maximum for type integer/number', function () {
+		var output = generateSchemaFromJs({
+			val: {
+				type: 'number',
+				minimum: -10,
+				maximum: 100.1
+			}
+		});
+		assert.equal(output.properties.val.minimum, -10);
+		assert.equal(output.properties.val.maximum, 100.1);
+
+		var output2 = generateSchemaFromJs({
+			val: {
+				type: 'integer',
+				minimum: 0,
+				maximum: 130
+			}
+		});
+		assert.equal(output2.properties.val.minimum, 0);
+		assert.equal(output2.properties.val.maximum, 130);
+
+		var output3 = generateSchemaFromJs({
+			val: {
+				type: 'integer',
+				minimum: 0
+			}
+		});
+		assert.equal(output3.properties.val.minimum, 0);
+		assert.ok(_.isUndefined(output3.properties.val.maximum));
+
+		var output4 = generateSchemaFromJs({
+			val: {
+				type: 'integer',
+				maximum: 100
+			}
+		});
+		assert.ok(_.isUndefined(output4.properties.val.minimum));
+		assert.equal(output4.properties.val.maximum, 100);
+
+		var output5 = generateSchemaFromJs({
+			val: {
+				type: 'integer',
+				minimum: 'abc',
+				maximum: 'xyz'
+			}
+		});
+		assert.ok(_.isUndefined(output5.properties.val.minimum));
+		assert.ok(_.isUndefined(output5.properties.val.maximum));
+	});
+
 	it('should handle default json path', function () {
 		var output = generateSchemaFromJs({
 			name: {
@@ -290,7 +340,7 @@ describe('#generateSchemaFromJs', function () {
 				]
 			}
 		});
-		
+
 		assert.equal(_.isArray(output.properties.data.items), true);
 	});
 
