@@ -50,12 +50,14 @@
             "start": {
               "type": "number",
               "description": "Pagination start",
-              "title": "Start"
+              "title": "Start",
+              "minimum": 0
             },
             "limit": {
               "type": "number",
               "description": "Items shown per page",
-              "title": "Limit"
+              "title": "Limit",
+              "maximum": 1000
             },
             "sort": {
               "type": "string",
