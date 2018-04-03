@@ -14,12 +14,14 @@ module.exports = {
 
     start: {
       type: 'number',
-      description: 'Pagination start'
+      description: 'Pagination start',
+      minimum: 0
     },
 
     limit: {
       type: 'number',
       description: 'Items shown per page',
+      maximum: 1000
     },
 
     sort: {
