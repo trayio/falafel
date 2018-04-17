@@ -1,10 +1,7 @@
-
 module.exports = {
 
-  method: 'get',
+	method: 'get',
 
-  url: 'test',
+	url: 'https://trayio-request-bin.herokuapp.com/z9m2iqz9',
 
-
-
-}
+};
