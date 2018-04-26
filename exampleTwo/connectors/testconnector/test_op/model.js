@@ -10,7 +10,7 @@ module.exports = {
 		}
 	},
 
-	afterHeader: function (headers, params, body, res) {
+	afterHeaders: function (headers, params, body, res) {
 		return ( params.flag2 ? { test: null } : null );
 	}
 

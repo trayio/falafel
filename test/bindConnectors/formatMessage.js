@@ -11,7 +11,7 @@ describe('#formatMessage', function () {
 				id: '123-456',
 			},
 			response: {
-				header: {},
+				headers: {},
 				body: {
 					testing: true
 				}
@@ -37,7 +37,7 @@ describe('#formatMessage', function () {
 				id: '123-456',
 			},
 			response: {
-				header: {
+				headers: {
 					metadata: true
 				},
 				body: {
@@ -67,7 +67,7 @@ describe('#formatMessage', function () {
 				id: '123-456',
 			},
 			response: {
-				header: {},
+				headers: {},
 				body: {
 					testing: true
 				}
