@@ -17,7 +17,7 @@ module.exports = {
 	},
 
 	afterHeaders: function (error, params, body, res) {
-		return ( params.flag2 ? { test: null } : null );
+		return ( params.flag2 ? { test: null, error: 'blah' } : null );
 	}
 
 };
