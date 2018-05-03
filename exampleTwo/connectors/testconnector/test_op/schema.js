@@ -1,11 +1,10 @@
-
 module.exports = {
 
-  title: 'Test operation',
+	title: 'Test operation',
 
-  globals: false,
+	globals: false,
 
-  input: {
+	input: {
 
 		basic_auth: {
 			type: 'object',
@@ -48,16 +47,13 @@ module.exports = {
 				{
 					text: 'Any',
 					value: true
-				},
-				{
+				}, {
 					text: 'JSON only',
 					value: 'json'
-				},
-				{
+				}, {
 					text: 'XML only',
 					value: 'xml'
-				},
-				{
+				}, {
 					text: 'None',
 					value: false
 				}
@@ -67,118 +63,118 @@ module.exports = {
 		},
 
 		body_type: {
-    		title: 'Body Type',
-    		type: 'object',
-    		additionalProperties: false,
-    		oneOf: [
+			title: 'Body Type',
+			type: 'object',
+			additionalProperties: false,
+			oneOf: [
 
-    			{
-    				title: 'raw',
-    				type: 'object',
-    				additionalProperties: false,
-    				properties: {
-    					id: {
-    						type: 'string',
-    						default: 'raw',
-    						format: 'hidden'
-    					},
-    					content: {
-    						type: 'string',
-    						title: 'raw',
-    						format: 'code'
-    					}
-    				}
-    			},
+				{
+					title: 'raw',
+					type: 'object',
+					additionalProperties: false,
+					properties: {
+						id: {
+							type: 'string',
+							default: 'raw',
+							format: 'hidden'
+						},
+						content: {
+							type: 'string',
+							title: 'raw',
+							format: 'code'
+						}
+					}
+				},
 
-    			{
-    				title: 'form-data',
-    				type: 'object',
-    				additionalProperties: false,
-    				properties: {
-    					id: {
-    						type: 'string',
-    						default: 'form-data',
-    						format: 'hidden'
-    					},
-    					content: {
-    						type: 'array',
-    						title: 'form-data',
-    						items: {
-    							oneOf: [
+				{
+					title: 'form-data',
+					type: 'object',
+					additionalProperties: false,
+					properties: {
+						id: {
+							type: 'string',
+							default: 'form-data',
+							format: 'hidden'
+						},
+						content: {
+							type: 'array',
+							title: 'form-data',
+							items: {
+								oneOf: [
 
-    								{
-    									title: 'text',
-    									type: 'object',
-    									properties: {
-    										key: {
-    											type: 'string'
-    										},
-    										value: {
-    											type: 'string'
-    										}
-    									}
-    								},
+									{
+										title: 'text',
+										type: 'object',
+										properties: {
+											key: {
+												type: 'string'
+											},
+											value: {
+												type: 'string'
+											}
+										}
+									},
 
-    								{
-    									title: 'file',
-    									format: 'file',
-    									type: 'object',
-    									properties: {
-    										key: {
-    											type: 'string'
-    										},
-    										value: {
-    											type: 'object'
-    										}
-    									}
-    								}
+									{
+										title: 'file',
+										format: 'file',
+										type: 'object',
+										properties: {
+											key: {
+												type: 'string'
+											},
+											value: {
+												type: 'object'
+											}
+										}
+									}
 
-    							]
-    						}
-    					}
-    				}
-    			},
+								]
+							}
+						}
+					}
+				},
 
-    			{
-    				title: 'form-urlencoded',
-    				type: 'object',
-    				additionalProperties: false,
-    				properties: {
-    					id: {
-    						type: 'string',
-    						default: 'form-urlencoded',
-    						format: 'hidden'
-    					},
-    					content: {
-    						type: 'object',
-    						title: 'form-urlencoded',
-    						additionalProperties: true
-    					}
-    				}
-    			},
+				{
+					title: 'form-urlencoded',
+					type: 'object',
+					additionalProperties: false,
+					properties: {
+						id: {
+							type: 'string',
+							default: 'form-urlencoded',
+							format: 'hidden'
+						},
+						content: {
+							type: 'object',
+							title: 'form-urlencoded',
+							additionalProperties: true
+						}
+					}
+				},
 
-    			{
-    				title: 'binary',
-    				type: 'object',
-    				additionalProperties: false,
-    				properties: {
-    					id: {
-    						type: 'string',
-    						default: 'binary',
-    						format: 'hidden'
-    					},
-    					content: {
-    						type: 'object',
-    						title: 'binary',
-    						format: 'file'
-    					}
-    				}
-    			}
+				{
+					title: 'binary',
+					type: 'object',
+					additionalProperties: false,
+					properties: {
+						id: {
+							type: 'string',
+							default: 'binary',
+							format: 'hidden'
+						},
+						content: {
+							type: 'object',
+							title: 'binary',
+							format: 'file'
+						}
+					}
+				}
 
-    		]
-    	}
+			]
+		}
 
 	},
 
 
-}
+};

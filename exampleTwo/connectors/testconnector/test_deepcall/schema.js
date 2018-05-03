@@ -1,14 +1,13 @@
 
 module.exports = {
 
-	title: 'Test operation',
+	title: 'Test operation 3',
 
 	input: {
 
 		test: {
 			type: 'string',
-			default: 'Hello world',
-			required: true
+			default: 'Hello world'
 		},
 
 	},

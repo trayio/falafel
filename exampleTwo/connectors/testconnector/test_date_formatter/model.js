@@ -1,5 +1,5 @@
 module.exports = function (input) {
 
-  return when.resolve(input)
+    return when.resolve(input);
 
 };
