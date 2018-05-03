@@ -3,7 +3,12 @@ module.exports = function (input) {
 	console.log(input);
 	return when.promise(function (resolve, reject) {
 
-		falafel.testconnector.testDateFormatter(input)
+		falafel.testconnector.testDateFormatter(_.assign(
+			input,
+			{
+				deep: true
+			}
+		))
 
 		.done(
 			function (res) {
