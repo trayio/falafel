@@ -1,5 +1,4 @@
-module.exports = function () {
-	return when.promise(function (resolve, reject) {
-		return resolve('Hello');
-	});
+module.exports = function (params) {
+	console.log('calling');
+	return falafel.testconnector.testOp3(params);
 };
