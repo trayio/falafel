@@ -1,10 +1,10 @@
 
 module.exports = {
 
-  method: 'get',
+	method: 'get',
 
-  url: 'test',
+	url: 'test',
 
 
 
-}
+};
