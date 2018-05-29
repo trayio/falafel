@@ -108,6 +108,54 @@ describe.only('#bindTrigger', function () {
 
 	});
 
+	it('should return code #trigger_ignore on filter false', function (done) {
+		this.slow(1200);
+
+		var requestFunc = bindTriggerRequest(
+			{
+				request: {
+					filter: function () {
+						return when.promise(function (resolve) {
+							setTimeout(function () {
+								resolve(false);
+							}, 1000);
+						});
+					}
+				}
+			},
+			devOptions
+		);
+
+		requestFunc({
+			body: {
+				input: {},
+				http: {
+					headers: {},
+					body: '{}'
+				}
+			}
+		})
+
+		.done(
+			function (response) {
+				assert.fail(response);
+				done();
+			},
+			function (err) {
+				assert.deepEqual(
+					err,
+					{
+						code: '#trigger_ignore',
+						message: 'Ignore this request.'
+					}
+				);
+				done();
+			}
+		);
+
+	});
+
+
 	it('should allow filter to be a promise', function (done) {
 		this.slow(1200);
 
