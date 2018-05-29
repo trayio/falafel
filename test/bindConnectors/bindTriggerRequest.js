@@ -4,7 +4,7 @@ var when		= require('when');
 
 var bindTriggerRequest = require('../../lib/bindConnectors/bindTriggerRequest');
 
-describe.only('#bindTrigger', function () {
+describe('#bindTrigger', function () {
 
 	var devOptions = {
 		dev: true
