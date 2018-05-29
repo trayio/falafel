@@ -109,6 +109,7 @@ describe.only('#bindTrigger', function () {
 	});
 
 	it('should allow filter to be a promise', function (done) {
+		this.slow(1200);
 
 		var requestFunc = bindTriggerRequest(
 			{
@@ -159,6 +160,7 @@ describe.only('#bindTrigger', function () {
 	});
 
 	it('should allow before to be a promise', function (done) {
+		this.slow(1200);
 
 		var returnBody = { test: 123 };
 
@@ -211,6 +213,7 @@ describe.only('#bindTrigger', function () {
 	});
 
 	it('should allow reply to be a promise', function (done) {
+		this.slow(1200);
 
 		var returnBody = { test: 123 };
 
