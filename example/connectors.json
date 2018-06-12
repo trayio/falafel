@@ -175,7 +175,10 @@
                     "type": "null"
                   },
                   "files_count": {
-                    "type": "null"
+                    "type": [
+                      "null",
+                      "number"
+                    ]
                   },
                   "notes_count": {
                     "type": "number"
@@ -267,7 +270,10 @@
                     "type": "null"
                   },
                   "9c2a50010305f0c37f8b6761c0c5a33fe38ebf13": {
-                    "type": "null"
+                    "type": [
+                      "null",
+                      "string"
+                    ]
                   },
                   "last_incoming_mail_time": {
                     "type": "null"
@@ -276,7 +282,10 @@
                     "type": "null"
                   },
                   "org_name": {
-                    "type": "string"
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   },
                   "owner_name": {
                     "type": "string"

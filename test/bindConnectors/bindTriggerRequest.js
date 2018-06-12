@@ -91,6 +91,7 @@ describe('#bindTrigger', function () {
 					response,
 					{
 						version: 2,
+						headers: {},
 						body: {
 							output: '{}',
 							http: undefined
@@ -143,7 +144,7 @@ describe('#bindTrigger', function () {
 			},
 			function (err) {
 				assert.deepEqual(
-					err,
+					err.body,
 					{
 						code: '#trigger_ignore',
 						message: 'Ignore this request.'
@@ -190,6 +191,7 @@ describe('#bindTrigger', function () {
 					response,
 					{
 						version: 2,
+						headers: {},
 						body: {
 							output: '{}',
 							http: undefined
@@ -243,6 +245,7 @@ describe('#bindTrigger', function () {
 					response,
 					{
 						version: 2,
+						headers: {},
 						body: {
 							output: returnBody,
 							http: undefined
@@ -298,6 +301,7 @@ describe('#bindTrigger', function () {
 					response,
 					{
 						version: 2,
+						headers: {},
 						body: {
 							output: '{}',
 							http: {
