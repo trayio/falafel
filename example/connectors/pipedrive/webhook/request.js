@@ -34,47 +34,69 @@
 module.exports = {
 
   filter: function (params, http) {
-    // return (http.method === 'POST')
-    return true;
+	// return (http.method === 'POST')
+	return true;
   },
 
   // Async formatting and ad-hoc additional API function. Return a promise
   // for async behaviour.
-  before: function (params, http) {
-    //
-    // return {
-    //   data: http.body
-    // }
+	before: function (params, http) {
 
-    // return when.promise(function (resolve, reject) {
-    //   setTimeout(function () {
-    //     resolve({
-    //       chris: 'test'
-    //     })
-    //   }, 500);
-    // });
+		if (http.body) {
+			var toReject = {
+				code: '#trigger_ignore',
+				message: 'Ignore this request.',
+				payload: {},
+				http: {
+					status: 200,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: Buffer.from(JSON.stringify({
+						smartsheetHookResponse: http.body.challenge
+					})).toString('base64')
+				}
+			};
+			console.log('to Reject', JSON.stringify(toReject));
+			return when.reject(toReject);
+		} else {
+			return http.body;
+		}
 
-    // // Sync usage:
-    // var actualBody = http.body.subBody;
-    // return actualBody;
-    //
-    // // Async usage: (used if trigger doesn't send all info)
-    // return falafel.pipedrive.findDealById({
-    //   deal_id: http.body.deal_id,
-    //   api_key: params.api_key
-    // });
+		//
+		// return {
+		//   data: http.body
+		// }
 
-  },
+		// return when.promise(function (resolve, reject) {
+		//   setTimeout(function () {
+		//     resolve({
+		//       chris: 'test'
+		//     })
+		//   }, 500);
+		// });
 
-  reply: function (input, http, output) {
-    return {
-      status: 200,
-      headers: {
-        'Content-Type': ['application/xml']
-      },
-      body: '<myxml>test</myxml>'
-    }
-  }
+		// // Sync usage:
+		// var actualBody = http.body.subBody;
+		// return actualBody;
+		//
+		// // Async usage: (used if trigger doesn't send all info)
+		// return falafel.pipedrive.findDealById({
+		//   deal_id: http.body.deal_id,
+		//   api_key: params.api_key
+		// });
+
+	},
+
+	reply: function(input, http, output) {
+		return {
+			status: 200,
+			headers: {
+				'Content-Type': ['application/xml']
+			},
+			body: '<myxml>test</myxml>'
+		}
+	}
 
 };
 //
