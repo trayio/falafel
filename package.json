@@ -1,10 +1,6 @@
 {
   "name": "@trayio/falafel",
-<<<<<<< HEAD
   "version": "1.12.0",
-=======
-  "version": "1.11.3",
->>>>>>> master
   "description": "",
   "main": "lib/index.js",
   "scripts": {
