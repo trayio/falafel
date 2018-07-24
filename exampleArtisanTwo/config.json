@@ -225,9 +225,71 @@
 						}
 					},
 					"before": {
-						"type": "function"
+						"type": "function",
+						"value": "function(input){ ... return input; }"
 					}
 				}
+			},
+			"subOperations": {}
+		},
+		{
+			"name": "test_function",
+			"title": "Test func",
+			"description": "",
+			"type": "public",
+			"isDefault": false,
+			"timeout": 0,
+			"isDynamicOutput": false,
+			"branches": [],
+			"branchTemplate": "none",
+			"inputSchema": {
+				"type": "object",
+				"properties": {
+					"url": {
+						"title": "URL",
+						"type": "string"
+					}
+				},
+				"additionalProperties": false,
+				"$schema": "http://json-schema.org/draft-04/schema#",
+				"required": [
+					"url"
+				],
+				"advanced": []
+			},
+			"globalSchema": {
+				"type": "object",
+				"$schema": "http://json-schema.org/draft-04/schema#",
+				"advanced": [
+					"access_token"
+				],
+				"required": [
+					"access_token"
+				],
+				"properties": {
+					"access_token": {
+						"type": "string",
+						"title": "Token",
+						"default_jsonpath": "$.auth.access_token"
+					}
+				},
+				"additionalProperties": false
+			},
+			"excludeGlobalProperties": [],
+			"outputSchema": {
+				"type": "object",
+				"properties": {},
+				"$schema": "http://json-schema.org/draft-04/schema#",
+				"required": [],
+				"advanced": [],
+				"additionalProperties": false
+			},
+			"replySchema": null,
+			"delivery": "fire_and_forget",
+			"authScopes": [],
+			"model": {
+				"type": "function",
+				"value": "function(input){ ... return input; }"
 			},
 			"subOperations": {}
 		}
