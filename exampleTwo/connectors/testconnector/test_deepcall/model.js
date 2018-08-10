@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 module.exports = function (input) {
 	console.log(input);
 	return when.promise(function (resolve, reject) {

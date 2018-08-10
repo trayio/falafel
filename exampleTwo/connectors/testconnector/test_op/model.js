@@ -10,6 +10,8 @@ module.exports = {
 		}
 	},
 
+	expects: 200,
+
 	afterSuccess: function (body, params,  res) {
 		if (params.flag3) {
 			throw new Error('afterSuccess Error');
