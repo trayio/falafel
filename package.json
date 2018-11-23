@@ -1,6 +1,6 @@
 {
   "name": "@trayio/falafel",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "when": "^3.7.8"
   },
   "devDependencies": {
+    "aws-sdk": "^2.361.0",
     "body-parser": "^1.18.3",
     "eslint": "^4.19.1",
     "express": "^4.16.4",
