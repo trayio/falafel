@@ -276,37 +276,40 @@ This can be declared like so:
 ```js
 module.exports = {
 
-  // Filter function to determine whether the request should result
-  // in a workflow being triggered. If you want to pass all http requests
-  // to the connector then just return true here.
-  // NOTE: this is a sync-only method and does not accept promises.
-  filter: function (params, http) {
-    return (http.method === 'POST');
-  },
+	// Filter function to determine whether the request should result
+	// in a workflow being triggered. If you want to pass all http requests
+	// to the connector then just return true here.
+	// NOTE: this is a sync-only method and does not accept promises.
+	filter: function(params, http) {
+		return (http.method === 'POST');
+	},
 
-  // Async formatting and ad-hoc additional API function. Return a promise
-  // for async behaviour.
-  before: function (params, http) {
-    return {
-      data: http.body
-    };
-  },
+	// Async formatting and ad-hoc additional API function. Return a promise
+	// for async behaviour.
+	before: function(params, http) {
+		return {
+			data: http.body
+		};
+	},
 
-  // If you'd like to respond to the HTTP message from the third party because
-  // they're expecting a response (Salesforce notification), then also add a reply
-  // method here, passing a `http` object.
-  // NOTE: this is a sync-only method and does not accept promises.
-  reply: function (params, http, output) {
-    return {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/xml'
-      },
-      body: '<myxml>test</myxml>'
-    }
-  }
+	// If you'd like to respond to the HTTP message from the third party because
+	// they're expecting a response (Salesforce notification), then also add a reply
+	// method here, passing a `http` object.
+	reply: function(params, http, output) {
+		return {
+			status: 200,
+			headers: {
+				'Content-Type': 'application/xml'
+			},
+			body: '<myxml>test</myxml>'
+		}
+	},
 
-
+	// Use this function to set `trigger_deduplication_id` in the headers if
+	// there is a need to know the unique ID of the webhook being processed
+	getUniqueTriggerID: function (params, http, output) {
+		return http['uniqueWebhookID'];
+	}
 
 };
 ```
