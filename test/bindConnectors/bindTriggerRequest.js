@@ -321,4 +321,280 @@ describe('#bindTrigger', function () {
 
 	});
 
+
+	it('should set trigger_deduplication_id when getUniqueTriggerID returns a valid string', function (done) {
+		this.slow(1200);
+
+		var returnBody = { test: 123 };
+
+		var requestFunc = bindTriggerRequest(
+			{
+				request: {
+					reply: function () {
+						return {
+							body: returnBody
+						};
+					},
+					getUniqueTriggerID: function () {
+						return '123';
+					}
+				}
+			},
+			devOptions
+		);
+
+		requestFunc({
+			body: {
+				input: {},
+				http: {
+					headers: {},
+					body: '{}'
+				}
+			}
+		})
+
+		.done(
+			function (response) {
+				assert.deepEqual(
+					response,
+					{
+						version: 2,
+						headers: {
+							trigger_deduplication_id: '123'
+						},
+						body: {
+							output: '{}',
+							http: {
+								body: new Buffer(JSON.stringify(returnBody)).toString('base64')
+							}
+						}
+					}
+				);
+
+				done();
+			},
+			function (err) {
+				assert.fail(err);
+				done();
+			}
+		);
+
+	});
+
+	it('should set trigger_deduplication_id when getUniqueTriggerID returns a valid number', function (done) {
+		this.slow(1200);
+
+		var returnBody = { test: 123 };
+
+		var requestFunc = bindTriggerRequest(
+			{
+				request: {
+					reply: function () {
+						return {
+							body: returnBody
+						};
+					},
+					getUniqueTriggerID: function () {
+						return 123;
+					}
+				}
+			},
+			devOptions
+		);
+
+		requestFunc({
+			body: {
+				input: {},
+				http: {
+					headers: {},
+					body: '{}'
+				}
+			}
+		})
+
+		.done(
+			function (response) {
+				assert.deepEqual(
+					response,
+					{
+						version: 2,
+						headers: {
+							trigger_deduplication_id: 123
+						},
+						body: {
+							output: '{}',
+							http: {
+								body: new Buffer(JSON.stringify(returnBody)).toString('base64')
+							}
+						}
+					}
+				);
+
+				done();
+			},
+			function (err) {
+				assert.fail(err);
+				done();
+			}
+		);
+
+	});
+
+	it('should set trigger_deduplication_id when getUniqueTriggerID returns a valid value as a promise', function (done) {
+		this.slow(1200);
+
+		var returnBody = { test: 123 };
+
+		var requestFunc = bindTriggerRequest(
+			{
+				request: {
+					reply: function () {
+						return {
+							body: returnBody
+						};
+					},
+					getUniqueTriggerID: function () {
+						return when.resolve('123');
+					}
+				}
+			},
+			devOptions
+		);
+
+		requestFunc({
+			body: {
+				input: {},
+				http: {
+					headers: {},
+					body: '{}'
+				}
+			}
+		})
+
+		.done(
+			function (response) {
+				assert.deepEqual(
+					response,
+					{
+						version: 2,
+						headers: {
+							trigger_deduplication_id: '123'
+						},
+						body: {
+							output: '{}',
+							http: {
+								body: new Buffer(JSON.stringify(returnBody)).toString('base64')
+							}
+						}
+					}
+				);
+
+				done();
+			},
+			function (err) {
+				assert.fail(err);
+				done();
+			}
+		);
+
+	});
+
+	it('should error when getUniqueTriggerID is an invalid value', function (done) {
+		this.slow(1200);
+
+		var returnBody = { test: 123 };
+
+		var requestFunc = bindTriggerRequest(
+			{
+				request: {
+					reply: function () {
+						return {
+							body: returnBody
+						};
+					},
+					getUniqueTriggerID: function () {
+						return null;
+					}
+				}
+			},
+			devOptions
+		);
+
+		requestFunc({
+			body: {
+				input: {},
+				http: {
+					headers: {},
+					body: '{}'
+				}
+			}
+		})
+
+		.done(
+			function (response) {
+				assert.fail(response);
+				done();
+			},
+			function (err) {
+				assert.deepEqual(
+					{
+						headers: {},
+						body: {
+							code: '#connector_error',
+							message: 'The result of getUniqueTriggerID is not a string or number.',
+							payload: null
+						}
+					},
+					err
+				);
+				done();
+			}
+		);
+
+	});
+
+	it('should error when getUniqueTriggerID rejects', function (done) {
+		this.slow(1200);
+
+		var returnBody = { test: 123 };
+
+		var requestFunc = bindTriggerRequest(
+			{
+				request: {
+					reply: function () {
+						return {
+							body: returnBody
+						};
+					},
+					getUniqueTriggerID: function () {
+						return when.reject('getUniqueTriggerID error');
+					}
+				}
+			},
+			devOptions
+		);
+
+		requestFunc({
+			body: {
+				input: {},
+				http: {
+					headers: {},
+					body: '{}'
+				}
+			}
+		})
+
+		.done(
+			function (response) {
+				assert.fail(response);
+				done();
+			},
+			function (err) {
+				assert.deepEqual(err.body, 'getUniqueTriggerID error');
+				done();
+			}
+		);
+
+	});
+
 });
