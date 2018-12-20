@@ -250,6 +250,23 @@ connectors/
     global_schema.js (optional)
 ```
 
+### Delivery mode
+
+Delivery mode controls how the tray platform processes responses to incoming webhooks.
+
+In the schema, on top-level (so next to title, etcs), you can set the delivery field, e.g.:
+```
+delivery: 'acknowledge',
+```
+
+It's optional. If not set, the value will default to `fire_and_forget`.
+
+In most cases, the behaviour will be as follows:
+- `fire_and_forget` - the backend will immediately respond to the webhook with status: 200, even before going through the connector code;
+- `acknowledge` - the backend will invoke the connector first, so the connector can control the response to the webhook;
+- `request_response` - the backend will only allow the workflow itself to respond (using special Trigger-Reply step)
+
+*You must use the `acknowledge` mode if you want to control the reply to the caller, via the `response.js` file or the `reply` function*
 
 ### Init (`message`)
 
