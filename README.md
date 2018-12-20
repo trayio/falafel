@@ -266,7 +266,7 @@ In most cases, the behaviour will be as follows:
 - `acknowledge` - the backend will invoke the connector first, so the connector can control the response to the webhook;
 - `request_response` - the backend will only allow the workflow itself to respond (using special Trigger-Reply step)
 
-*You must use the `acknowledge` mode if you want to control the reply to the caller, via the `response.js` file or the `reply` function*
+**You must use the `acknowledge` mode if you want to control the reply to the caller, via the `response.js` file or the `reply` function**
 
 ### Init (`message`)
 
