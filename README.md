@@ -232,7 +232,7 @@ folder also needs to contain:
 
 * `destroy.js` - a file to remove the webhook created, if any (`message_destroy`)
 * `request.js` - a file to handle incoming HTTP triggers (`message_request`)
-* `response.js` - a file to format and handle the reply from a workflow to the connector (`message_response`). Only required if your connector is request/response.
+* `response.js` - a file to format and handle the reply from a workflow to the connector (`message_response`). Only required if your connector is *acknowledge* (see below for explaination).
 
 
 ```
@@ -349,7 +349,7 @@ module.exports = function (params, http) {
 
 ### Response (`message_response`)
 
-This file handles the formatting of the response to the connector for a request/response
+This file handles the formatting of the response to the connector for an *acknowledge*
 trigger. The output from this message will be sent in the response back to the third party service.
 
 The formatting is a simple & functional one:
