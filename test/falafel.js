@@ -19,9 +19,9 @@ describe('falafel', function () {
 			directory: __dirname+'/sample'
 		});
 
-		assert(_.isObject(GLOBAL.falafel));
-		assert(GLOBAL._);
-		assert(GLOBAL.when);
+		assert(_.isObject(global.falafel));
+		assert(global._);
+		assert(global.when);
 	});
 
 	it('should create the connectors.json in dev mode', function () {
