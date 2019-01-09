@@ -33,6 +33,27 @@ describe.only('#bindConnectors', function () {
 				model: function (params) {
 					return when.resolve(params);
 				},
+			},
+			{
+				name: 'test_fail_op',
+				schema: {
+					name: 'test_fail_op'
+				},
+				model: function (params) {
+					throw new Error('Throw error.');
+				},
+			},
+			{
+				name: 'test_fail_op_promise',
+				schema: {
+					name: 'test_fail_op_promise'
+				},
+				model: function (params) {
+					return when.reject({
+						code: '#connector_error',
+						message: 'Reject error'
+					});
+				},
 			}
 		]
 
@@ -62,8 +83,8 @@ describe.only('#bindConnectors', function () {
 					assert.fail(err);
 				} else {
 					assert.deepEqual(resArr[0].body, { hello: 'world' });
-					done();
 				}
+				done();
 			}
 		);
 
@@ -91,14 +112,81 @@ describe.only('#bindConnectors', function () {
 					assert.fail(err);
 				} else {
 					assert.deepEqual(resArr[0].body, { hello: 'world' });
-					done();
 				}
+				done();
+			}
+		);
+
+	});
+
+	it('should operation fail simple function operation run erring', function (done) {
+
+		boundConnectors(
+			[
+				{
+					id: 'testID',
+					header: {
+						message: 'test_fail_op'
+					},
+					body: {
+						hello: 'world'
+					}
+				}
+			],
+			{
+
+			},
+			function (err, resArr) {
+				if (err) {
+					assert.fail(resArr);
+				} else {
+					assert(resArr[0].header.error);
+					assert.deepEqual(resArr[0].body.message, 'Throw error.');
+				}
+				done();
+			}
+		);
+
+	});
+
+	it('should operation fail simple promise function operation run rejecting', function (done) {
+
+		boundConnectors(
+			[
+				{
+					id: 'testID',
+					header: {
+						message: 'test_fail_op_promise'
+					},
+					body: {
+						hello: 'world'
+					}
+				}
+			],
+			{
+
+			},
+			function (err, resArr) {
+				if (err) {
+					assert.fail(resArr);
+				} else {
+					assert(resArr[0].header.error);
+					assert.deepEqual(
+						resArr[0].body,
+						{
+							code: '#connector_error',
+							message: 'Reject error'
+						}
+					);
+				}
+				done();
 			}
 		);
 
 	});
 
 
+	//Timeout tests
 	var timeoutConnectors = bindConnectors(
 		[
 			{
@@ -168,8 +256,8 @@ describe.only('#bindConnectors', function () {
 					assert.fail(err);
 				} else {
 					assert.deepEqual(resArr[0].body, { hello: 'world' });
-					done();
 				}
+				done();
 			}
 		);
 
@@ -197,14 +285,14 @@ describe.only('#bindConnectors', function () {
 					assert.fail(err);
 				} else {
 					assert.deepEqual(resArr[0].body, { hello: 'world' });
-					done();
 				}
+				done();
 			}
 		);
 
 	});
 
-	it('should return timeout error for operation not ending within time limit', function (done) {
+	it('should error on lambda function level for operation not ending within time limit', function (done) {
 
 		this.timeout(25000);
 
