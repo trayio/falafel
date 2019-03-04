@@ -100,6 +100,19 @@
         "dynamic_output": false
       },
       {
+        "name": "test_op_function",
+        "title": "Test function operation",
+        "input_schema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "advanced": [],
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "additionalProperties": false
+        },
+        "dynamic_output": false
+      },
+      {
         "name": "test_op",
         "title": "Test operation",
         "input_schema": {

@@ -6,11 +6,11 @@ var proxyquire = require('proxyquire');
 describe('#bindHelpers', function () {
 
 	beforeEach(function () {
-		GLOBAL.falafel = {};
+		global.falafel = {};
 	});
 
 	afterEach(function () {
-		delete GLOBAL.falafel;
+		delete global.falafel;
 	});
 
 	it('should bind helpers if the directory exists', function () {
@@ -40,7 +40,7 @@ describe('#bindHelpers', function () {
 		var requiredIn = false;
 
 		var bindHelpers = proxyquire('../../lib/bindHelpers', {
-			'./utils/getDirectories': function () {
+			'../utils/getDirectories': function () {
 				return [];
 			},
 			'../utils/requireAll': function () {
