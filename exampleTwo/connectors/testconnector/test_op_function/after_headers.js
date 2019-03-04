@@ -1,8 +1,7 @@
-module.exports = function (error, params, body, res) {
+module.exports = function (error, params, body) {
 	return (
 		params.ahFlag ?
-		when.resolve([]) :
-		// when.resolve({ gotHeader: true, modelError: !!error }) :
+		when.resolve({ gotHeader: true, modelError: !!error }) :
 		when.reject(new Error('Failed afterHeader'))
 	);
 };

@@ -13,6 +13,7 @@ as on the operational level.
 * [Project structuring](#project-structuring)
   * [Schema](#schema)
   * [Model](#model)
+  	* [after_headers](#after_headers)
   * [Sample response](#sample-response)
 * [Global models](#global-models)
 * [Global message schemas](#global-message-schemas)
@@ -152,6 +153,13 @@ module.exports = {
 
 Variables passed in the input schema will be passed into a Mustache template system.
 
+#### after_headers
+For function models (only), the afterHeaders function can be specified in a `after_headers.js` file, exporting a function accepting the arguments `error`, `body`, and `params`.
+```js
+module.exports = function (error, params, body) {
+	return {...};
+};
+```
 
 ### Sample response
 
