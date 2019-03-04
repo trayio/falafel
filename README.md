@@ -158,7 +158,7 @@ For function models (only), the afterHeaders function can be specified in a `aft
 ```js
 module.exports = function (error, params, body) {
 	return {
-		//Must return an object
+	//Must return an object
 	};
 };
 ```
