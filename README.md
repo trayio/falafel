@@ -157,7 +157,9 @@ Variables passed in the input schema will be passed into a Mustache template sys
 For function models (only), the afterHeaders function can be specified in a `after_headers.js` file, exporting a function accepting the arguments `error`, `body`, and `params`.
 ```js
 module.exports = function (error, params, body) {
-	return {...};
+	return {
+		//Must return an object
+	};
 };
 ```
 
