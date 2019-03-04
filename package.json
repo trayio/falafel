@@ -17,14 +17,14 @@
   },
   "homepage": "https://github.com/trayio/falafel#readme",
   "dependencies": {
-    "@trayio/threadneedle": "~1.6.0",
+    "@trayio/threadneedle": "^1.6.1",
     "aws-sdk": "^2.413.0",
     "generate-schema": "^2.6.0",
     "lodash": "^4.17.11",
-    "mime": "^1.6.0",
+    "mime": "^2.4.0",
     "moment": "^2.24.0",
     "mout": "^1.1.0",
-    "needle": "^1.6.0",
+    "needle": "^2.2.4",
     "qs": "^6.6.0",
     "when": "^3.7.8"
   },
@@ -32,10 +32,10 @@
     "body-parser": "^1.18.3",
     "eslint": "^5.15.0",
     "express": "^4.16.4",
-    "grunt": "^0.4.5",
-    "grunt-mocha-test": "^0.12.7",
+    "grunt": "^1.0.3",
+    "grunt-mocha-test": "^0.13.3",
     "mocha": "^5.2.0",
     "mocha-unfunk-reporter": "^0.4.0",
-    "proxyquire": "^1.8.0"
+    "proxyquire": "^2.1.0"
   }
 }
