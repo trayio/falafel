@@ -7,6 +7,7 @@ exampleArtisan
 exampleArtisanTwo
 artisan-example-run*
 legacy-example-run*
+exampleSOAP*
 
 #Test Files
 test
