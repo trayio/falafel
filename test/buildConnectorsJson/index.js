@@ -32,7 +32,7 @@ describe('#buildConnectorsJson', function () {
 			description: 'This is a great connector',
 			customkey: 'This won\'t get added',
 			auth: false
-		}]);
+		}], true);
 
 		assert.strictEqual(JSON.stringify([
 		  {
@@ -59,7 +59,7 @@ describe('#buildConnectorsJson', function () {
 					url: '..'
 				}
 			}]
-		}]);
+		}], true);
 
 		assert.equal(parsed[0].messages.length, 0);
 	});
@@ -80,7 +80,7 @@ describe('#buildConnectorsJson', function () {
 					}
 				}
 			}]
-		}]);
+		}], true);
 
 		assert.equal(parsed[0].messages.length, 0);
 	});
@@ -101,7 +101,7 @@ describe('#buildConnectorsJson', function () {
 					url: '..'
 				}
 			}]
-		}]);
+		}], true);
 
 		assert.equal(parsed[0].messages.length, 1);
 	});
@@ -130,7 +130,7 @@ describe('#buildConnectorsJson', function () {
 				},
 				model: {}
 			}]
-		}]);
+		}], true);
 
 		assert.equal(parsed[0].messages.length, 2);
 														// remember - operations are sorted by title
@@ -161,7 +161,7 @@ describe('#buildConnectorsJson', function () {
 					url: '..'
 				}
 			}]
-		}]);
+		}], true);
 
 		assert(_.isObject(parsed[0].messages[0].output_schema));
 		assert.equal(parsed[0].messages[0].output_schema.properties.result.type, 'integer');
@@ -186,7 +186,7 @@ describe('#buildConnectorsJson', function () {
 					url: '..'
 				}
 			}]
-		}]);
+		}], true);
 
 		assert(_.isObject(parsed[0].messages[0].output_schema));
 		assert.equal(parsed[0].messages[0].output_schema.properties.result.type, 'boolean');
@@ -217,7 +217,7 @@ describe('#buildConnectorsJson', function () {
 					url: '..'
 				}
 			}]
-		}]);
+		}], true);
 
 		assert.equal(_.keys(parsed[0].messages[0].input_schema.properties).length, 2);
 		assert.equal(parsed[0].messages[0].input_schema.properties.api_key.type, 'string');
