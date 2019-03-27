@@ -306,6 +306,4 @@ describe.only('#buildConnectorsJson', function () {
 	//
 	// });
 
-
-
 });
