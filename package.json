@@ -1,6 +1,6 @@
 {
   "name": "@trayio/falafel",
-  "version": "1.16.3",
+  "version": "1.16.4",
   "description": "A framework for developing and running connectors.",
   "main": "lib/index.js",
   "scripts": {
@@ -30,9 +30,9 @@
   },
   "devDependencies": {
     "body-parser": "^1.18.3",
-    "eslint": "^5.15.0",
+    "eslint": "^5.15.3",
     "express": "^4.16.4",
-    "grunt": "^1.0.3",
+    "grunt": "^1.0.4",
     "grunt-mocha-test": "^0.13.3",
     "mocha": "^5.2.0",
     "mocha-unfunk-reporter": "^0.4.0",
