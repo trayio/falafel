@@ -2,16 +2,14 @@ var _ = require('lodash');
 var assert = require('assert');
 var proxyquire = require('proxyquire');
 
-var output,
-	parsed;
+var fileOutput;
 
 var buildConnectorsJson = proxyquire(
 	'../../lib/buildConnectorsJson',
 	{
 		fs: {
 			writeFileSync: function (path, contents) {
-				output = contents;
-				parsed = JSON.parse(output);
+				fileOutput = contents;
 			}
 		}
 	}
@@ -298,12 +296,120 @@ describe.only('#buildConnectorsJson', function () {
 
 	});
 
-	//TODO
-	//Add test for buildConnectorsJson true and check via fs proxy
+	it('should add global auth scopes if not declared on a local level', function () {
 
-	//TODO
-	// it.skip('should add global auth scopes if not declared on a local level', function () {
-	//
-	// });
+		var scopeArray = [ 'test_scope', 'another_scope' ];
+
+		var outputJsonString = buildConnectorsJson('meh', [
+			_.defaults(
+				{
+					globalSchema: {
+						auth_scopes: scopeArray,
+						input: {}
+					},
+					messages: [
+						{
+							name: 'my_message',
+							schema: {
+								input: {
+									name: {
+										type: 'string'
+									}
+								}
+							},
+							model: {
+								url: '..'
+							}
+						}
+					]
+				},
+				exampleConfig
+			)
+		], false);
+
+		var parsedJsonSchema = jsonParse(outputJsonString);
+
+		assert.deepEqual(parsedJsonSchema[0].messages[0].auth_scopes, scopeArray);
+
+	});
+
+	it('should create file is `createFile` is true', function () {
+
+		var inputConfig = _.cloneDeep(exampleConfig);
+
+		var outputJsonString = buildConnectorsJson('meh', [
+			_.defaults(
+				{
+					globalSchema: {
+						input: {
+							api_key: {
+								type: 'string',
+								required: true,
+								advanced: true
+							}
+						}
+					},
+					messages: [
+						{
+							name: 'my_message',
+							schema: {
+								title: 'My Message',
+								input: {
+									name: {
+										type: 'string'
+									}
+								}
+							},
+							model: {
+								url: '..'
+							}
+						}
+					]
+				},
+				exampleConfig
+			)
+		], true);
+
+		var parsedJsonSchema = jsonParse(fileOutput);
+
+		assert.deepEqual(
+			parsedJsonSchema,
+			[
+				_.defaults(
+					{
+						icon: _.pick(inputConfig.icon, [ 'value', 'type' ]),
+						messages: [
+							{
+								title: 'My Message',
+								input_schema: {
+									type: 'object',
+									properties: {
+										api_key: {
+											type: 'string',
+											title: 'Api key'
+										},
+										name: {
+											type: 'string',
+											title: 'Name'
+										}
+									},
+									required: ['api_key'],
+									advanced: ['api_key'],
+									'$schema': 'http://json-schema.org/draft-04/schema#',
+									additionalProperties: false
+								},
+								dynamic_output: false
+							}
+						]
+					},
+					_.pick(
+						inputConfig,
+						[ 'name', 'title', 'description', 'version', 'auth' ]
+					)
+				)
+			]
+		);
+
+	});
 
 });
