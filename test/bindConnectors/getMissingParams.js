@@ -3,7 +3,7 @@ var _ 	        = require('lodash');
 var getMissingParams = require('../../lib/bindConnectors/getMissingParams');
 
 
-describe('#getMissingParams', function () {
+describe.only('#getMissingParams', function () {
 
 	it('should pass - empty array', function () {
 
@@ -51,6 +51,41 @@ describe('#getMissingParams', function () {
 		);
 
 		assert(missingParams.length === 0);
+
+	});
+
+	it('should pass - empty string with emptyRequired true', function () {
+
+		var missingParams1 = getMissingParams(
+			{ test1: '' },
+			{ input: {} },
+			{
+				input: {
+					test1: {
+						type: 'string',
+						required: true
+					}
+				}
+			}
+		);
+
+		assert.equal(missingParams1.length, 1);
+
+		var missingParams2 = getMissingParams(
+			{ test1: '' },
+			{ input: {} },
+			{
+				input: {
+					test1: {
+						type: 'string',
+						required: true,
+						emptyRequired: true
+					}
+				}
+			}
+		);
+
+		assert.equal(missingParams2.length, 0);
 
 	});
 
