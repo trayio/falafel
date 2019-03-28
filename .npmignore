@@ -10,7 +10,9 @@ exampleArtisan
 exampleArtisanTwo
 artisan-example-run*
 legacy-example-run*
+legacy-example-schema-export*
 exampleSOAP*
+runTest
 
 #Test Files
 test
