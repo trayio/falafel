@@ -23,7 +23,7 @@ function jsonParse (jsonString) {
 	return JSON.parse(jsonString);
 }
 
-describe.only('#buildConnectorsJson', function () {
+describe('#buildConnectorsJson', function () {
 
 	var exampleConfig = {
 		name: 'mailchimp',
