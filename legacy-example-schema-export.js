@@ -7,4 +7,4 @@ var jsonSchema = (new Falafel()).generateJsonSchema({
 
 // console.log(require('util').inspect(jsonSchema, { depth: null }));
 
-require('fs').writeFileSync(__dirname + '/runTest/connectors1.json', jsonSchema);
+require('fs').writeFileSync(__dirname + '/runTest/connectors1.json', JSON.stringify(jsonSchema, null, '\t'));
