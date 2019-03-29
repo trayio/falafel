@@ -56,6 +56,75 @@ describe.only('#buildConnectorsJson', function () {
 
 	});
 
+	it('should validate `branches` property', function () {
+
+		var inputConfig = _.cloneDeep(exampleConfig);
+		inputConfig.branches = [
+			{
+				name: 'test',
+				display_name: 'test'
+			},
+			{
+				name: 'hello',
+				display_name: 'world'
+			},
+		];
+
+		var outputJsonString = buildConnectorsJson(null, [inputConfig]);
+
+		assert.deepEqual(
+			_.defaults(
+				{
+					icon: _.pick(inputConfig.icon, [ 'value', 'type' ]),
+					messages: [],
+					branches: [
+						{
+							name: 'test',
+							display_name: 'test'
+						},
+						{
+							name: 'hello',
+							display_name: 'world'
+						},
+					]
+				},
+				_.pick(
+					inputConfig,
+					[ 'name', 'title', 'description', 'version', 'auth' ]
+				)
+			),
+			outputJsonString[0]
+		);
+
+		var invalidInputConfig = _.cloneDeep(exampleConfig);
+		invalidInputConfig.branches = [
+			{
+				name: 'test',
+			},
+			{
+				name: 'hello',
+				display_name: 'world'
+			},
+		];
+
+		try {
+			buildConnectorsJson(null, [invalidInputConfig]);
+		} catch (branchError) {
+			assert.equal(branchError.message, '`branches` must be an array of objects with `name` and `display_name`');
+		}
+
+		try {
+			invalidInputConfig.branches = {};
+			buildConnectorsJson(null, [invalidInputConfig]);
+		} catch (branchError) {
+			assert.equal(branchError.message, '`branches` must be an array of objects with `name` and `display_name`');
+			return;
+		}
+
+		assert.fail('buildConnectorsJson should have thrown an error');
+
+	});
+
 	it('should not add messages without schemas', function () {
 
 		var outputJsonString = buildConnectorsJson(null, [
