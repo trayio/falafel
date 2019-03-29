@@ -19,11 +19,7 @@ function stringifyOutput (expectedJSON) {
 	return JSON.stringify(expectedJSON, null, '\t');
 }
 
-function jsonParse (jsonString) {
-	return JSON.parse(jsonString);
-}
-
-describe('#buildConnectorsJson', function () {
+describe.only('#buildConnectorsJson', function () {
 
 	var exampleConfig = {
 		name: 'mailchimp',
@@ -42,7 +38,7 @@ describe('#buildConnectorsJson', function () {
 
 		var inputConfig = _.cloneDeep(exampleConfig);
 
-		var outputJsonString = buildConnectorsJson('mydir', [inputConfig], false);
+		var outputJsonString = buildConnectorsJson(null, [inputConfig]);
 
 		assert.deepEqual(
 			_.defaults(
@@ -55,14 +51,14 @@ describe('#buildConnectorsJson', function () {
 					[ 'name', 'title', 'description', 'version', 'auth' ]
 				)
 			),
-			jsonParse(outputJsonString)[0]
+			outputJsonString[0]
 		);
 
 	});
 
 	it('should not add messages without schemas', function () {
 
-		var outputJsonString = buildConnectorsJson('meh', [
+		var outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -76,15 +72,15 @@ describe('#buildConnectorsJson', function () {
 				},
 				exampleConfig
 			)
-		], false);
+		]);
 
-		assert.equal(jsonParse(outputJsonString)[0].messages.length, 0);
+		assert.equal(outputJsonString[0].messages.length, 0);
 
 	});
 
 	it('should not add messages which start with \'#\' in their name', function () {
 
-		var outputJsonString = buildConnectorsJson('meh', [
+		var outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -101,15 +97,15 @@ describe('#buildConnectorsJson', function () {
 				},
 				exampleConfig
 			)
-		], true);
+		]);
 
-		assert.equal(jsonParse(outputJsonString)[0].messages.length, 0);
+		assert.equal(outputJsonString[0].messages.length, 0);
 
 	});
 
 	it('should add messages with schemas', function () {
 
-		var outputJsonString = buildConnectorsJson('meh', [
+		var outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -130,15 +126,15 @@ describe('#buildConnectorsJson', function () {
 				},
 				exampleConfig
 			)
-		], false);
+		]);
 
-		assert.equal(jsonParse(outputJsonString)[0].messages.length, 1);
+		assert.equal(outputJsonString[0].messages.length, 1);
 
 	});
 
 	it('should autogenerate message titles nicely if not already declared', function () {
 
-		var outputJsonString = buildConnectorsJson('meh', [
+		var outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -168,9 +164,9 @@ describe('#buildConnectorsJson', function () {
 				},
 				exampleConfig
 			)
-		], false);
+		]);
 
-		var parsedJsonSchema = jsonParse(outputJsonString);
+		var parsedJsonSchema = outputJsonString;
 
 		assert.equal(parsedJsonSchema[0].messages.length, 2);
 		// remember - operations are sorted by title
@@ -183,7 +179,7 @@ describe('#buildConnectorsJson', function () {
 
 	it('should create from specified output schema if specified', function () {
 
-		var outputJsonString = buildConnectorsJson('meh', [
+		var outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -209,9 +205,9 @@ describe('#buildConnectorsJson', function () {
 				},
 				exampleConfig
 			)
-		], false);
+		]);
 
-		var parsedJsonSchema = jsonParse(outputJsonString);
+		var parsedJsonSchema = outputJsonString;
 
 		assert(_.isPlainObject(parsedJsonSchema[0].messages[0].output_schema));
 		assert.equal(parsedJsonSchema[0].messages[0].output_schema.properties.result.type, 'integer');
@@ -220,7 +216,7 @@ describe('#buildConnectorsJson', function () {
 
 	it('should generate from sample response if specified', function () {
 
-		var outputJsonString = buildConnectorsJson('meh', [
+		var outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -244,9 +240,9 @@ describe('#buildConnectorsJson', function () {
 				},
 				exampleConfig
 			)
-		], false);
+		]);
 
-		var parsedJsonSchema = jsonParse(outputJsonString);
+		var parsedJsonSchema = outputJsonString;
 
 		assert(_.isObject(parsedJsonSchema[0].messages[0].output_schema));
 		assert.equal(parsedJsonSchema[0].messages[0].output_schema.properties.result.type, 'boolean');
@@ -255,7 +251,7 @@ describe('#buildConnectorsJson', function () {
 
 	it('should add global schema input if declared', function () {
 
-		var outputJsonString = buildConnectorsJson('meh', [
+		var outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					globalSchema: {
@@ -285,9 +281,9 @@ describe('#buildConnectorsJson', function () {
 				},
 				exampleConfig
 			)
-		], false);
+		]);
 
-		var parsedJsonSchema = jsonParse(outputJsonString);
+		var parsedJsonSchema = outputJsonString;
 
 		assert.equal(_.keys(parsedJsonSchema[0].messages[0].input_schema.properties).length, 2);
 		assert.equal(parsedJsonSchema[0].messages[0].input_schema.properties.api_key.type, 'string');
@@ -300,7 +296,7 @@ describe('#buildConnectorsJson', function () {
 
 		var scopeArray = [ 'test_scope', 'another_scope' ];
 
-		var outputJsonString = buildConnectorsJson('meh', [
+		var outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					globalSchema: {
@@ -325,15 +321,56 @@ describe('#buildConnectorsJson', function () {
 				},
 				exampleConfig
 			)
-		], false);
+		]);
 
-		var parsedJsonSchema = jsonParse(outputJsonString);
+		var parsedJsonSchema = outputJsonString;
 
 		assert.deepEqual(parsedJsonSchema[0].messages[0].auth_scopes, scopeArray);
 
 	});
 
-	it('should create file is `createFile` is true', function () {
+	it('should not create file if `directory` is not a string', function () {
+
+		var inputConfig = _.cloneDeep(exampleConfig);
+
+		var outputJsonString = buildConnectorsJson(null, [
+			_.defaults(
+				{
+					globalSchema: {
+						input: {
+							api_key: {
+								type: 'string',
+								required: true,
+								advanced: true
+							}
+						}
+					},
+					messages: [
+						{
+							name: 'my_message',
+							schema: {
+								title: 'My Message',
+								input: {
+									name: {
+										type: 'string'
+									}
+								}
+							},
+							model: {
+								url: '..'
+							}
+						}
+					]
+				},
+				exampleConfig
+			)
+		]);
+
+		assert(_.isUndefined(fileOutput));
+
+	});
+
+	it('should create file if `directory` is a string', function () {
 
 		var inputConfig = _.cloneDeep(exampleConfig);
 
@@ -368,9 +405,9 @@ describe('#buildConnectorsJson', function () {
 				},
 				exampleConfig
 			)
-		], true);
+		]);
 
-		var parsedJsonSchema = jsonParse(fileOutput);
+		var parsedJsonSchema = JSON.parse(fileOutput);
 
 		assert.deepEqual(
 			parsedJsonSchema,
