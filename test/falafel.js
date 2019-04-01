@@ -58,4 +58,52 @@ describe('falafel', function () {
 		assert.strictEqual(called, false);
 	});
 
+	it('should return JSON schema for generateJsonSchema method', function () {
+
+		var jsonSchema = new Falafel().generateJsonSchema({
+			directory: __dirname+'/sample',
+			dev: true
+		});
+
+		assert(_.isArray(jsonSchema));
+		var mailchimpSchema = jsonSchema[0];
+		assert.equal(mailchimpSchema.name, 'mailchimp');
+		assert(_.isArray(mailchimpSchema.messages));
+		assert.equal(mailchimpSchema.messages[0].name, 'get_list');
+		assert(_.includes(mailchimpSchema.messages[0].input_schema.required, 'access_token'));
+
+	});
+
+	it('should return JSON schema via generateJsonSchema for schema only connector', function () {
+
+		var jsonSchema = new Falafel().generateJsonSchema({
+			directory: __dirname+'/modellessSample',
+			dev: true
+		});
+
+		assert(_.isArray(jsonSchema));
+		var hasSchemaJSON = _.find(jsonSchema, [ 'name', 'hasSchema' ]);
+		assert(_.isPlainObject(hasSchemaJSON));
+		var getListSchema = hasSchemaJSON.messages[0];
+		assert.strictEqual(getListSchema.input_schema.properties.access_token.default_jsonpath, '$.auth.access_token');
+		assert.strictEqual(getListSchema.input_schema.properties.another_field.title, 'Another field');
+		assert.strictEqual(getListSchema.output_schema.properties.name.type, 'string');
+
+	});
+
+	it('should return JSON schema via generateJsonSchema for schema only connector', function () {
+
+		var jsonSchema = new Falafel().generateJsonSchema({
+			directory: __dirname+'/modellessSample',
+			dev: true
+		});
+
+		assert(_.isArray(jsonSchema));
+		var hasNoSchemaJSON = _.find(jsonSchema, [ 'name', 'hasNoSchema' ]);
+		assert(_.isPlainObject(hasNoSchemaJSON));
+		assert(_.isArray(hasNoSchemaJSON.messages));
+		assert.equal(hasNoSchemaJSON.messages, 0);
+
+	});
+
 });

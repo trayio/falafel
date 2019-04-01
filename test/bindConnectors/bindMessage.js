@@ -4,7 +4,18 @@ var bindMessage = require('../../lib/bindConnectors/bindMessage');
 
 var Threadneedle = require('@trayio/threadneedle');
 
+var Falafel    = require('../../lib');
+
 describe('#bindMessage', function () {
+
+	before(function () {
+		// Need this for subsequent tests from both this and other test files
+		// Theses tests need to be fixed later
+		new Falafel().wrap({
+			directory: __dirname+'/../sample',
+			dev: false
+		});
+	});
 
 	it('should bind standard method to threadneedle', function () {
 		var called = false;
