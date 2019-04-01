@@ -15,11 +15,7 @@ var buildConnectorsJson = proxyquire(
 	}
 );
 
-function stringifyOutput (expectedJSON) {
-	return JSON.stringify(expectedJSON, null, '\t');
-}
-
-describe.only('#buildConnectorsJson', function () {
+describe('#buildConnectorsJson', function () {
 
 	var exampleConfig = {
 		name: 'mailchimp',
