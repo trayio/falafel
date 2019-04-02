@@ -79,7 +79,7 @@ describe('#getMissingParams', function () {
 					test1: {
 						type: 'string',
 						required: true,
-						emptyRequired: true
+						minLength: 0
 					}
 				}
 			}
