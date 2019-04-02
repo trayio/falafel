@@ -54,6 +54,41 @@ describe('#getMissingParams', function () {
 
 	});
 
+	it('should pass - empty string with emptyRequired true', function () {
+
+		var missingParams1 = getMissingParams(
+			{ test1: '' },
+			{ input: {} },
+			{
+				input: {
+					test1: {
+						type: 'string',
+						required: true
+					}
+				}
+			}
+		);
+
+		assert.equal(missingParams1.length, 1);
+
+		var missingParams2 = getMissingParams(
+			{ test1: '' },
+			{ input: {} },
+			{
+				input: {
+					test1: {
+						type: 'string',
+						required: true,
+						minLength: 0
+					}
+				}
+			}
+		);
+
+		assert.equal(missingParams2.length, 0);
+
+	});
+
 	it('should fail - array has "test1"', function () {
 
 		var missingParams = getMissingParams(

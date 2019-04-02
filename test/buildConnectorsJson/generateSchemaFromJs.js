@@ -9,7 +9,7 @@ describe('#generateSchemaFromJs', function () {
 	it('should set the standard top level schema keys', function () {
 		var output = generateSchemaFromJs({});
 
-		assert.equal(output.$schema, "http://json-schema.org/draft-04/schema#");
+		assert.equal(output.$schema, 'http://json-schema.org/draft-04/schema#');
 		assert.equal(output.type, 'object');
 		assert.deepEqual(output.properties, {});
 	});
@@ -28,7 +28,7 @@ describe('#generateSchemaFromJs', function () {
 				type: 'string'
 			}
 		});
-		assert.deepEqual(output.required, ['name', 'age']);
+		assert.deepEqual(output.required, [ 'name', 'age' ]);
 	});
 
 	it('should set advanced variables', function () {
@@ -45,7 +45,7 @@ describe('#generateSchemaFromJs', function () {
 				type: 'string'
 			}
 		});
-		assert.deepEqual(output.advanced, ['name', 'age']);
+		assert.deepEqual(output.advanced, [ 'name', 'age' ]);
 	});
 
 	it('should do a shallow set fine', function () {
@@ -56,7 +56,9 @@ describe('#generateSchemaFromJs', function () {
 				title: 'Full name',
 				description: 'Your full name',
 				default: 'Chris',
-				enum: ['Chris', 'John']
+				enum: [ 'Chris', 'John' ],
+				const: 'Hello world',
+				invalid_prop: 'test'
 			},
 			age: {
 				type: 'integer'
@@ -67,7 +69,9 @@ describe('#generateSchemaFromJs', function () {
 		assert.equal(output.properties.name.title, 'Full name');
 		assert.equal(output.properties.name.description, 'Your full name');
 		assert.equal(output.properties.name.default, 'Chris');
-		assert.deepEqual(output.properties.name.enum, ['Chris', 'John']);
+		assert.equal(output.properties.name.const, 'Hello world');
+		assert(_.isUndefined(output.properties.name.invalid_prop));
+		assert.deepEqual(output.properties.name.enum, [ 'Chris', 'John' ]);
 	});
 
 	it('should auto generate the title', function () {
@@ -226,7 +230,7 @@ describe('#generateSchemaFromJs', function () {
 				type: 'array',
 				items: {
 					type: 'string',
-					enum: ['Option 1', 'Option 2']
+					enum: [ 'Option 1', 'Option 2' ]
 				}
 			}
 		});
@@ -241,7 +245,7 @@ describe('#generateSchemaFromJs', function () {
 				type: 'array',
 				items: {
 					type: 'string',
-					enum: ['Option 1', 'Option 2']
+					enum: [ 'Option 1', 'Option 2' ]
 				}
 			},
 			deepData: {
