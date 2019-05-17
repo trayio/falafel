@@ -1,6 +1,6 @@
 {
   "name": "@trayio/falafel",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "description": "A framework for developing and running connectors.",
   "main": "lib/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "mime": "^2.4.0",
     "moment": "^2.24.0",
     "mout": "^1.1.0",
-    "needle": "^2.2.4",
+    "needle": "~2.1.2",
     "qs": "^6.6.0",
     "when": "^3.7.8"
   },
