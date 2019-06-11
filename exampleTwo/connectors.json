@@ -1,407 +1,445 @@
 [
-  {
-    "name": "testconnector",
-    "title": "Test connector",
-    "description": "Test connector to test things in.",
-    "version": "1.0",
-    "tags": [
-      "service"
-    ],
-    "icon": {
-      "type": "streamline",
-      "value": "globe-2"
-    },
-    "messages": [
-      {
-        "name": "test_date_formatter",
-        "title": "Test date formatter",
-        "description": "Auto formats dates.",
-        "input_schema": {
-          "type": "object",
-          "properties": {
-            "date": {
-              "type": "number",
-              "format": "date",
-              "title": "Date"
-            },
-            "list_of_dates": {
-              "type": "array",
-              "title": "List of dates",
-              "items": {
-                "type": "string",
-                "format": "date",
-                "title": "Item"
-              },
-              "additionalItems": true
-            },
-            "very_nested_list_of_dates": {
-              "type": "array",
-              "title": "Very nested list of dates",
-              "items": {
-                "type": "array",
-                "title": "Item",
-                "items": {
-                  "type": "string",
-                  "format": "date",
-                  "title": "Item"
-                },
-                "additionalItems": true
-              },
-              "additionalItems": true
-            },
-            "my_object": {
-              "type": "object",
-              "properties": {
-                "date": {
-                  "type": "string",
-                  "format": "date",
-                  "title": "Date"
-                },
-                "sub_object": {
-                  "type": "object",
-                  "properties": {
-                    "sub_date": {
-                      "type": "number",
-                      "format": "date",
-                      "title": "Sub date"
-                    },
-                    "sub_sub_object": {
-                      "type": "object",
-                      "properties": {
-                        "sub_sub_date": {
-                          "type": "string",
-                          "format": "date",
-                          "title": "Sub sub date"
-                        }
-                      },
-                      "required": [],
-                      "advanced": [],
-                      "additionalProperties": false,
-                      "title": "Sub sub object"
-                    }
-                  },
-                  "required": [],
-                  "advanced": [],
-                  "additionalProperties": false,
-                  "title": "Sub object"
-                }
-              },
-              "required": [],
-              "advanced": [],
-              "additionalProperties": false,
-              "title": "My object"
-            }
-          },
-          "required": [],
-          "advanced": [],
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "additionalProperties": false
-        },
-        "dynamic_output": false
-      },
-      {
-        "name": "test_op_function",
-        "title": "Test function operation",
-        "input_schema": {
-          "type": "object",
-          "properties": {},
-          "required": [],
-          "advanced": [],
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "additionalProperties": false
-        },
-        "dynamic_output": false
-      },
-      {
-        "name": "test_op",
-        "title": "Test operation",
-        "input_schema": {
-          "type": "object",
-          "properties": {
-            "basic_auth": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "type": "string",
-                  "title": "Username"
-                },
-                "password": {
-                  "type": "string",
-                  "format": "password",
-                  "title": "Password"
-                }
-              },
-              "required": [],
-              "advanced": [],
-              "additionalProperties": false,
-              "title": "Basic auth"
-            },
-            "headers": {
-              "type": "object",
-              "properties": {
-                "content_type": {
-                  "type": "string",
-                  "title": "Content-Type",
-                  "default": "application/json"
-                }
-              },
-              "required": [],
-              "advanced": [],
-              "additionalProperties": true,
-              "title": "Headers"
-            },
-            "queries": {
-              "type": "object",
-              "properties": {},
-              "required": [],
-              "advanced": [],
-              "additionalProperties": true,
-              "title": "Queries"
-            },
-            "parse_response": {
-              "type": "string",
-              "enum": [
-                {
-                  "text": "Any",
-                  "value": true
-                },
-                {
-                  "text": "JSON only",
-                  "value": "json"
-                },
-                {
-                  "text": "XML only",
-                  "value": "xml"
-                },
-                {
-                  "text": "None",
-                  "value": false
-                }
-              ],
-              "default": true,
-              "description": "Automatically parse incoming data to Javascript objects if possible",
-              "title": "Parse response"
-            },
-            "body_type": {
-              "type": "object",
-              "properties": {},
-              "required": [],
-              "advanced": [],
-              "additionalProperties": false,
-              "title": "Body Type",
-              "oneOf": [
-                {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "default": "raw",
-                      "format": "hidden",
-                      "title": "Id"
-                    },
-                    "content": {
-                      "type": "string",
-                      "title": "raw",
-                      "format": "code"
-                    }
-                  },
-                  "required": [],
-                  "advanced": [],
-                  "additionalProperties": false,
-                  "title": "raw"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "default": "form-data",
-                      "format": "hidden",
-                      "title": "Id"
-                    },
-                    "content": {
-                      "type": "array",
-                      "title": "form-data",
-                      "items": {
-                        "oneOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "key": {
-                                "type": "string",
-                                "title": "Key"
-                              },
-                              "value": {
-                                "type": "string",
-                                "title": "Value"
-                              }
-                            },
-                            "required": [],
-                            "advanced": [],
-                            "additionalProperties": false,
-                            "title": "text"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "key": {
-                                "type": "string",
-                                "title": "Key"
-                              },
-                              "value": {
-                                "type": "object",
-                                "properties": {},
-                                "required": [],
-                                "advanced": [],
-                                "additionalProperties": false,
-                                "title": "Value"
-                              }
-                            },
-                            "required": [],
-                            "advanced": [],
-                            "additionalProperties": false,
-                            "title": "file",
-                            "format": "file"
-                          }
-                        ],
-                        "title": "Item"
-                      },
-                      "additionalItems": true
-                    }
-                  },
-                  "required": [],
-                  "advanced": [],
-                  "additionalProperties": false,
-                  "title": "form-data"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "default": "form-urlencoded",
-                      "format": "hidden",
-                      "title": "Id"
-                    },
-                    "content": {
-                      "type": "object",
-                      "properties": {},
-                      "required": [],
-                      "advanced": [],
-                      "additionalProperties": true,
-                      "title": "form-urlencoded"
-                    }
-                  },
-                  "required": [],
-                  "advanced": [],
-                  "additionalProperties": false,
-                  "title": "form-urlencoded"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "default": "binary",
-                      "format": "hidden",
-                      "title": "Id"
-                    },
-                    "content": {
-                      "type": "object",
-                      "properties": {},
-                      "required": [],
-                      "advanced": [],
-                      "additionalProperties": false,
-                      "title": "binary",
-                      "format": "file"
-                    }
-                  },
-                  "required": [],
-                  "advanced": [],
-                  "additionalProperties": false,
-                  "title": "binary"
-                }
-              ]
-            }
-          },
-          "required": [],
-          "advanced": [
-            "basic_auth",
-            "parse_response"
-          ],
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "additionalProperties": false
-        },
-        "dynamic_output": false
-      },
-      {
-        "name": "test_op2",
-        "title": "Test operation",
-        "input_schema": {
-          "type": "object",
-          "properties": {
-            "test": {
-              "type": "string",
-              "default": "Hello world",
-              "title": "Test"
-            }
-          },
-          "required": [
-            "test"
-          ],
-          "advanced": [],
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "additionalProperties": false
-        },
-        "output_schema": {
-          "type": "object",
-          "properties": {
-            "response": {
-              "type": "string",
-              "default": "response Hello world",
-              "title": "Response"
-            }
-          },
-          "required": [],
-          "advanced": [],
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "additionalProperties": false
-        },
-        "dynamic_output": true
-      },
-      {
-        "name": "test_deepcall",
-        "title": "Test operation 3",
-        "input_schema": {
-          "type": "object",
-          "properties": {
-            "test": {
-              "type": "string",
-              "default": "Hello world",
-              "title": "Test"
-            }
-          },
-          "required": [],
-          "advanced": [],
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "additionalProperties": false
-        },
-        "output_schema": {
-          "type": "object",
-          "properties": {
-            "response": {
-              "type": "string",
-              "default": "response Hello world",
-              "title": "Response"
-            }
-          },
-          "required": [],
-          "advanced": [],
-          "$schema": "http://json-schema.org/draft-04/schema#",
-          "additionalProperties": false
-        },
-        "dynamic_output": false
-      }
-    ]
-  }
+	{
+		"name": "testconnector",
+		"title": "Test connector",
+		"description": "Test connector to test things in.",
+		"version": "1.0",
+		"tags": [
+			"service"
+		],
+		"icon": {
+			"type": "streamline",
+			"value": "globe-2"
+		},
+		"messages": [
+			{
+				"name": "test_date_formatter",
+				"title": "Test date formatter",
+				"description": "Auto formats dates.",
+				"input_schema": {
+					"type": "object",
+					"properties": {
+						"date": {
+							"type": "number",
+							"format": "date",
+							"title": "Date"
+						},
+						"list_of_dates": {
+							"type": "array",
+							"title": "List of dates",
+							"items": {
+								"type": "string",
+								"format": "date",
+								"title": "Item"
+							},
+							"additionalItems": true
+						},
+						"very_nested_list_of_dates": {
+							"type": "array",
+							"title": "Very nested list of dates",
+							"items": {
+								"type": "array",
+								"title": "Item",
+								"items": {
+									"type": "string",
+									"format": "date",
+									"title": "Item"
+								},
+								"additionalItems": true
+							},
+							"additionalItems": true
+						},
+						"my_object": {
+							"type": "object",
+							"properties": {
+								"date": {
+									"type": "string",
+									"format": "date",
+									"title": "Date"
+								},
+								"sub_object": {
+									"type": "object",
+									"properties": {
+										"sub_date": {
+											"type": "number",
+											"format": "date",
+											"title": "Sub date"
+										},
+										"sub_sub_object": {
+											"type": "object",
+											"properties": {
+												"sub_sub_date": {
+													"type": "string",
+													"format": "date",
+													"title": "Sub sub date"
+												}
+											},
+											"required": [],
+											"advanced": [],
+											"additionalProperties": false,
+											"title": "Sub sub object"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "Sub object"
+								}
+							},
+							"required": [],
+							"advanced": [],
+							"additionalProperties": false,
+							"title": "My object"
+						}
+					},
+					"required": [],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"dynamic_output": false
+			},
+			{
+				"name": "test_op_function",
+				"title": "Test function operation",
+				"input_schema": {
+					"type": "object",
+					"properties": {},
+					"required": [],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"dynamic_output": false
+			},
+			{
+				"name": "test_op",
+				"title": "Test operation",
+				"input_schema": {
+					"type": "object",
+					"properties": {
+						"basic_auth": {
+							"type": "object",
+							"properties": {
+								"username": {
+									"type": "string",
+									"title": "Username"
+								},
+								"password": {
+									"type": "string",
+									"format": "password",
+									"title": "Password"
+								}
+							},
+							"required": [],
+							"advanced": [],
+							"additionalProperties": false,
+							"title": "Basic auth"
+						},
+						"headers": {
+							"type": "object",
+							"properties": {
+								"content_type": {
+									"type": "string",
+									"title": "Content-Type",
+									"default": "application/json"
+								}
+							},
+							"required": [],
+							"advanced": [],
+							"additionalProperties": true,
+							"title": "Headers"
+						},
+						"queries": {
+							"type": "object",
+							"properties": {},
+							"required": [],
+							"advanced": [],
+							"additionalProperties": true,
+							"title": "Queries"
+						},
+						"parse_response": {
+							"type": "string",
+							"enum": [
+								{
+									"text": "Any",
+									"value": true
+								},
+								{
+									"text": "JSON only",
+									"value": "json"
+								},
+								{
+									"text": "XML only",
+									"value": "xml"
+								},
+								{
+									"text": "None",
+									"value": false
+								}
+							],
+							"default": true,
+							"description": "Automatically parse incoming data to Javascript objects if possible",
+							"title": "Parse response"
+						},
+						"body_type": {
+							"type": "object",
+							"properties": {},
+							"required": [],
+							"advanced": [],
+							"additionalProperties": false,
+							"title": "Body Type",
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"default": "raw",
+											"format": "hidden",
+											"title": "Id"
+										},
+										"content": {
+											"type": "string",
+											"title": "raw",
+											"format": "code"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "raw"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"default": "form-data",
+											"format": "hidden",
+											"title": "Id"
+										},
+										"content": {
+											"type": "array",
+											"title": "form-data",
+											"items": {
+												"oneOf": [
+													{
+														"type": "object",
+														"properties": {
+															"key": {
+																"type": "string",
+																"title": "Key"
+															},
+															"value": {
+																"type": "string",
+																"title": "Value"
+															}
+														},
+														"required": [],
+														"advanced": [],
+														"additionalProperties": false,
+														"title": "text"
+													},
+													{
+														"type": "object",
+														"properties": {
+															"key": {
+																"type": "string",
+																"title": "Key"
+															},
+															"value": {
+																"type": "object",
+																"properties": {},
+																"required": [],
+																"advanced": [],
+																"additionalProperties": false,
+																"title": "Value"
+															}
+														},
+														"required": [],
+														"advanced": [],
+														"additionalProperties": false,
+														"title": "file",
+														"format": "file"
+													}
+												],
+												"title": "Item"
+											},
+											"additionalItems": true
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "form-data"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"default": "form-urlencoded",
+											"format": "hidden",
+											"title": "Id"
+										},
+										"content": {
+											"type": "object",
+											"properties": {},
+											"required": [],
+											"advanced": [],
+											"additionalProperties": true,
+											"title": "form-urlencoded"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "form-urlencoded"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"default": "binary",
+											"format": "hidden",
+											"title": "Id"
+										},
+										"content": {
+											"type": "object",
+											"properties": {},
+											"required": [],
+											"advanced": [],
+											"additionalProperties": false,
+											"title": "binary",
+											"format": "file"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "binary"
+								}
+							]
+						}
+					},
+					"required": [],
+					"advanced": [
+						"basic_auth",
+						"parse_response"
+					],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"dynamic_output": false
+			},
+			{
+				"name": "test_op2",
+				"title": "Test operation",
+				"input_schema": {
+					"type": "object",
+					"properties": {
+						"test": {
+							"type": "string",
+							"default": "Hello world",
+							"title": "Test"
+						}
+					},
+					"required": [
+						"test"
+					],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"output_schema": {
+					"type": "object",
+					"properties": {
+						"response": {
+							"type": "string",
+							"default": "response Hello world",
+							"title": "Response"
+						}
+					},
+					"required": [],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"dynamic_output": true
+			},
+			{
+				"name": "test_op4",
+				"title": "Test operation",
+				"input_schema": {
+					"type": "object",
+					"properties": {
+						"test": {
+							"type": "object",
+							"properties": {},
+							"required": [],
+							"advanced": [],
+							"additionalProperties": false,
+							"title": "Test"
+						}
+					},
+					"required": [
+						"test"
+					],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"output_schema": {
+					"type": "object",
+					"properties": {
+						"response": {
+							"type": "string",
+							"default": "response Hello world",
+							"title": "Response"
+						}
+					},
+					"required": [],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"dynamic_output": false
+			},
+			{
+				"name": "test_deepcall",
+				"title": "Test operation 3",
+				"input_schema": {
+					"type": "object",
+					"properties": {
+						"test": {
+							"type": "string",
+							"default": "Hello world",
+							"title": "Test"
+						}
+					},
+					"required": [],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"output_schema": {
+					"type": "object",
+					"properties": {
+						"response": {
+							"type": "string",
+							"default": "response Hello world",
+							"title": "Response"
+						}
+					},
+					"required": [],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"dynamic_output": false
+			}
+		]
+	}
 ]
