@@ -240,8 +240,6 @@ describe('#bindConnectors', function () {
 
 		var boundTriggers = bindConnectors(triggerConfig, { test: true });
 
-		// console.log(require('util').inspect(falafel['testTrigger']['webhookRequest'].toString(), { depth: null }));
-
 		falafel['testTrigger']['webhookRequest']({
 			id: 'testID',
 			header: {
