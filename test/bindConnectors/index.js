@@ -185,6 +185,89 @@ describe('#bindConnectors', function () {
 
 	});
 
+	//Test mode tests
+	var triggerConfig = [
+		{
+			name: 'test_trigger',
+			globalModel: {},
+			globalSchema: {},
+			messages: [
+				{
+					name: 'webhook',
+					schema: {
+						name: 'test_op'
+					},
+					model: function (params) {
+						return params;
+					},
+					destroy: function (params) {
+						return params;
+					},
+					request: {
+						filter: function () {
+							return true;
+						},
+						before: function (params, http) {
+							return http.body;
+						}
+					},
+					response: function (params, http, reply) {
+						return reply;
+					}
+				}
+			]
+
+		}
+	];
+
+	it('should not have sub-operations in non-test mode', function () {
+
+		var boundTriggers = bindConnectors(triggerConfig, options);
+		assert.deepEqual(falafel['testTrigger']['webhookRequest'], undefined);
+		assert.ok(falafel['testTrigger']['webhookDestroy']);
+
+	});
+
+	it('should have sub-operations in test mode', function () {
+
+		var boundTriggers = bindConnectors(triggerConfig, { test: true });
+		assert.ok(falafel['testTrigger']['webhookRequest']);
+		assert.ok(falafel['testTrigger']['webhookResponse']);
+
+	});
+
+	it('should run sub-operations in test mode as normal', function (done) {
+
+		var boundTriggers = bindConnectors(triggerConfig, { test: true });
+
+		// console.log(require('util').inspect(falafel['testTrigger']['webhookRequest'].toString(), { depth: null }));
+
+		falafel['testTrigger']['webhookRequest']({
+			id: 'testID',
+			header: {
+				message: 'webhook_request'
+			},
+			body: {
+				input: {
+					hello: 'world'
+				},
+				http: {
+					method: 'GET',
+					statusCode: 200,
+					body: new Buffer(JSON.stringify({ success: true })).toString('base64')
+				}
+			}
+		})
+
+		.then(function (requestRes) {
+			assert.deepEqual(JSON.parse(requestRes.body.output), { success: true });
+		})
+
+		.catch(assert.fail)
+
+		.finally(done);
+
+	});
 
 	//Timeout tests
 	var timeoutConnectors = bindConnectors(
