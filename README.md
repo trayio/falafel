@@ -416,7 +416,7 @@ HTTP requests are sent to `http://localhost:8989/send/123-def` with a body forma
     "message": "[OPERATION NAME]"
   },
   "body": {
-    //...[INPUT PARAMETERS]
+    "...[INPUT PARAMETERS]"
   }
 }
 ```
