@@ -424,4 +424,4 @@ HTTP requests are sent to `http://localhost:8989/send/123-def` with a body forma
 The id `123-def` is used when testing.
 
 ### Writing tests
-Generally, sub-operations like `request.js` and `output.js` are not exposed in the `falafel["connector name"]` object. However, if access is needed for when writing test scripts, setting `NODE_ENV` to `test` as an environment variable will add the sub-operations to the `falafel["connector name"]` object.
+Generally, sub-operations like `request.js` and `output.js` are not exposed in the `falafel['connector name']` object. However, if access is needed for when writing test scripts, setting `NODE_ENV` to `test` as an environment variable will add the sub-operations to the `falafel['connector name']` object.
