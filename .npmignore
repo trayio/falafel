@@ -6,11 +6,11 @@ example-run.js
 example
 exampleTwo
 exampleThree
+exampleTrigger
 exampleArtisan
 exampleArtisanTwo
 artisan-example-run*
-legacy-example-run*
-legacy-example-schema-export*
+legacy-example*
 exampleSOAP*
 runTest
 
@@ -22,3 +22,6 @@ Gruntfile.js
 # Credentials
 dummycredentials.json
 aws.json
+
+# Other
+.DS_Store
