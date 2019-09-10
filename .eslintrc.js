@@ -9,7 +9,10 @@ module.exports = {
     },
     'extends': 'eslint:recommended',
     'globals': {
-        'Threadneedle': true
+        '_': true,
+        'when': true,
+        'mout': true,
+        'falafel': true
     },
     'rules': {
 
