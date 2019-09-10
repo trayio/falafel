@@ -252,18 +252,17 @@ describe('#bindConnectors', function () {
 				http: {
 					method: 'GET',
 					statusCode: 200,
-					body: new Buffer(JSON.stringify({ success: true })).toString('base64')
+					body: { success: true }
 				}
 			}
 		})
 
 		.then(function (requestRes) {
+			console.log(requestRes);
 			assert.deepEqual(JSON.parse(requestRes.body.output), { success: true });
 		})
 
-		.catch(assert.fail)
-
-		.finally(done);
+		.then(done, done);
 
 	});
 
