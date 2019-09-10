@@ -258,7 +258,6 @@ describe('#bindConnectors', function () {
 		})
 
 		.then(function (requestRes) {
-			console.log(requestRes);
 			assert.deepEqual(JSON.parse(requestRes.body.output), { success: true });
 		})
 
