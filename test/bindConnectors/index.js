@@ -4,7 +4,7 @@ global.when 	           = require('when');
 var bindConnectors = require('../../lib/bindConnectors');
 
 /* eslint-disable no-console */
-describe.only('#bindConnectors', function () {
+describe('#bindConnectors', function () {
 
 	global.falafel = {};
 
