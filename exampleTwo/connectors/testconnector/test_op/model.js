@@ -1,5 +1,11 @@
 module.exports = {
 
+	before: function (params) {
+		if (params.beforeMod) {
+			params.something = 'abc';
+		}
+	},
+
 	method: 'get',
 
 	url: '{{url}}',
@@ -19,7 +25,7 @@ module.exports = {
 	},
 
 	afterHeaders: function (error, params, body, res) {
-		return ( params.flag2 ? { test: null, error: 'blah' } : null );
+		return ( params.flag2 ? { test: null, error: 'blah' } : {} );
 	}
 
 };
