@@ -8,184 +8,188 @@ describe('#bindConnectors', function () {
 
 	global.falafel = {};
 
-	var config = [],
-		options = {};
+	var options = {}
 
-	config.push({
-		name: 'test_connector',
-		globalModel: {},
-		globalSchema: {},
-		messages: [
-			{
-				name: 'test_op',
-				schema: {
-					name: 'test_op'
-				},
-				model: function (params) {
-					return params;
-				},
-			},
-			{
-				name: 'test_op_promise',
-				schema: {
-					name: 'test_op_promise'
-				},
-				model: function (params) {
-					return when.resolve(params);
-				},
-			},
-			{
-				name: 'test_fail_op',
-				schema: {
-					name: 'test_fail_op'
-				},
-				model: function (params) {
-					throw new Error('Throw error.');
-				},
-			},
-			{
-				name: 'test_fail_op_promise',
-				schema: {
-					name: 'test_fail_op_promise'
-				},
-				model: function (params) {
-					return when.reject({
-						code: '#connector_error',
-						message: 'Reject error'
-					});
-				},
-			}
-		]
+	describe('standard tests', function () {
 
-	});
+		var config = [];
 
-	var boundConnectors = bindConnectors(config, options);
-
-	it('should pass simple function operation run', function (done) {
-
-		boundConnectors(
-			[
+		config.push({
+			name: 'test_connector',
+			globalModel: {},
+			globalSchema: {},
+			messages: [
 				{
-					id: 'testID',
-					header: {
-						message: 'test_op'
+					name: 'test_op',
+					schema: {
+						name: 'test_op'
 					},
-					body: {
-						hello: 'world'
-					}
-				}
-			],
-			{
-
-			},
-			function (err, resArr) {
-				if (err) {
-					assert.fail(err);
-				} else {
-					assert.deepEqual(resArr[0].body, { hello: 'world' });
-				}
-				done();
-			}
-		);
-
-	});
-
-	it('should pass simple promise function operation run', function (done) {
-
-		boundConnectors(
-			[
+					model: function (params) {
+						return params;
+					},
+				},
 				{
-					id: 'testID',
-					header: {
-						message: 'test_op_promise'
+					name: 'test_op_promise',
+					schema: {
+						name: 'test_op_promise'
 					},
-					body: {
-						hello: 'world'
-					}
-				}
-			],
-			{
-
-			},
-			function (err, resArr) {
-				if (err) {
-					assert.fail(err);
-				} else {
-					assert.deepEqual(resArr[0].body, { hello: 'world' });
-				}
-				done();
-			}
-		);
-
-	});
-
-	it('should operation fail simple function operation run erring', function (done) {
-
-		boundConnectors(
-			[
+					model: function (params) {
+						return when.resolve(params);
+					},
+				},
 				{
-					id: 'testID',
-					header: {
-						message: 'test_fail_op'
+					name: 'test_fail_op',
+					schema: {
+						name: 'test_fail_op'
 					},
-					body: {
-						hello: 'world'
-					}
-				}
-			],
-			{
-
-			},
-			function (err, resArr) {
-				if (err) {
-					assert.fail(resArr);
-				} else {
-					assert(resArr[0].header.error);
-					assert.deepEqual(resArr[0].body.message, 'Throw error.');
-				}
-				done();
-			}
-		);
-
-	});
-
-	it('should operation fail simple promise function operation run rejecting', function (done) {
-
-		boundConnectors(
-			[
+					model: function (params) {
+						throw new Error('Throw error.');
+					},
+				},
 				{
-					id: 'testID',
-					header: {
-						message: 'test_fail_op_promise'
+					name: 'test_fail_op_promise',
+					schema: {
+						name: 'test_fail_op_promise'
 					},
-					body: {
-						hello: 'world'
-					}
-				}
-			],
-			{
-
-			},
-			function (err, resArr) {
-				if (err) {
-					assert.fail(resArr);
-				} else {
-					assert(resArr[0].header.error);
-					assert.deepEqual(
-						resArr[0].body,
-						{
+					model: function (params) {
+						return when.reject({
 							code: '#connector_error',
 							message: 'Reject error'
-						}
-					);
+						});
+					},
 				}
-				done();
-			}
-		);
+			]
+
+		});
+
+		var boundConnectors = bindConnectors(config, options);
+
+		it('should pass simple function operation run', function (done) {
+
+			boundConnectors(
+				[
+					{
+						id: 'testID',
+						header: {
+							message: 'test_op'
+						},
+						body: {
+							hello: 'world'
+						}
+					}
+				],
+				{
+
+				},
+				function (err, resArr) {
+					if (err) {
+						assert.fail(err);
+					} else {
+						assert.deepEqual(resArr[0].body, { hello: 'world' });
+					}
+					done();
+				}
+			);
+
+		});
+
+		it('should pass simple promise function operation run', function (done) {
+
+			boundConnectors(
+				[
+					{
+						id: 'testID',
+						header: {
+							message: 'test_op_promise'
+						},
+						body: {
+							hello: 'world'
+						}
+					}
+				],
+				{
+
+				},
+				function (err, resArr) {
+					if (err) {
+						assert.fail(err);
+					} else {
+						assert.deepEqual(resArr[0].body, { hello: 'world' });
+					}
+					done();
+				}
+			);
+
+		});
+
+		it('should operation fail simple function operation run erring', function (done) {
+
+			boundConnectors(
+				[
+					{
+						id: 'testID',
+						header: {
+							message: 'test_fail_op'
+						},
+						body: {
+							hello: 'world'
+						}
+					}
+				],
+				{
+
+				},
+				function (err, resArr) {
+					if (err) {
+						assert.fail(resArr);
+					} else {
+						assert(resArr[0].header.error);
+						assert.deepEqual(resArr[0].body.message, 'Throw error.');
+					}
+					done();
+				}
+			);
+
+		});
+
+		it('should operation fail simple promise function operation run rejecting', function (done) {
+
+			boundConnectors(
+				[
+					{
+						id: 'testID',
+						header: {
+							message: 'test_fail_op_promise'
+						},
+						body: {
+							hello: 'world'
+						}
+					}
+				],
+				{
+
+				},
+				function (err, resArr) {
+					if (err) {
+						assert.fail(resArr);
+					} else {
+						assert(resArr[0].header.error);
+						assert.deepEqual(
+							resArr[0].body,
+							{
+								code: '#connector_error',
+								message: 'Reject error'
+							}
+						);
+					}
+					done();
+				}
+			);
+
+		});
 
 	});
 
-	//Test mode tests
 	describe('test mode tests', function () {
 
 		var triggerConfig = [
@@ -269,8 +273,6 @@ describe('#bindConnectors', function () {
 
 	});
 
-
-	//Timeout tests
 	describe('timeout tests', function () {
 
 		var timeoutConnectors = bindConnectors(
@@ -419,7 +421,7 @@ describe('#bindConnectors', function () {
 							reject(timeoutError);
 						} else {
 							assert.strictEqual(resArr[0].header.error, true);
-							assert.strictEqual(resArr[0].body.code, '#connector_error');
+							assert.strictEqual(resArr[0].body.code, '#timeout_error');
 							assert.strictEqual(resArr[0].body.message, 'The operation timed out.');
 							assert(_.includes(resArr[0].body.payload.reason, 'The operation has timed out due to the promise not closing'));
 							assert.strictEqual(resArr[0].body.payload.operation, 'long_timeout_op_promise');
