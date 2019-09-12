@@ -8,7 +8,7 @@ describe('#bindConnectors', function () {
 
 	global.falafel = {};
 
-	var options = {}
+	var options = {};
 
 	describe('standard tests', function () {
 
