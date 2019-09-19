@@ -45,7 +45,7 @@ function requestRejectFormatAssert (errorData) {
 	);
 }
 
-describe.only('#bindTrigger', function () {
+describe('#bindTrigger', function () {
 
 	const devOptions = {
 		dev: true
