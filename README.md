@@ -357,6 +357,20 @@ module.exports = function (params, http) {
 };
 ```
 
+#### Adding a HTTP reply with `#no_trigger` error code
+If a HTTP response needs to be specified along with the `#no_trigger` code, the format should be the following:
+```js
+{
+	code: '#no_trigger',
+	message: 'Rendering form page, no trigger required.',
+	http: {
+		status_code,
+		headers,
+		body
+	},
+}
+```
+
 ### Response (`message_response`)
 
 This file handles the formatting of the response to the connector for an *acknowledge*
