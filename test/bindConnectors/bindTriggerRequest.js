@@ -153,6 +153,81 @@ describe('#bindTrigger', function () {
 
 		});
 
+		it('function - error on invalid body object', (done) => {
+
+			const requestFunc = bindTriggerRequest(
+				{
+					request: function (params, http) {
+						return '';
+					}
+				},
+				devOptions
+			);
+
+			requestFunc({
+				body: {
+					input: {
+						entity: 'user'
+					},
+					http: {
+						headers: {
+							challenge: 'something'
+						},
+						body: {
+							userId: 'abc123'
+						}
+					}
+				}
+			})
+
+			.catch((err) => {
+				assert(_.includes(err.body.message, '`body` must be an object'));
+			})
+
+			.then(done, done);
+
+		});
+
+		it('function - error on missing `output` in body object', (done) => {
+
+			const requestFunc = bindTriggerRequest(
+				{
+					request: function (params, http) {
+						return {
+							http: {
+								headers: {},
+								body: Buffer.from(http.headers.challenge).toString('base64')
+							}
+						};
+					}
+				},
+				devOptions
+			);
+
+			requestFunc({
+				body: {
+					input: {
+						entity: 'user'
+					},
+					http: {
+						headers: {
+							challenge: 'something'
+						},
+						body: {
+							userId: 'abc123'
+						}
+					}
+				}
+			})
+
+			.catch((err) => {
+				assert(_.includes(err.body.message, 'with at least `output`'));
+			})
+
+			.then(done, done);
+
+		});
+
 		it('function reject', (done) => {
 
 			const requestFunc = bindTriggerRequest(
@@ -493,7 +568,7 @@ describe('#bindTrigger', function () {
 					body: {
 						output: '{}',
 						http: {
-							body: new Buffer(JSON.stringify(returnBody)).toString('base64')
+							body: Buffer.from(JSON.stringify(returnBody)).toString('base64')
 						}
 					}
 				}
@@ -547,7 +622,7 @@ describe('#bindTrigger', function () {
 					body: {
 						output: '{}',
 						http: {
-							body: new Buffer(JSON.stringify(returnBody)).toString('base64')
+							body: Buffer.from(JSON.stringify(returnBody)).toString('base64')
 						}
 					}
 				}
@@ -600,7 +675,7 @@ describe('#bindTrigger', function () {
 					body: {
 						output: '{}',
 						http: {
-							body: new Buffer(JSON.stringify(returnBody)).toString('base64')
+							body: Buffer.from(JSON.stringify(returnBody)).toString('base64')
 						}
 					}
 				}
@@ -653,7 +728,7 @@ describe('#bindTrigger', function () {
 					body: {
 						output: '{}',
 						http: {
-							body: new Buffer(JSON.stringify(returnBody)).toString('base64')
+							body: Buffer.from(JSON.stringify(returnBody)).toString('base64')
 						}
 					}
 				}
