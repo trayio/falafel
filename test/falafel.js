@@ -30,7 +30,8 @@ describe('falafel', function () {
 		var Falafel = proxyquire('../lib', {
 			'./buildConnectorsJson': function () {
 				called = true;
-			}
+			},
+			'./devServer': function () {}
 		});
 
 		new Falafel().wrap({
