@@ -65,7 +65,11 @@ describe('#bindTrigger', function () {
 
 			const requestFunc = bindTriggerRequest(
 				{
-					request: function () {}
+					request: function () {
+						return {
+							output: {}
+						};
+					}
 				},
 				devOptions
 			);
