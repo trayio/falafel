@@ -1,6 +1,6 @@
 {
   "name": "@trayio/falafel",
-  "version": "1.23.2",
+  "version": "1.24.0",
   "description": "A framework for developing and running connectors.",
   "main": "lib/index.js",
   "scripts": {
