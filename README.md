@@ -264,7 +264,7 @@ Example:
 Generally, when an API provides a download endpoint, one of falafel's upload functions will need to be used. All three of the following upload promise functions will return a file pointer object when they resolve.
 
 #### `falafel.files.streamUpload` (recommended)
-The `falafel.files.streamUpload` function returns a promise, and accepts the following object:
+The `falafel.files.streamUpload` accepts the following object:
 ```js
 {
     readStream: [A node read stream], //required
@@ -275,10 +275,10 @@ The `falafel.files.streamUpload` function returns a promise, and accepts the fol
 ```
 
 #### `falafel.files.streamMPUpload`
-The `falafel.files.streamMPUpload` is the same as `streamUpload`, but does not require a `length` to be specified. However, this is less performant since the lack of content length information will default the AWS SDK to split the stream into 5MB chunks and upload them individually. Only use this if it is not possible to determine the content size beforehand without downloading the whole file to memory or local storage.
+The `falafel.files.streamMPUpload` is the same as `streamUpload`, but does not require a `length` to be specified. However, this is less performant since the lack of content length information will default the AWS SDK to split the stream into 5MB chunks and upload them individually. Only use this if it is not possible to determine the content size beforehand without downloading the whole file to memory and/or local storage.
 
 #### `falafel.files.upload`
-The `falafel.files.upload` function returns a promise, and accepts the following object:
+The `falafel.files.upload` accepts the following object:
 ```js
 {
     file: '[File path]', //required
@@ -293,7 +293,7 @@ This function assumes the file is in local storage and will attempt to `createRe
 Generally, when an API provides an upload endpoint, one of falafel's download functions will need to be used. Both of the following download promise functions expect a file pointer object to be passed in.
 
 #### `falafel.files.streamDownload` (recommended)
-The `falafel.files.streamDownload` function returns a promise, resolving with the following object:
+The `falafel.files.streamDownload` resolving with the following object:
 ```js
 {
 	readStream, //A read stream of the file contents from S3
@@ -305,7 +305,7 @@ The `falafel.files.streamDownload` function returns a promise, resolving with th
 ```
 
 #### `falafel.files.download`
-The `falafel.files.download` function returns a promise, resolving with the following object:
+The `falafel.files.download` resolving with the following object:
 ```js
 {
 	file, //The file path in local storage
@@ -315,7 +315,7 @@ The `falafel.files.download` function returns a promise, resolving with the foll
 	size //The content length of the file
 }
 ```
-Similarly to `falafel.file.upload`, since this function requires keeping the file in local storage, this is the least recommended of the two download functions.
+Similarly to `falafel.file.upload`, since this function requires keeping the file in local storage, this is the least recommended download option.
 
 ## Trigger connectors
 
