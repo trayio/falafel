@@ -18,11 +18,13 @@ as on the operational level.
 * [Global models](#global-models)
 * [Global message schemas](#global-message-schemas)
 * [Private methods](#private-methods)
+* [File handling](#file-handling)
 * [Trigger connectors](#trigger-connectors)
   * [Init](#init-message)
   * [Destroy](#destroy-message_destroy)
   * [Request](#request-message_request)
   * [Response](#response-message_response)
+* [Dynamic output schemas](#dynamic-output-schemas)
 * [Generating connectors.json](#generating-connectorsjson)
 * [Testing the connector](#testing-the-connector)
 
@@ -234,6 +236,86 @@ This is simple - just **don't add** the `schema.js` and `response.sample.json` f
 
 **Note:** the operation will be still be created, but it won't be added to the connectors.json config (so won't appear in the UI).
 
+
+## File handling
+In tray.io workflows, files are handled by uploading files to bucket in AWS S3, and the using a pointer object to reference the file in workflows.
+
+The file pointer object takes the following formatting:
+```json
+{
+    "name": "[File name]",
+    "url": "[Signed S3 URL]",
+    "mime_type": "[File's mime type]",
+    "expires": [Experation time in seconds]
+}
+```
+
+Example:
+```json
+{
+    "name": "galaxy.tif",
+    "url": "https://workflow-file-uploads-dev.s3.us-west-2.amazonaws.com/13dd4143-02d4-4526-9a9c-65a20a2e97c5?AWSAccessKeyId=AKIAJHNCMU22PD3C6T6A&Expires=1570571246&Signature=O%2FotP%2B2UExhXA%2FihpNNQOo9E8tI%3D",
+    "mime_type": "image/tiff",
+    "expires": 1570571246
+}
+```
+
+### API download / Falafel upload
+Generally, when an API provides a download endpoint, one of falafel's upload functions will need to be used. All three of the following upload promise functions will return a file pointer object when they resolve.
+
+#### `falafel.files.streamUpload` (recommended)
+The `falafel.files.streamUpload` function returns a promise, and accepts the following object:
+```js
+{
+    readStream: [A node read stream], //required
+    name: '[File name]', //required
+    length: [File size in bytes], //required
+    contentType: '[Mime type of file]', //optional (falafel will attempt to derive it from name if not provided)
+}
+```
+
+#### `falafel.files.streamMPUpload`
+The `falafel.files.streamMPUpload` is the same as `streamUpload`, but does not require a `length` to be specified. However, this is less performant since the lack of content length information will default the AWS SDK to split the stream into 5MB chunks and upload them individually. Only use this if it is not possible to determine the content size beforehand without downloading the whole file to memory or local storage.
+
+#### `falafel.files.upload`
+The `falafel.files.upload` function returns a promise, and accepts the following object:
+```js
+{
+    file: '[File path]', //required
+    name: '[File name]', //required
+    length: [File size in bytes], //required
+    contentType: '[Mime type of file]', //optional (falafel will attempt to derive it from name if not provided)
+}
+```
+This function assumes the file is in local storage and will attempt to `createReadStream` from it; as such this is the least recommended upload option.
+
+### API upload / Falafel download
+Generally, when an API provides an upload endpoint, one of falafel's download functions will need to be used. Both of the following download promise functions expect a file pointer object to be passed in.
+
+#### `falafel.files.streamDownload` (recommended)
+The `falafel.files.streamDownload` function returns a promise, resolving with the following object:
+```js
+{
+	readStream, //A read stream of the file contents from S3
+	name, //Name of the file
+	mime_type, //Mime type of the file
+	expires, //The expiry time in seconds
+	size //The content length of the file
+}
+```
+
+#### `falafel.files.download`
+The `falafel.files.download` function returns a promise, resolving with the following object:
+```js
+{
+	file, //The file path in local storage
+	name, //Name of the file
+	mime_type, //Mime type of the file
+	expires, //The expiry time in seconds
+	size //The content length of the file
+}
+```
+Similarly to `falafel.file.upload`, since this function requires keeping the file in local storage, this is the least recommended of the two download functions.
 
 ## Trigger connectors
 
