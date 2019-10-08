@@ -241,12 +241,12 @@ This is simple - just **don't add** the `schema.js` and `response.sample.json` f
 In tray.io workflows, files are handled by uploading files to bucket in AWS S3, and the using a pointer object to reference the file in workflows.
 
 The file pointer object takes the following formatting:
-```json
+```
 {
     "name": "[File name]",
     "url": "[Signed S3 URL]",
     "mime_type": "[File's mime type]",
-    "expires": [Experation time in seconds]
+    "expires": [Expiration time in seconds]
 }
 ```
 
