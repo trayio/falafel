@@ -240,7 +240,7 @@ This is simple - just **don't add** the `schema.js` and `response.sample.json` f
 
 
 ## File handling
-In tray.io workflows, files are handled by uploading files to bucket in AWS S3, and the using a pointer object to reference the file in workflows.
+In tray.io workflows, files are handled by uploading files to bucket in AWS S3, and the using a pointer object to reference the file in workflows. The default bucket is `workflow-file-uploads`, except in development mode, in which case it is `workflow-file-uploads-dev`; in both cases the region is `us-west-2`.
 
 The file pointer object takes the following formatting:
 ```
