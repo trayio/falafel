@@ -49,7 +49,7 @@ describe('#handleOAuthRefresh', function () {
 		var afterFailure = handleOAuthRefresh(sampleAuth);
 		afterFailure(err);
 
-		assert.strictEqual(err.code, 'oauth_refresh');
+		assert.strictEqual(err.code, '#oauth_refresh');
 	});
 
 
@@ -66,7 +66,7 @@ describe('#handleOAuthRefresh', function () {
 		var afterFailure = handleOAuthRefresh(sampleAuth);
 		afterFailure(err);
 
-		assert.strictEqual(err.code, 'oauth_refresh');
+		assert.strictEqual(err.code, '#oauth_refresh');
 	});
 
 
@@ -88,10 +88,10 @@ describe('#handleOAuthRefresh', function () {
 		wrappedAfterFailure(err, { my: 'param' }, {
 			statusCode: 200,
 			headers: {
-				'X-Key-expired': true 
+				'X-Key-expired': true
 			}
 		});
-		assert.strictEqual(err.code, 'oauth_refresh');
+		assert.strictEqual(err.code, '#oauth_refresh');
 
 		wrappedAfterFailure(err, { my: 'param' }, {
 			statusCode: 200,
@@ -99,7 +99,7 @@ describe('#handleOAuthRefresh', function () {
 				'x-key-expired': 'true '
 			}
 		});
-		assert.strictEqual(err.code, 'oauth_refresh');
+		assert.strictEqual(err.code, '#oauth_refresh');
 	});
 
 
@@ -124,7 +124,7 @@ describe('#handleOAuthRefresh', function () {
 			}
 		});
 
-		assert.strictEqual(err.code, 'oauth_refresh');
+		assert.strictEqual(err.code, '#oauth_refresh');
 	});
 
 
@@ -142,7 +142,7 @@ describe('#handleOAuthRefresh', function () {
 		var afterFailure = handleOAuthRefresh(sampleAuth);
 		afterFailure(err);
 
-		assert.strictEqual(err.code, 'oauth_refresh');
+		assert.strictEqual(err.code, '#oauth_refresh');
 	});
 
 
@@ -178,6 +178,6 @@ describe('#handleOAuthRefresh', function () {
 
 		assert.strictEqual(err.code, 'bad-error');
 	});
-	
+
 
 });
