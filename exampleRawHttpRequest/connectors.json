@@ -1,0 +1,235 @@
+[
+	{
+		"name": "testconnector",
+		"title": "Test connector - Raw HTTP Request",
+		"description": "Test connector for Raw HTTP Request.",
+		"version": "1.0",
+		"tags": [
+			"service"
+		],
+		"icon": {
+			"type": "streamline",
+			"value": "globe-2"
+		},
+		"messages": [
+			{
+				"name": "raw_http_request",
+				"title": "Raw HTTP Request (Advanced)",
+				"input_schema": {
+					"type": "object",
+					"properties": {
+						"method": {
+							"type": "string",
+							"enum": [
+								"GET",
+								"POST",
+								"PATCH",
+								"PUT",
+								"DELETE",
+								"HEAD",
+								"OPTIONS"
+							],
+							"title": "Method"
+						},
+						"url": {
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"endpoint": {
+											"type": "string",
+											"title": "Endpoint"
+										}
+									},
+									"required": [
+										"endpoint"
+									],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "Endpoint"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"full_url": {
+											"type": "string",
+											"title": "Full url"
+										}
+									},
+									"required": [
+										"full_url"
+									],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "Full URL"
+								}
+							],
+							"title": "Url"
+						},
+						"headers": {
+							"type": "object",
+							"properties": {},
+							"required": [],
+							"advanced": [],
+							"additionalProperties": true,
+							"title": "Headers"
+						},
+						"queries": {
+							"type": "object",
+							"properties": {},
+							"required": [],
+							"advanced": [],
+							"additionalProperties": true,
+							"title": "Query Parameters"
+						},
+						"body": {
+							"title": "Body Type",
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"raw": {
+											"type": [
+												"string",
+												"object"
+											],
+											"title": "raw",
+											"format": "code"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "raw"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"form_data": {
+											"type": "object",
+											"properties": {},
+											"required": [],
+											"advanced": [],
+											"additionalProperties": {
+												"oneOf": [
+													{
+														"type": "string",
+														"title": "Text"
+													},
+													{
+														"type": "object",
+														"properties": {},
+														"required": [],
+														"advanced": [],
+														"additionalProperties": false,
+														"title": "File",
+														"format": "file"
+													}
+												]
+											},
+											"title": "form-data"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "form-data"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"form_urlencoded": {
+											"type": "object",
+											"properties": {},
+											"required": [],
+											"advanced": [],
+											"additionalProperties": {
+												"type": "string"
+											},
+											"title": "form-urlencoded"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "form-urlencoded"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"binary": {
+											"type": "object",
+											"properties": {},
+											"required": [],
+											"advanced": [],
+											"additionalProperties": false,
+											"title": "binary",
+											"format": "file"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "binary"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"none": {
+											"type": "null",
+											"title": "None"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "none"
+								}
+							]
+						}
+					},
+					"required": [
+						"url"
+					],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"output_schema": {
+					"type": "object",
+					"properties": {},
+					"required": [],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"dynamic_output": false
+			},
+			{
+				"name": "test_op",
+				"title": "Test operation",
+				"input_schema": {
+					"type": "object",
+					"properties": {
+						"method": {
+							"type": "string",
+							"title": "Method"
+						},
+						"url": {
+							"type": "string",
+							"title": "Url"
+						}
+					},
+					"required": [
+						"method",
+						"url"
+					],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"dynamic_output": false
+			}
+		]
+	}
+]
