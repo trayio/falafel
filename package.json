@@ -15,6 +15,10 @@
   "bugs": {
     "url": "https://github.com/trayio/falafel/issues"
   },
+  "files": [
+    "lib/",
+    "README.md"
+  ],
   "homepage": "https://github.com/trayio/falafel#readme",
   "dependencies": {
     "@trayio/threadneedle": "~1.11.0",
