@@ -217,7 +217,7 @@
 				"output_schema": {
 					"type": "object",
 					"properties": {
-						"respone": {
+						"response": {
 							"type": "object",
 							"properties": {
 								"status_code": {
@@ -247,7 +247,7 @@
 							"required": [],
 							"advanced": [],
 							"additionalProperties": false,
-							"title": "Respone"
+							"title": "Response"
 						}
 					},
 					"required": [],
