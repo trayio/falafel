@@ -4,27 +4,7 @@ const _ = require('lodash');
 
 const validateRequestAgainstProtectedService = require('../../lib/rawHttpRequest/validateRequestAgainstProtectedService.js');
 
-describe.only('validateRequestAgainstProtectedService', function () {
-
-	const sampleParams = {
-		'#auth_app': {
-			prtoected: true,
-			whitelist_base_urls: [
-				{
-					type: 'base',
-					value: 'http://dummy.restapiexample.com/api/v1'
-				},
-				{
-					type: 'base',
-					value: 'https://google.com'
-				},
-				{
-					type: 'regex',
-					value: '.*/v1'
-				},
-			]
-		}
-	};
+describe('validateRequestAgainstProtectedService', () => {
 
 	it('should be a function', function () {
 		assert(_.isFunction(validateRequestAgainstProtectedService));
@@ -163,6 +143,7 @@ describe.only('validateRequestAgainstProtectedService', function () {
 				);
 				assert.fail();
 			} catch (validationError) {
+				assert.strictEqual(validationError.code, '#user_input_error');
 				const message = validationError.message;
 				assert(_.includes(message, 'The URL provided is not allowed'));
 				assert(_.includes(message, 'The URL must start with'));
@@ -196,6 +177,7 @@ describe.only('validateRequestAgainstProtectedService', function () {
 				);
 				assert.fail();
 			} catch (validationError) {
+				assert.strictEqual(validationError.code, '#user_input_error');
 				const message = validationError.message;
 				assert(_.includes(message, 'The URL provided is not allowed'));
 				assert(_.includes(message, 'The URL must match the following regex(es)'));
@@ -237,6 +219,7 @@ describe.only('validateRequestAgainstProtectedService', function () {
 				);
 				assert.fail();
 			} catch (validationError) {
+				assert.strictEqual(validationError.code, '#user_input_error');
 				const message = validationError.message;
 				assert(_.includes(message, 'The URL provided is not allowed'));
 				assert(_.includes(message, 'The URL must either:'));
