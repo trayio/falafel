@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 const validateFullUrl = require('../../lib/rawHttpRequest/validateFullUrl.js');
 
-describe.only('validateFullUrl', () => {
+describe('validateFullUrl', () => {
 
 	it('should be a function', () => {
 		assert(_.isFunction(validateFullUrl));
