@@ -39,7 +39,7 @@
 									"properties": {
 										"endpoint": {
 											"type": "string",
-											"description": "The endpoint to call in relation to the base URL used by the connector.",
+											"description": "The endpoint to call in relation to the base URL used by the connector. E.g: `/department/marketing/employees`.",
 											"title": "Endpoint"
 										}
 									},
@@ -55,7 +55,7 @@
 									"properties": {
 										"full_url": {
 											"type": "string",
-											"description": "The full URL to make the request against.",
+											"description": "The full URL to make the request against. Must begin with `http://` or `https://`.",
 											"title": "Full url"
 										}
 									},
