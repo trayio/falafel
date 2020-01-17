@@ -71,22 +71,56 @@
 							"title": "Url"
 						},
 						"headers": {
-							"type": "object",
-							"properties": {},
-							"required": [],
-							"advanced": [],
-							"additionalProperties": true,
-							"description": "The headers required to perform the request with.",
-							"title": "Headers"
+							"type": "array",
+							"description": "Headers to be included in the request.",
+							"title": "Headers",
+							"items": {
+								"type": "object",
+								"properties": {
+									"key": {
+										"type": "string",
+										"description": "The header key.",
+										"title": "Key"
+									},
+									"value": {
+										"type": "string",
+										"description": "The header value.",
+										"title": "Value"
+									}
+								},
+								"required": [],
+								"advanced": [],
+								"additionalProperties": false,
+								"title": "Header",
+								"description": "An individual header."
+							},
+							"additionalItems": true
 						},
 						"queries": {
-							"type": "object",
-							"properties": {},
-							"required": [],
-							"advanced": [],
-							"additionalProperties": true,
+							"type": "array",
 							"title": "Query Parameters",
-							"description": "The URL query parameters to perform the request with."
+							"description": "Query parameters to be supplied with the request.",
+							"items": {
+								"type": "object",
+								"properties": {
+									"key": {
+										"type": "string",
+										"description": "The parameter key.",
+										"title": "Key"
+									},
+									"value": {
+										"type": "string",
+										"description": "The parameter value.",
+										"title": "Value"
+									}
+								},
+								"required": [],
+								"advanced": [],
+								"additionalProperties": false,
+								"title": "Query Parameter",
+								"description": "An individual query parameter."
+							},
+							"additionalItems": true
 						},
 						"body": {
 							"title": "Body Type",
