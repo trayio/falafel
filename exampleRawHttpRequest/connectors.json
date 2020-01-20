@@ -96,7 +96,7 @@
 							},
 							"additionalItems": true
 						},
-						"queries": {
+						"query_parameters": {
 							"type": "array",
 							"title": "Query Parameters",
 							"description": "Query parameters to be supplied with the request.",
