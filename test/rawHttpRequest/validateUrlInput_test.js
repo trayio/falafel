@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 const validateUrlInput = require('../../lib/rawHttpRequest/validateUrlInput.js');
 
-describe.only('validateUrlInput', () => {
+describe('validateUrlInput', () => {
 
 	it('should be a function', () => {
 		assert(_.isFunction(validateUrlInput));
