@@ -76,15 +76,10 @@ Doing this will simply use the [default](#default-model) model configuration def
 ```
 
 ## Schema
-The schema for the Raw HTTP Request can be found [here](lib/rawHttpRequest/rawHttpRequestSchema.js)
+The schema for the Raw HTTP Request can be found [here](lib/rawHttpRequest/rawHttpRequestSchema.js).
 
 ## Utils
 The Raw HTTP Request model utilises some functions which are also exposed via `falafel.utils.rawHttpRequest`, so that `rawHttpRequest.js` has access to these when custom configuration needs to be supported.
-
-processBody,
-validateUrlInput,
-validateRequestAgainstProtectedService,
-formatOutput
 
 ### validateUrlInput
 [*falafel.utils.rawHttpRequest.validateUrlInput*](lib/rawHttpRequest/validateUrlInput.js)
