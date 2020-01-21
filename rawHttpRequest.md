@@ -78,6 +78,8 @@ Doing this will simply use the [default](#default-model) model configuration def
 ## Schema
 The schema for the Raw HTTP Request can be found [here](lib/rawHttpRequest/rawHttpRequestSchema.js).
 
+By default, the global schema of the connector is not inherited, as it is assumed configuration such as authentication is handled in the background. In the event global schema needs to be inherited, this can be enabled by setting `globalSchema: true` in the `rawHttpRequest.js` configuration object.
+
 ## Utils
 The Raw HTTP Request model utilises some functions which are also exposed via `falafel.utils.rawHttpRequest`, so that `rawHttpRequest.js` has access to these when custom configuration needs to be supported.
 
