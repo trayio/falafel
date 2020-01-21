@@ -2,17 +2,17 @@ const assert = require('assert');
 
 const _ = require('lodash');
 
-const validateRequestAgainstProtectedService = require('../../lib/rawHttpRequest/validateRequestAgainstProtectedService.js');
+const validateRequestAgainstWhitelistedUrls = require('../../lib/protectedService/validateRequestAgainstWhitelistedUrls.js');
 
-describe('validateRequestAgainstProtectedService', () => {
+describe('validateRequestAgainstWhitelistedUrls', () => {
 
 	it('should be a function', function () {
-		assert(_.isFunction(validateRequestAgainstProtectedService));
+		assert(_.isFunction(validateRequestAgainstWhitelistedUrls));
 	});
 
 	it('should ignore if protected false/undefined', function () {
 		try {
-			validateRequestAgainstProtectedService(
+			validateRequestAgainstWhitelistedUrls(
 				{
 					method: 'get',
 					url: 'http://dummy.restapiexample.com/api/v1/employees'
@@ -24,7 +24,7 @@ describe('validateRequestAgainstProtectedService', () => {
 			assert.fail(validationError);
 		}
 		try {
-			validateRequestAgainstProtectedService(
+			validateRequestAgainstWhitelistedUrls(
 				{
 					method: 'get',
 					url: 'dummy.restapiexample.com/api/v1/employees'
@@ -41,7 +41,7 @@ describe('validateRequestAgainstProtectedService', () => {
 
 	it('should ignore if whitelist_base_urls is not defined', () => {
 		try {
-			validateRequestAgainstProtectedService(
+			validateRequestAgainstWhitelistedUrls(
 				{
 					method: 'get',
 					url: 'http://dummy.restapiexample.com/api/v1/employees'
@@ -60,7 +60,7 @@ describe('validateRequestAgainstProtectedService', () => {
 
 	it('should allow if base matches', () => {
 		try {
-			validateRequestAgainstProtectedService(
+			validateRequestAgainstWhitelistedUrls(
 				{
 					method: 'get',
 					url: 'http://dummy.restapiexample.com/api/v1/employees'
@@ -89,7 +89,7 @@ describe('validateRequestAgainstProtectedService', () => {
 
 	it('should allow if regex matches', () => {
 		try {
-			validateRequestAgainstProtectedService(
+			validateRequestAgainstWhitelistedUrls(
 				{
 					method: 'get',
 					url: 'http://dummy.restapiexample.com/api/v1/employees'
@@ -120,7 +120,7 @@ describe('validateRequestAgainstProtectedService', () => {
 
 		it('base only', () => {
 			try {
-				validateRequestAgainstProtectedService(
+				validateRequestAgainstWhitelistedUrls(
 					{
 						method: 'get',
 						url: 'http://dummy.restapiexample.com/api/v1/employees'
@@ -154,7 +154,7 @@ describe('validateRequestAgainstProtectedService', () => {
 
 		it('regex only', () => {
 			try {
-				validateRequestAgainstProtectedService(
+				validateRequestAgainstWhitelistedUrls(
 					{
 						method: 'get',
 						url: 'http://dummy.restapiexample.com/api/v1/employees'
@@ -188,7 +188,7 @@ describe('validateRequestAgainstProtectedService', () => {
 
 		it('both', () => {
 			try {
-				validateRequestAgainstProtectedService(
+				validateRequestAgainstWhitelistedUrls(
 					{
 						method: 'get',
 						url: 'http://dummy.restapiexample.com/api/v1/employees'
