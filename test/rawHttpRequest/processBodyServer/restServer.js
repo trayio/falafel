@@ -24,6 +24,13 @@ class RestServer {
 			console.log(`REST server at port ${this.port} initialized.`);
 			if (_.isFunction(callback)) { callback(null); }
 		});
+		process.on('SIGINT', () => {
+			this.stopServer(() => {
+				if (require.main === module) {
+					process.exit(2);
+				}
+			});
+		});
 	}
 
 	getAppServer () {
@@ -44,11 +51,6 @@ class RestServer {
 if (require.main === module) {
 	const restServer = new RestServer(8787);
 	restServer.startServer();
-	process.on('SIGINT', () => {
-		restServer.stopServer(() => {
-			process.exit(2);
-		});
-	});
 }
 
 module.exports = RestServer;
