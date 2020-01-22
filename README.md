@@ -28,6 +28,7 @@ as on the operational level.
     * [Response](#response-message_response)
 * [Dynamic output schemas](#dynamic-output-schemas)
 * [Generating connectors.json](#generating-connectorsjson)
+* [Raw HTTP Request](rawHttpRequest.md)
 * [Testing the connector](#testing-the-connector)
 
 
