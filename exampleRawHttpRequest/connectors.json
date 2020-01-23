@@ -15,6 +15,7 @@
 			{
 				"name": "raw_http_request",
 				"title": "Raw HTTP Request (Advanced)",
+				"description": "Perform a raw HTTP request with some pre-configuration and processing by the connector, such as authentication.",
 				"input_schema": {
 					"type": "object",
 					"properties": {
@@ -29,6 +30,7 @@
 								"HEAD",
 								"OPTIONS"
 							],
+							"default": "GET",
 							"description": "The HTTP verb to perform the request with",
 							"title": "Method"
 						},
@@ -88,7 +90,10 @@
 										"title": "Value"
 									}
 								},
-								"required": [],
+								"required": [
+									"key",
+									"value"
+								],
 								"advanced": [],
 								"additionalProperties": false,
 								"title": "Header",
@@ -114,7 +119,10 @@
 										"title": "Value"
 									}
 								},
-								"required": [],
+								"required": [
+									"key",
+									"value"
+								],
 								"advanced": [],
 								"additionalProperties": false,
 								"title": "Query Parameter",
@@ -234,11 +242,13 @@
 						},
 						"include_raw_body": {
 							"type": "boolean",
-							"title": "Include raw body in the operation's response",
-							"default": false
+							"default": false,
+							"description": "Include raw body in the operation's response",
+							"title": "Include raw body"
 						}
 					},
 					"required": [
+						"method",
 						"url",
 						"include_raw_body"
 					],
