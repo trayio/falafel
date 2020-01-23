@@ -87,14 +87,17 @@ The Raw HTTP Request model utilises some functions which are also exposed via `f
 
 ### validateUrlInput
 [*falafel.utils.rawHttpRequest.validateUrlInput*](lib/rawHttpRequest/validateUrlInput.js)
+
 This function accepts the `params` object, and validate the `url` property. If the `endpoint` is provided, the function will ensure it does not start with `http://` or `https://`. Conversely, if `full_url` is provided, the function will ensure the string starts with `http://` or `https://`. If validation is not satisfied, an error will be thrown.
 
 ### processBody
 [*falafel.utils.rawHttpRequest.processBody*](lib/rawHttpRequest/processBody.js)
+
 This ASYNC function requires the `body` property to be provided from `params`. The function will process the `body`'s specified oneOf configuration into the required format for Threadneedle. This includes downloading files for `form_data`.
 
 ### formatOutput
 [*falafel.utils.rawHttpRequest.formatOutput*](lib/rawHttpRequest/formatOutput.js)
+
 This function accepts the same arguments as `afterSuccess`, and formats the response into the following format.
 ```
 {
