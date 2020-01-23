@@ -1,0 +1,331 @@
+[
+	{
+		"name": "testconnector",
+		"title": "Test connector - Raw HTTP Request",
+		"description": "Test connector for Raw HTTP Request.",
+		"version": "1.0",
+		"tags": [
+			"service"
+		],
+		"icon": {
+			"type": "streamline",
+			"value": "globe-2"
+		},
+		"messages": [
+			{
+				"name": "raw_http_request",
+				"title": "Raw HTTP Request (Advanced)",
+				"description": "Perform a raw HTTP request with some pre-configuration and processing by the connector, such as authentication.",
+				"input_schema": {
+					"type": "object",
+					"properties": {
+						"method": {
+							"type": "string",
+							"enum": [
+								"GET",
+								"POST",
+								"PATCH",
+								"PUT",
+								"DELETE",
+								"HEAD",
+								"OPTIONS"
+							],
+							"default": "GET",
+							"description": "The HTTP verb to perform the request with",
+							"title": "Method"
+						},
+						"url": {
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"endpoint": {
+											"type": "string",
+											"description": "The endpoint to call in relation to the base URL used by the connector. E.g: `/department/marketing/employees`.",
+											"title": "Endpoint"
+										}
+									},
+									"required": [
+										"endpoint"
+									],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "Endpoint"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"full_url": {
+											"type": "string",
+											"description": "The full URL to make the request against. Must begin with `http://` or `https://`.",
+											"title": "Full url"
+										}
+									},
+									"required": [
+										"full_url"
+									],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "Full URL"
+								}
+							],
+							"description": "The URL to make the request with.",
+							"title": "Url"
+						},
+						"headers": {
+							"type": "array",
+							"description": "Headers to be included in the request.",
+							"title": "Headers",
+							"items": {
+								"type": "object",
+								"properties": {
+									"key": {
+										"type": "string",
+										"description": "The header key.",
+										"title": "Key"
+									},
+									"value": {
+										"type": "string",
+										"description": "The header value.",
+										"title": "Value"
+									}
+								},
+								"required": [
+									"key",
+									"value"
+								],
+								"advanced": [],
+								"additionalProperties": false,
+								"title": "Header",
+								"description": "An individual header."
+							},
+							"additionalItems": true
+						},
+						"query_parameters": {
+							"type": "array",
+							"title": "Query Parameters",
+							"description": "Query parameters to be supplied with the request.",
+							"items": {
+								"type": "object",
+								"properties": {
+									"key": {
+										"type": "string",
+										"description": "The parameter key.",
+										"title": "Key"
+									},
+									"value": {
+										"type": "string",
+										"description": "The parameter value.",
+										"title": "Value"
+									}
+								},
+								"required": [
+									"key",
+									"value"
+								],
+								"advanced": [],
+								"additionalProperties": false,
+								"title": "Query Parameter",
+								"description": "An individual query parameter."
+							},
+							"additionalItems": true
+						},
+						"body": {
+							"title": "Body Type",
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"raw": {
+											"type": [
+												"string",
+												"object"
+											],
+											"title": "raw",
+											"format": "code"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "raw",
+									"description": "The raw body to perform the request with."
+								},
+								{
+									"type": "object",
+									"properties": {
+										"form_data": {
+											"type": "object",
+											"properties": {},
+											"required": [],
+											"advanced": [],
+											"additionalProperties": {
+												"oneOf": [
+													{
+														"type": "string",
+														"title": "Text"
+													},
+													{
+														"type": "object",
+														"properties": {},
+														"required": [],
+														"advanced": [],
+														"additionalProperties": false,
+														"title": "File",
+														"format": "file"
+													}
+												]
+											},
+											"title": "form-data",
+											"description": "The form data to perform the request with."
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "form-data"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"form_urlencoded": {
+											"type": "object",
+											"properties": {},
+											"required": [],
+											"advanced": [],
+											"additionalProperties": {
+												"type": "string"
+											},
+											"title": "form-urlencoded",
+											"description": "The form url encoded data to perform the request with."
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "form-urlencoded"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"binary": {
+											"type": "object",
+											"properties": {},
+											"required": [],
+											"advanced": [],
+											"additionalProperties": false,
+											"title": "binary",
+											"description": "The binary from a file to perform the request with.",
+											"format": "file"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "binary"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"none": {
+											"type": "null",
+											"description": "Specify no body to send the request with.",
+											"title": "None"
+										}
+									},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "none"
+								}
+							]
+						},
+						"include_raw_body": {
+							"type": "boolean",
+							"default": false,
+							"description": "Include raw body in the operation's response",
+							"title": "Include raw body"
+						}
+					},
+					"required": [
+						"method",
+						"url",
+						"include_raw_body"
+					],
+					"advanced": [
+						"include_raw_body"
+					],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"output_schema": {
+					"type": "object",
+					"properties": {
+						"response": {
+							"type": "object",
+							"properties": {
+								"status_code": {
+									"type": "number",
+									"title": "Status code"
+								},
+								"headers": {
+									"type": "object",
+									"properties": {},
+									"required": [],
+									"advanced": [],
+									"additionalProperties": false,
+									"title": "Headers"
+								},
+								"body": {
+									"type": [
+										"string",
+										"number",
+										"object",
+										"array",
+										"boolean",
+										"null"
+									],
+									"title": "Body"
+								}
+							},
+							"required": [],
+							"advanced": [],
+							"additionalProperties": false,
+							"title": "Response"
+						}
+					},
+					"required": [],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"dynamic_output": false
+			},
+			{
+				"name": "test_op",
+				"title": "Test operation",
+				"input_schema": {
+					"type": "object",
+					"properties": {
+						"method": {
+							"type": "string",
+							"title": "Method"
+						},
+						"url": {
+							"type": "string",
+							"title": "Url"
+						}
+					},
+					"required": [
+						"method",
+						"url"
+					],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"dynamic_output": false
+			}
+		]
+	}
+]
