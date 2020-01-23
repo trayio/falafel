@@ -93,10 +93,6 @@ This function accepts the `params` object, and validate the `url` property. If t
 [*falafel.utils.rawHttpRequest.processBody*](lib/rawHttpRequest/processBody.js)
 This ASYNC function requires the `body` property to be provided from `params`. The function will process the `body`'s specified oneOf configuration into the required format for Threadneedle. This includes downloading files for `form_data`.
 
-### validateRequestAgainstProtectedService
-[*falafel.utils.rawHttpRequest.validateRequestAgainstProtectedService*](lib/rawHttpRequest/validateRequestAgainstProtectedService.js)
-If the service is protected and configured (which is derived from `#auth_app` from `params`), then this function will validate the request before allowing it to execute. The function accepts the same arguments as `beforeRequest`.
-
 ### formatOutput
 [*falafel.utils.rawHttpRequest.formatOutput*](lib/rawHttpRequest/formatOutput.js)
 This function accepts the same arguments as `afterSuccess`, and formats the response into the following format.
