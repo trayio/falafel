@@ -95,6 +95,11 @@ This function accepts the whole `params` and validates against `method` and `bod
 
 This ASYNC function requires the `body` property to be provided from `params`. The function will process the `body`'s specified oneOf configuration into the required format for Threadneedle. This includes downloading files for `form_data`.
 
+### validateAndProcessBody
+[*falafel.utils.rawHttpRequest.validateAndProcessBody*](lib/rawHttpRequest/validateAndProcessBody.js)
+
+This ASYNC function performs `validateBody` and `processBody`. `params` is the only argument, and the function returns `params` if modified, else `undefined`.
+
 ### validateUrlInput
 [*falafel.utils.rawHttpRequest.validateUrlInput*](lib/rawHttpRequest/validateUrlInput.js)
 
