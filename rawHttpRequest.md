@@ -100,6 +100,11 @@ This ASYNC function requires the `body` property to be provided from `params`. T
 
 This ASYNC function performs `validateBody` and `processBody`. `params` is the only argument, and the function returns `params` if modified, else `undefined`.
 
+### processOptions
+[*falafel.utils.rawHttpRequest.processOptions*](lib/rawHttpRequest/processOptions.js)
+
+This function requires the `params` object, after `processedBody` has been set (i.e. in the `before`), and returns an `options` object. The content type is evaluated based on the body and type, which is then set in the headers (unless specified), and also used to set both `json` and `multipart` flags for needle.
+
 ### validateUrlInput
 [*falafel.utils.rawHttpRequest.validateUrlInput*](lib/rawHttpRequest/validateUrlInput.js)
 
