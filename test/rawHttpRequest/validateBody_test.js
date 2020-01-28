@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 const validateBody = require('../../lib/rawHttpRequest/validateBody.js');
 
-describe.only('validateBody', () => {
+describe('validateBody', () => {
 
 	it('should be a function', () => {
 		assert(_.isFunction(validateBody));
