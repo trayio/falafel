@@ -168,7 +168,9 @@ describe('processOptions', () => {
 					test: 'Hello world'
 				},
 			},
-			processedBody: 'Hello world',
+			processedBody: {
+				test: 'Hello world'
+			},
 			headers: [
 				{
 					key: 'Content-Type',
@@ -185,6 +187,71 @@ describe('processOptions', () => {
 				'Content-Type': 'application/vnd+json'
 			}
 		);
+
+	});
+
+	describe('should set parse_response correctly', () => {
+
+		it('true', () => {
+			const sampleParams = {
+				body: {
+					raw: 'Hello world',
+				},
+				processedBody: 'Hello world',
+				headers: [],
+				parse_response: 'true'
+			};
+
+			const processedOptions = processOptions(sampleParams);
+
+			assert.strictEqual(processedOptions.parse_response,	true);
+		});
+
+		it('json', () => {
+			const sampleParams = {
+				body: {
+					raw: 'Hello world',
+				},
+				processedBody: 'Hello world',
+				headers: [],
+				parse_response: 'json'
+			};
+
+			const processedOptions = processOptions(sampleParams);
+
+			assert.strictEqual(processedOptions.parse_response,	'json');
+		});
+
+		it('xml', () => {
+			const sampleParams = {
+				body: {
+					raw: 'Hello world',
+				},
+				processedBody: 'Hello world',
+				headers: [],
+				parse_response: 'xml'
+			};
+
+			const processedOptions = processOptions(sampleParams);
+
+			assert.strictEqual(processedOptions.parse_response,	'xml');
+		});
+
+		it('false', () => {
+			const sampleParams = {
+				body: {
+					raw: 'Hello world',
+				},
+				processedBody: 'Hello world',
+				headers: [],
+				parse_response: 'false'
+			};
+
+			const processedOptions = processOptions(sampleParams);
+
+			assert.strictEqual(processedOptions.parse_response,	false);
+		});
+
 
 	});
 
