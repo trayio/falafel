@@ -137,6 +137,7 @@
 									"type": "object",
 									"properties": {
 										"raw": {
+											"additionalProperties": true,
 											"type": [
 												"string",
 												"object"
@@ -245,6 +246,34 @@
 							"default": false,
 							"description": "Include raw body in the operation's response",
 							"title": "Include raw body"
+						},
+						"parse_response": {
+							"type": "string",
+							"enum": [
+								{
+									"text": "All",
+									"description": "Automatically parse all content types if possible.",
+									"value": "true"
+								},
+								{
+									"text": "JSON only",
+									"description": "Only parse JSON content, leave other types as text.",
+									"value": "json"
+								},
+								{
+									"text": "XML only",
+									"description": "Only parse XML content, leave other types as text.",
+									"value": "xml"
+								},
+								{
+									"text": "None",
+									"description": "Always return text.",
+									"value": "false"
+								}
+							],
+							"default": "true",
+							"description": "Automatically parse incoming data to Javascript objects if possible",
+							"title": "Parse response"
 						}
 					},
 					"required": [
@@ -253,7 +282,8 @@
 						"include_raw_body"
 					],
 					"advanced": [
-						"include_raw_body"
+						"include_raw_body",
+						"parse_response"
 					],
 					"$schema": "http://json-schema.org/draft-04/schema#",
 					"additionalProperties": false
