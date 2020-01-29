@@ -137,6 +137,7 @@
 									"type": "object",
 									"properties": {
 										"raw": {
+											"additionalProperties": true,
 											"type": [
 												"string",
 												"object"
