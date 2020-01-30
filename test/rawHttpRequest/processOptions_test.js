@@ -158,6 +158,26 @@ describe('processOptions', () => {
 
 		});
 
+		it('none', () => {
+
+			const passThrough = new PassThrough();
+			passThrough.end('Hello World');
+
+			const processedOptions = processOptions({
+				body: {
+					none: null,
+				}
+			});
+
+			assert.deepEqual(
+				processedOptions.headers,
+				{}
+			);
+			assert.strictEqual(processedOptions.json, false);
+			assert.strictEqual(processedOptions.multipart, false);
+
+		});
+
 	});
 
 	it('should use user defined Content-Type of processed value', () => {

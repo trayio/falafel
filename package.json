@@ -1,6 +1,6 @@
 {
   "name": "@trayio/falafel",
-  "version": "1.25.1",
+  "version": "1.25.2",
   "description": "A framework for developing and running connectors.",
   "main": "lib/index.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "aws-sdk": "~2.413.0",
     "generate-schema": "~2.6.0",
     "lodash": "~4.17.15",
-    "mime": "~2.4.0",
+    "mime": "~2.4.4",
     "moment": "~2.24.0",
     "mout": "~1.1.0",
     "needle": "~2.1.2",
