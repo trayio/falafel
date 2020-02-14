@@ -40,7 +40,7 @@ describe('#prettyTitle', function () {
 		assert.equal(prettyTitle('list baseurl'), 'List baseurl');
 	});
 
-	it('should globally upper id, ids and urls', function () {
+	it('should globally upper case id, ids and url', function () {
 		assert.equal(prettyTitle('list_id_url_name'), 'List ID URL name');
 		assert.equal(prettyTitle('list_url_id_name'), 'List URL ID name');
 		assert.equal(prettyTitle('list_ids_url_name'), 'List IDs URL name');
