@@ -241,6 +241,68 @@ describe('#buildConnectorsJson', function () {
 		assert.equal(parsedJsonSchema[0].messages[0].delivery, 'request_response');
 
 	});
+	
+	it('should autogenerate message titles which include id, ids or url nicely if not already declared', function () {
+
+		var outputJsonString = buildConnectorsJson(null, [
+			_.defaults(
+				{
+					messages: [
+						{
+							schema: {
+								name: 'my_message_id',
+								input: {
+									name: {
+										type: 'string'
+									}
+								},
+								delivery: 'acknowledge'
+							},
+							model: {
+								url: '..'
+							}
+						},
+						{
+							schema: {
+								name: 'my_second_message_ids',
+								delivery: 'request_response',
+							},
+							model: {}
+						},
+						{
+							schema: {
+								name: 'my_third_message_url',
+								delivery: 'request_response',
+							},
+							model: {}
+						},
+						{
+							schema: {
+								name: 'my_fourth_message_url',
+								title: 'My Amazing 4th message',
+								delivery: 'request_response',
+							},
+							model: {}
+						},
+					]
+				},
+				exampleConfig
+			)
+		]);
+
+		var parsedJsonSchema = outputJsonString;
+		assert.equal(parsedJsonSchema[0].messages.length, 4);
+		// remember - operations are sorted by title
+		assert.equal(parsedJsonSchema[0].messages[0].title, 'My Amazing 4th message');
+		assert.equal(parsedJsonSchema[0].messages[0].delivery, 'request_response');
+		assert.equal(parsedJsonSchema[0].messages[1].title, 'My message ID');
+		assert.equal(parsedJsonSchema[0].messages[1].delivery, 'acknowledge');
+		assert.equal(parsedJsonSchema[0].messages[2].title, 'My second message IDs');
+		assert.equal(parsedJsonSchema[0].messages[2].delivery, 'request_response');
+		assert.equal(parsedJsonSchema[0].messages[3].title, 'My third message URL');
+		assert.equal(parsedJsonSchema[0].messages[3].delivery, 'request_response');
+
+	});
 
 	it('should create from specified output schema if specified', function () {
 
