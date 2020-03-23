@@ -59,6 +59,42 @@ describe('falafel', function () {
 		assert.strictEqual(called, false);
 	});
 
+	it('should not spin up express server in dev mode with flag set', function () {
+		process.env.FALAFEL_DISABLE_DEV_SERVER = 'true';
+		var called = false;
+
+		var Falafel = proxyquire('../lib', {
+			'./buildConnectorsJson': function () {},
+			'./devServer': function () {
+				called = true;
+			}
+		});
+
+		new Falafel().wrap({
+			directory: __dirname+'/sample',
+			dev: true
+		});
+		delete process.env.FALAFEL_DISABLE_DEV_SERVER;
+		assert.strictEqual(called, false);
+	});
+
+	it('should spin up express server in dev mode with no flag set', function () {
+		var called = false;
+
+		var Falafel = proxyquire('../lib', {
+			'./buildConnectorsJson': function () {},
+			'./devServer': function () {
+				called = true;
+			}
+		});
+
+		new Falafel().wrap({
+			directory: __dirname+'/sample',
+			dev: true
+		});
+		assert(called);
+	});
+
 	it('should return JSON schema for generateJsonSchema method', function () {
 
 		var jsonSchema = new Falafel().generateJsonSchema({
