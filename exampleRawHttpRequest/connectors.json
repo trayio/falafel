@@ -14,7 +14,7 @@
 		"messages": [
 			{
 				"name": "raw_http_request",
-				"title": "Raw HTTP Request (Advanced)",
+				"title": "Raw HTTP request (advanced)",
 				"description": "Perform a raw HTTP request with some pre-configuration and processing by the connector, such as authentication.",
 				"input_schema": {
 					"type": "object",
@@ -58,7 +58,7 @@
 										"full_url": {
 											"type": "string",
 											"description": "The full URL to make the request against. Must begin with `http://` or `https://`.",
-											"title": "Full url"
+											"title": "Full URL"
 										}
 									},
 									"required": [
@@ -70,7 +70,7 @@
 								}
 							],
 							"description": "The URL to make the request with.",
-							"title": "Url"
+							"title": "URL"
 						},
 						"headers": {
 							"type": "array",
@@ -343,7 +343,7 @@
 						},
 						"url": {
 							"type": "string",
-							"title": "Url"
+							"title": "URL"
 						}
 					},
 					"required": [
