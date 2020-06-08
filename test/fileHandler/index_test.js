@@ -36,7 +36,7 @@ function getProxiedFileHandler (proxyModules = {}) {
 }
 
 
-describe.only('#generateSchemaFromJs', function () {
+describe('#fileHandler', function () {
 	const random2xx = _.random(200, 299),
 		random4xx = _.random(400, 499),
 		randomNon2xx = ( _.random(0, 1) ? _.random(0, 199) : _.random(300, 599));
