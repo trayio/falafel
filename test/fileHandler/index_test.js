@@ -9,7 +9,7 @@ const nock = require('nock');
 const needle = require('needle');
 const moment = require('moment');
 
-function getProxiedFileHandler (proxyModules = {}) {
+function getProxiedFileHandler (proxyModules = {}, options = {}) {
 	const fileHandler = proxyquire(
 		'../../lib/fileHandler/index.js',
 		{
@@ -34,7 +34,7 @@ function getProxiedFileHandler (proxyModules = {}) {
 			...proxyModules
 		}
 	);
-	fileHandler({});
+	fileHandler(options);
 }
 
 describe.only('#fileHandler', function () {
@@ -45,7 +45,7 @@ describe.only('#fileHandler', function () {
 		delete global.falafel;
 	}
 
-	describe.only('upload', () => {
+	describe('upload', () => {
 
 		const testFilePath = '/tmp/falafel/tests/example.txt';
 		const contentLength = Buffer.byteLength('Example content', 'utf8');
@@ -117,23 +117,245 @@ describe.only('#fileHandler', function () {
 				}
 			});
 
-			const downloadResult = await falafel.files.upload({
-				// bucket
-				// region
+			const uploadResult = await falafel.files.upload({
 				contentType: 'text/plain',
 				name: 'example.txt',
 				length: contentLength,
 				file: testFilePath
 			});
 
-
-			assert.strictEqual(downloadResult.name, 'example.txt');
-			assert.strictEqual(downloadResult.url, 'https://test.aws.com/buckethash');
-			assert.strictEqual(downloadResult.mime_type, 'text/plain');
-			assert.strictEqual(downloadResult.expires, currentTime.add(6, 'hours').unix());
+			assert.strictEqual(uploadResult.name, 'example.txt');
+			assert.strictEqual(uploadResult.url, 'https://test.aws.com/buckethash');
+			assert.strictEqual(uploadResult.mime_type, 'text/plain');
+			assert.strictEqual(uploadResult.expires, currentTime.add(6, 'hours').unix());
 		});
 
-		it(`should error if length is not provided`, async () => {
+		it(`should upload file to dev bucket in dev mode`, async () => {
+			const testFilePath = '/tmp/falafel/tests/example.txt';
+			fs.ensureFileSync(testFilePath);
+			fs.writeFileSync(testFilePath, 'Example content');
+			const contentLength = Buffer.byteLength('Example content', 'utf8');
+
+			const randomGuid = guid();
+			let currentTime;
+			getProxiedFileHandler(
+				{
+					'mout/random/guid': () => {
+						return randomGuid;
+					},
+					'aws-sdk': {
+						'S3': class S3 {
+							constructor (params) {
+								assert.deepEqual(
+									params,
+									{ region: 'us-west-2' }
+								);
+							}
+							async upload (uploadParams, callback) {
+								assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads-dev');
+								assert.strictEqual(uploadParams.Key, randomGuid);
+								assert.strictEqual(uploadParams.ContentType, 'text/plain');
+								assert.strictEqual(uploadParams.ContentLength, contentLength);
+								assert(_.isFunction(uploadParams.Body.pipe));
+								const streamContent = await new Promise((resolve, reject) => {
+									let acc = '';
+									uploadParams.Body.on('data', (chunk) => {
+										acc += chunk.toString();
+									});
+									uploadParams.Body.on('end', (chunk) => {
+										if (chunk) {
+											acc += chunk.toString();
+										}
+										resolve(acc);
+									});
+									uploadParams.Body.on('error', reject);
+								});
+								assert.strictEqual(streamContent, 'Example content');
+								callback(null, {
+									Bucket: uploadParams.Bucket,
+									Key: uploadParams.Key,
+								});
+							}
+							getSignedUrl (operation, signedParams, callback) {
+								currentTime = moment();
+								assert.strictEqual(operation, 'getObject');
+								assert.strictEqual(signedParams.Bucket, 'workflow-file-uploads-dev');
+								assert.strictEqual(signedParams.Key, randomGuid);
+								assert.strictEqual(signedParams.Expires, 21600);
+								callback(null, 'https://test.aws.com/buckethash');
+							}
+						}
+					}
+				},
+				{
+					dev: true
+				}
+			);
+
+			const uploadResult = await falafel.files.upload({
+				contentType: 'text/plain',
+				name: 'example.txt',
+				length: contentLength,
+				file: testFilePath
+			});
+
+			assert.strictEqual(uploadResult.name, 'example.txt');
+			assert.strictEqual(uploadResult.url, 'https://test.aws.com/buckethash');
+			assert.strictEqual(uploadResult.mime_type, 'text/plain');
+			assert.strictEqual(uploadResult.expires, currentTime.add(6, 'hours').unix());
+		});
+
+		it(`should override default bucket and region if specified`, async () => {
+			const testFilePath = '/tmp/falafel/tests/example.txt';
+			fs.ensureFileSync(testFilePath);
+			fs.writeFileSync(testFilePath, 'Example content');
+			const contentLength = Buffer.byteLength('Example content', 'utf8');
+
+			const randomGuid = guid();
+			let currentTime;
+			getProxiedFileHandler({
+				'mout/random/guid': () => {
+					return randomGuid;
+				},
+				'aws-sdk': {
+					'S3': class S3 {
+						constructor (params) {
+							assert.deepEqual(
+								params,
+								{ region: 'us-west-1' }
+							);
+						}
+						async upload (uploadParams, callback) {
+							assert.strictEqual(uploadParams.Bucket, 'other-bucket');
+							assert.strictEqual(uploadParams.Key, randomGuid);
+							assert.strictEqual(uploadParams.ContentType, 'text/plain');
+							assert.strictEqual(uploadParams.ContentLength, contentLength);
+							assert(_.isFunction(uploadParams.Body.pipe));
+							const streamContent = await new Promise((resolve, reject) => {
+								let acc = '';
+								uploadParams.Body.on('data', (chunk) => {
+									acc += chunk.toString();
+								});
+								uploadParams.Body.on('end', (chunk) => {
+									if (chunk) {
+										acc += chunk.toString();
+									}
+									resolve(acc);
+								});
+								uploadParams.Body.on('error', reject);
+							});
+							assert.strictEqual(streamContent, 'Example content');
+							callback(null, {
+								Bucket: uploadParams.Bucket,
+								Key: uploadParams.Key,
+							});
+						}
+						getSignedUrl (operation, signedParams, callback) {
+							currentTime = moment();
+							assert.strictEqual(operation, 'getObject');
+							assert.strictEqual(signedParams.Bucket, 'other-bucket');
+							assert.strictEqual(signedParams.Key, randomGuid);
+							assert.strictEqual(signedParams.Expires, 21600);
+							callback(null, 'https://test.aws.com/buckethash');
+						}
+					}
+				}
+			});
+
+			const uploadResult = await falafel.files.upload({
+				bucket: 'other-bucket',
+				region: 'us-west-1',
+				contentType: 'text/plain',
+				name: 'example.txt',
+				length: contentLength,
+				file: testFilePath
+			});
+
+			assert.strictEqual(uploadResult.name, 'example.txt');
+			assert.strictEqual(uploadResult.url, 'https://test.aws.com/buckethash');
+			assert.strictEqual(uploadResult.mime_type, 'text/plain');
+			assert.strictEqual(uploadResult.expires, currentTime.add(6, 'hours').unix());
+		});
+
+		it(`should override default bucket and region if specified in environment`, async () => {
+			const testFilePath = '/tmp/falafel/tests/example.txt';
+			fs.ensureFileSync(testFilePath);
+			fs.writeFileSync(testFilePath, 'Example content');
+			const contentLength = Buffer.byteLength('Example content', 'utf8');
+
+			process.env.CONNECTOR_FILE_BUCKET = 'other-bucket';
+			process.env.CONNECTOR_FILE_REGION = 'us-west-1';
+
+			try {
+				const randomGuid = guid();
+				let currentTime;
+				getProxiedFileHandler({
+					'mout/random/guid': () => {
+						return randomGuid;
+					},
+					'aws-sdk': {
+						'S3': class S3 {
+							constructor (params) {
+								assert.deepEqual(
+									params,
+									{ region: 'us-west-1' }
+								);
+							}
+							async upload (uploadParams, callback) {
+								assert.strictEqual(uploadParams.Bucket, 'other-bucket');
+								assert.strictEqual(uploadParams.Key, randomGuid);
+								assert.strictEqual(uploadParams.ContentType, 'text/plain');
+								assert.strictEqual(uploadParams.ContentLength, contentLength);
+								assert(_.isFunction(uploadParams.Body.pipe));
+								const streamContent = await new Promise((resolve, reject) => {
+									let acc = '';
+									uploadParams.Body.on('data', (chunk) => {
+										acc += chunk.toString();
+									});
+									uploadParams.Body.on('end', (chunk) => {
+										if (chunk) {
+											acc += chunk.toString();
+										}
+										resolve(acc);
+									});
+									uploadParams.Body.on('error', reject);
+								});
+								assert.strictEqual(streamContent, 'Example content');
+								callback(null, {
+									Bucket: uploadParams.Bucket,
+									Key: uploadParams.Key,
+								});
+							}
+							getSignedUrl (operation, signedParams, callback) {
+								currentTime = moment();
+								assert.strictEqual(operation, 'getObject');
+								assert.strictEqual(signedParams.Bucket, 'other-bucket');
+								assert.strictEqual(signedParams.Key, randomGuid);
+								assert.strictEqual(signedParams.Expires, 21600);
+								callback(null, 'https://test.aws.com/buckethash');
+							}
+						}
+					}
+				});
+
+				const uploadResult = await falafel.files.upload({
+					contentType: 'text/plain',
+					name: 'example.txt',
+					length: contentLength,
+					file: testFilePath
+				});
+
+				assert.strictEqual(uploadResult.name, 'example.txt');
+				assert.strictEqual(uploadResult.url, 'https://test.aws.com/buckethash');
+				assert.strictEqual(uploadResult.mime_type, 'text/plain');
+				assert.strictEqual(uploadResult.expires, currentTime.add(6, 'hours').unix());
+			} finally {
+				delete process.env.CONNECTOR_FILE_BUCKET;
+				delete process.env.CONNECTOR_FILE_REGION;
+			}
+		});
+
+		it(`should error in correct format if length is not provided`, async () => {
 			const testFilePath = '/tmp/falafel/tests/example.txt';
 			fs.ensureFileSync(testFilePath);
 			fs.writeFileSync(testFilePath, 'Example content');
@@ -142,24 +364,165 @@ describe.only('#fileHandler', function () {
 			getProxiedFileHandler({});
 
 			try {
-				const downloadResult = await falafel.files.upload({
-					// bucket
-					// region
+				const uploadResult = await falafel.files.upload({
 					contentType: 'text/plain',
 					name: 'example.txt',
 					file: testFilePath
 				});
-				assert.fail(downloadResult);
+				assert.fail(uploadResult);
 			} catch (uploadError) {
 				try {
 					assert.strictEqual(uploadError.code, '#connector_error');
 					assert.strictEqual(uploadError.message, '`length` must be specified for file uploading.');
 				} catch (otherError) {
-					assert.fail(otherError);
+					assert.fail(uploadError);
 				}
 			}
 		});
 
+		it(`should surface error in correct format if upload errors`, async () => {
+			const testFilePath = '/tmp/falafel/tests/example.txt';
+			fs.ensureFileSync(testFilePath);
+			fs.writeFileSync(testFilePath, 'Example content');
+			const contentLength = Buffer.byteLength('Example content', 'utf8');
+
+			const randomGuid = guid();
+			let currentTime;
+			getProxiedFileHandler({
+				'mout/random/guid': () => {
+					return randomGuid;
+				},
+				'aws-sdk': {
+					'S3': class S3 {
+						constructor (params) {
+							assert.deepEqual(
+								params,
+								{ region: 'us-west-2' }
+							);
+						}
+						async upload (uploadParams, callback) {
+							assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads');
+							assert.strictEqual(uploadParams.Key, randomGuid);
+							assert.strictEqual(uploadParams.ContentType, 'text/plain');
+							assert.strictEqual(uploadParams.ContentLength, contentLength);
+							assert(_.isFunction(uploadParams.Body.pipe));
+							const streamContent = await new Promise((resolve, reject) => {
+								let acc = '';
+								uploadParams.Body.on('data', (chunk) => {
+									acc += chunk.toString();
+								});
+								uploadParams.Body.on('end', (chunk) => {
+									if (chunk) {
+										acc += chunk.toString();
+									}
+									resolve(acc);
+								});
+								uploadParams.Body.on('error', reject);
+							});
+							assert.strictEqual(streamContent, 'Example content');
+							callback(new Error('Some upload error'), null);
+						}
+						getSignedUrl (operation, signedParams, callback) {
+							assert.fail();
+						}
+					}
+				}
+			});
+
+			try {
+				const uploadResult = await falafel.files.upload({
+					contentType: 'text/plain',
+					name: 'example.txt',
+					length: contentLength,
+					file: testFilePath
+				});
+				assert.fail(uploadResult);
+			} catch (uploadError) {
+				try {
+					assert.strictEqual(uploadError.code, '#connector_error');
+					assert.strictEqual(uploadError.message, 'An issue has occured when attempting to upload the file.');
+					assert.strictEqual(uploadError.payload.error, 'Some upload error');
+				} catch (otherError) {
+					assert.fail(uploadError);
+				}
+			}
+		});
+
+		it(`should surface error in correct format if getSignedUrl errors`, async () => {
+			const testFilePath = '/tmp/falafel/tests/example.txt';
+			fs.ensureFileSync(testFilePath);
+			fs.writeFileSync(testFilePath, 'Example content');
+			const contentLength = Buffer.byteLength('Example content', 'utf8');
+
+			const randomGuid = guid();
+			let currentTime;
+			getProxiedFileHandler({
+				'mout/random/guid': () => {
+					return randomGuid;
+				},
+				'aws-sdk': {
+					'S3': class S3 {
+						constructor (params) {
+							assert.deepEqual(
+								params,
+								{ region: 'us-west-2' }
+							);
+						}
+						async upload (uploadParams, callback) {
+							assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads');
+							assert.strictEqual(uploadParams.Key, randomGuid);
+							assert.strictEqual(uploadParams.ContentType, 'text/plain');
+							assert.strictEqual(uploadParams.ContentLength, contentLength);
+							assert(_.isFunction(uploadParams.Body.pipe));
+							const streamContent = await new Promise((resolve, reject) => {
+								let acc = '';
+								uploadParams.Body.on('data', (chunk) => {
+									acc += chunk.toString();
+								});
+								uploadParams.Body.on('end', (chunk) => {
+									if (chunk) {
+										acc += chunk.toString();
+									}
+									resolve(acc);
+								});
+								uploadParams.Body.on('error', reject);
+							});
+							assert.strictEqual(streamContent, 'Example content');
+							callback(null, {
+								Bucket: uploadParams.Bucket,
+								Key: uploadParams.Key,
+							});
+						}
+						getSignedUrl (operation, signedParams, callback) {
+							currentTime = moment();
+							assert.strictEqual(operation, 'getObject');
+							assert.strictEqual(signedParams.Bucket, 'workflow-file-uploads');
+							assert.strictEqual(signedParams.Key, randomGuid);
+							assert.strictEqual(signedParams.Expires, 21600);
+							callback(new Error('Some getSignedUrl error'), null);
+						}
+					}
+				}
+			});
+
+			try {
+				const uploadResult = await falafel.files.upload({
+					contentType: 'text/plain',
+					name: 'example.txt',
+					length: contentLength,
+					file: testFilePath
+				});
+				assert.fail(uploadResult);
+			} catch (uploadError) {
+				try {
+					assert.strictEqual(uploadError.code, '#connector_error');
+					assert.strictEqual(uploadError.message, 'An issue has occured when attempting to upload the file.');
+					assert.strictEqual(uploadError.payload.error, 'Some getSignedUrl error');
+				} catch (otherError) {
+					assert.fail(uploadError);
+				}
+			}
+		});
 	});
 
 	const random2xx = _.random(200, 299),
@@ -192,7 +555,7 @@ describe.only('#fileHandler', function () {
 						assert.strictEqual(options.parse, false);
 						assert.strictEqual(options.open_timeout, 0);
 						assert.strictEqual(options.read_timeout, 0);
-						assert(_.isString(options.output));
+						assert.strictEqual(options.output, '/tmp/somefile.txt');
 						return needle.get(url, options, callback);
 					}
 				}
