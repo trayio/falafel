@@ -38,7 +38,7 @@ function getProxiedFileHandler (proxyModules = {}, options = {}) {
 	fileHandler(options);
 }
 
-describe.only('#fileHandler', function () {
+describe('#fileHandler', function () {
 	function beforeEachFunc () {
 		global.falafel = {};
 	}
