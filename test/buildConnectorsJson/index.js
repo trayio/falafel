@@ -1,10 +1,10 @@
-var _ = require('lodash');
-var assert = require('assert');
-var proxyquire = require('proxyquire');
+const _ = require('lodash');
+const assert = require('assert');
+const proxyquire = require('proxyquire');
 
-var fileOutput;
+let fileOutput;
 
-var buildConnectorsJson = proxyquire(
+const buildConnectorsJson = proxyquire(
 	'../../lib/buildConnectorsJson',
 	{
 		fs: {
@@ -15,9 +15,9 @@ var buildConnectorsJson = proxyquire(
 	}
 );
 
-describe('#buildConnectorsJson', function () {
+describe.only('#buildConnectorsJson', function () {
 
-	var exampleConfig = {
+	const exampleConfig = {
 		name: 'mailchimp',
 		title: 'MailChimp',
 		icon: {
@@ -32,9 +32,9 @@ describe('#buildConnectorsJson', function () {
 
 	it('should pick the top level connectors keys', function () {
 
-		var inputConfig = _.cloneDeep(exampleConfig);
+		const inputConfig = _.cloneDeep(exampleConfig);
 
-		var outputJsonString = buildConnectorsJson(null, [inputConfig]);
+		const outputJsonString = buildConnectorsJson(null, [inputConfig]);
 
 		assert.deepEqual(
 			_.defaults(
@@ -54,7 +54,7 @@ describe('#buildConnectorsJson', function () {
 
 	it('should validate `branches` property', function () {
 
-		var inputConfig = _.cloneDeep(exampleConfig);
+		const inputConfig = _.cloneDeep(exampleConfig);
 		inputConfig.branches = [
 			{
 				name: 'test',
@@ -66,7 +66,7 @@ describe('#buildConnectorsJson', function () {
 			},
 		];
 
-		var outputJsonString = buildConnectorsJson(null, [inputConfig]);
+		const outputJsonString = buildConnectorsJson(null, [inputConfig]);
 
 		assert.deepEqual(
 			_.defaults(
@@ -92,7 +92,7 @@ describe('#buildConnectorsJson', function () {
 			outputJsonString[0]
 		);
 
-		var invalidInputConfig = _.cloneDeep(exampleConfig);
+		const invalidInputConfig = _.cloneDeep(exampleConfig);
 		invalidInputConfig.branches = [
 			{
 				name: 'test',
@@ -121,14 +121,14 @@ describe('#buildConnectorsJson', function () {
 
 	});
 
-	it('should not add messages without schemas', function () {
+	it('should not add operations without schemas', function () {
 
-		var outputJsonString = buildConnectorsJson(null, [
+		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
 						{
-							name: 'my_message',
+							name: 'my_operation',
 							model: {
 								url: '..'
 							}
@@ -143,14 +143,14 @@ describe('#buildConnectorsJson', function () {
 
 	});
 
-	it('should not add messages which start with \'#\' in their name', function () {
+	it('should not add operations which start with \'#\' in their name', function () {
 
-		var outputJsonString = buildConnectorsJson(null, [
+		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
 						{
-							name: '#my_message',
+							name: '#my_operation',
 							model: {
 								url: '..'
 							},
@@ -168,14 +168,14 @@ describe('#buildConnectorsJson', function () {
 
 	});
 
-	it('should add messages with schemas', function () {
+	it('should add operations with schemas', function () {
 
-		var outputJsonString = buildConnectorsJson(null, [
+		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
 						{
-							name: 'my_message',
+							name: 'my_operation',
 							model: {
 								url: '..'
 							},
@@ -197,15 +197,15 @@ describe('#buildConnectorsJson', function () {
 
 	});
 
-	it('should autogenerate message titles nicely if not already declared', function () {
+	it('should autogenerate operation titles nicely if not already declared', function () {
 
-		var outputJsonString = buildConnectorsJson(null, [
+		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
 						{
 							schema: {
-								name: 'my_message',
+								name: 'my_operation',
 								input: {
 									name: {
 										type: 'string'
@@ -219,8 +219,8 @@ describe('#buildConnectorsJson', function () {
 						},
 						{
 							schema: {
-								name: 'my_second_message',
-								title: 'My amazing second message',
+								name: 'my_second_operation',
+								title: 'My amazing second operation',
 								delivery: 'request_response',
 							},
 							model: {}
@@ -231,26 +231,26 @@ describe('#buildConnectorsJson', function () {
 			)
 		]);
 
-		var parsedJsonSchema = outputJsonString;
+		const parsedJsonSchema = outputJsonString;
 
 		assert.equal(parsedJsonSchema[0].messages.length, 2);
 		// remember - operations are sorted by title
-		assert.equal(parsedJsonSchema[0].messages[1].title, 'My message');
+		assert.equal(parsedJsonSchema[0].messages[1].title, 'My operation');
 		assert.equal(parsedJsonSchema[0].messages[1].delivery, 'acknowledge');
-		assert.equal(parsedJsonSchema[0].messages[0].title, 'My amazing second message');
+		assert.equal(parsedJsonSchema[0].messages[0].title, 'My amazing second operation');
 		assert.equal(parsedJsonSchema[0].messages[0].delivery, 'request_response');
 
 	});
-	
-	it('should autogenerate message titles which include id, ids or url nicely if not already declared', function () {
 
-		var outputJsonString = buildConnectorsJson(null, [
+	it('should autogenerate operation titles which include id, ids or url nicely if not already declared', function () {
+
+		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
 						{
 							schema: {
-								name: 'my_message_id',
+								name: 'my_operation_id',
 								input: {
 									name: {
 										type: 'string'
@@ -264,22 +264,22 @@ describe('#buildConnectorsJson', function () {
 						},
 						{
 							schema: {
-								name: 'my_second_message_ids',
+								name: 'my_second_operation_ids',
 								delivery: 'request_response',
 							},
 							model: {}
 						},
 						{
 							schema: {
-								name: 'my_third_message_url',
+								name: 'my_third_operation_url',
 								delivery: 'request_response',
 							},
 							model: {}
 						},
 						{
 							schema: {
-								name: 'my_fourth_message_url',
-								title: 'My Amazing 4th message',
+								name: 'my_fourth_operation_url',
+								title: 'My Amazing 4th operation',
 								delivery: 'request_response',
 							},
 							model: {}
@@ -290,29 +290,183 @@ describe('#buildConnectorsJson', function () {
 			)
 		]);
 
-		var parsedJsonSchema = outputJsonString;
+		const parsedJsonSchema = outputJsonString;
 		assert.equal(parsedJsonSchema[0].messages.length, 4);
 		// remember - operations are sorted by title
-		assert.equal(parsedJsonSchema[0].messages[0].title, 'My Amazing 4th message');
+		assert.equal(parsedJsonSchema[0].messages[0].title, 'My Amazing 4th operation');
 		assert.equal(parsedJsonSchema[0].messages[0].delivery, 'request_response');
-		assert.equal(parsedJsonSchema[0].messages[1].title, 'My message ID');
+		assert.equal(parsedJsonSchema[0].messages[1].title, 'My operation ID');
 		assert.equal(parsedJsonSchema[0].messages[1].delivery, 'acknowledge');
-		assert.equal(parsedJsonSchema[0].messages[2].title, 'My second message IDs');
+		assert.equal(parsedJsonSchema[0].messages[2].title, 'My second operation IDs');
 		assert.equal(parsedJsonSchema[0].messages[2].delivery, 'request_response');
-		assert.equal(parsedJsonSchema[0].messages[3].title, 'My third message URL');
+		assert.equal(parsedJsonSchema[0].messages[3].title, 'My third operation URL');
 		assert.equal(parsedJsonSchema[0].messages[3].delivery, 'request_response');
 
 	});
 
-	it('should create from specified output schema if specified', function () {
+	it('should define `public` type for operations with schemas', function () {
 
-		var outputJsonString = buildConnectorsJson(null, [
+		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
 						{
 							schema: {
-								name: 'my_message',
+								name: 'my_operation',
+								input: {
+									name: {
+										type: 'string'
+									}
+								},
+								delivery: 'acknowledge'
+							},
+							model: {
+								url: '..'
+							}
+						},
+						{
+							schema: {
+								name: 'my_second_operation',
+								title: 'My amazing second operation',
+								delivery: 'request_response',
+							},
+							model: {}
+						}
+					]
+				},
+				exampleConfig
+			)
+		]);
+
+		const parsedJsonSchema = outputJsonString;
+
+		assert.equal(parsedJsonSchema[0].messages.length, 2);
+		assert.equal(parsedJsonSchema[0].messages[0].type, 'public');
+		assert.equal(parsedJsonSchema[0].messages[1].type, 'public');
+
+	});
+
+	it('should define `ddl` type for operations whose name ends with `_ddl`', function () {
+		const outputJsonString = buildConnectorsJson(null, [
+			_.defaults(
+				{
+					messages: [
+						{
+							schema: {
+								name: 'my_operation',
+								input: {
+									name: {
+										type: 'string'
+									}
+								},
+							},
+							model: {
+								url: '..'
+							}
+						},
+						{
+							name: 'my_operation_ddl',
+							model: {}
+						}
+					]
+				},
+				exampleConfig
+			)
+		]);
+
+		const parsedJsonSchema = outputJsonString;
+
+		assert.equal(parsedJsonSchema[0].messages.length, 2);
+		assert.equal(parsedJsonSchema[0].messages[0].type, 'public');
+		assert.equal(parsedJsonSchema[0].messages[1].type, 'ddl');
+	});
+
+	it('should create generic schema for `ddl` type if schema is not provided', function () {
+		const outputJsonString = buildConnectorsJson(null, [
+			_.defaults(
+				{
+					messages: [
+						{
+							name: 'my_operation_ddl',
+							model: {}
+						}
+					]
+				},
+				exampleConfig
+			)
+		]);
+
+		const parsedJsonSchema = outputJsonString;
+
+		assert.equal(parsedJsonSchema[0].messages.length, 1);
+		assert.equal(parsedJsonSchema[0].messages[0].type, 'ddl');
+		assert.deepEqual(
+			parsedJsonSchema[0].messages[0].input_schema,
+			{
+				'$schema': 'http://json-schema.org/draft-04/schema#',
+				'additionalProperties': false,
+				'advanced': [],
+				'properties': {},
+				'required': [],
+				'type': 'object',
+			}
+		);
+	});
+
+	it('should use schema for `ddl` type if schema is provided', function () {
+		const outputJsonString = buildConnectorsJson(null, [
+			_.defaults(
+				{
+					messages: [
+						{
+							name: 'my_operation_ddl',
+							model: {},
+							schema: {
+								input: {
+									dependant_property: {
+										type: 'string',
+										required: true
+									}
+								}
+							}
+						}
+					]
+				},
+				exampleConfig
+			)
+		]);
+
+		const parsedJsonSchema = outputJsonString;
+
+		assert.equal(parsedJsonSchema[0].messages.length, 1);
+		assert.equal(parsedJsonSchema[0].messages[0].type, 'ddl');
+		assert.deepEqual(
+			parsedJsonSchema[0].messages[0].input_schema,
+			{
+				'$schema': 'http://json-schema.org/draft-04/schema#',
+				'additionalProperties': false,
+				'advanced': [],
+				'properties': {
+					dependant_property: {
+						title: 'Dependant property',
+						type: 'string'
+					}
+				},
+				'required': ['dependant_property'],
+				'type': 'object',
+			}
+		);
+	});
+
+	it('should create from specified output schema if specified', function () {
+
+		const outputJsonString = buildConnectorsJson(null, [
+			_.defaults(
+				{
+					messages: [
+						{
+							schema: {
+								name: 'my_operation',
 								input: {
 									name: {
 										type: 'string'
@@ -334,7 +488,7 @@ describe('#buildConnectorsJson', function () {
 			)
 		]);
 
-		var parsedJsonSchema = outputJsonString;
+		const parsedJsonSchema = outputJsonString;
 
 		assert(_.isPlainObject(parsedJsonSchema[0].messages[0].output_schema));
 		assert.equal(parsedJsonSchema[0].messages[0].output_schema.properties.result.type, 'integer');
@@ -343,13 +497,13 @@ describe('#buildConnectorsJson', function () {
 
 	it('should generate from sample response if specified', function () {
 
-		var outputJsonString = buildConnectorsJson(null, [
+		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
 						{
 							schema: {
-								name: 'my_message',
+								name: 'my_operation',
 								input: {
 									name: {
 										type: 'string'
@@ -369,7 +523,7 @@ describe('#buildConnectorsJson', function () {
 			)
 		]);
 
-		var parsedJsonSchema = outputJsonString;
+		const parsedJsonSchema = outputJsonString;
 
 		assert(_.isObject(parsedJsonSchema[0].messages[0].output_schema));
 		assert.equal(parsedJsonSchema[0].messages[0].output_schema.properties.result.type, 'boolean');
@@ -378,7 +532,7 @@ describe('#buildConnectorsJson', function () {
 
 	it('should add global schema input if declared', function () {
 
-		var outputJsonString = buildConnectorsJson(null, [
+		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					globalSchema: {
@@ -392,7 +546,7 @@ describe('#buildConnectorsJson', function () {
 					},
 					messages: [
 						{
-							name: 'my_message',
+							name: 'my_operation',
 							schema: {
 								input: {
 									name: {
@@ -410,7 +564,7 @@ describe('#buildConnectorsJson', function () {
 			)
 		]);
 
-		var parsedJsonSchema = outputJsonString;
+		const parsedJsonSchema = outputJsonString;
 
 		assert.equal(_.keys(parsedJsonSchema[0].messages[0].input_schema.properties).length, 2);
 		assert.equal(parsedJsonSchema[0].messages[0].input_schema.properties.api_key.type, 'string');
@@ -421,9 +575,9 @@ describe('#buildConnectorsJson', function () {
 
 	it('should add global auth scopes if not declared on a local level', function () {
 
-		var scopeArray = [ 'test_scope', 'another_scope' ];
+		const scopeArray = [ 'test_scope', 'another_scope' ];
 
-		var outputJsonString = buildConnectorsJson(null, [
+		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					globalSchema: {
@@ -432,7 +586,7 @@ describe('#buildConnectorsJson', function () {
 					},
 					messages: [
 						{
-							name: 'my_message',
+							name: 'my_operation',
 							schema: {
 								input: {
 									name: {
@@ -450,7 +604,7 @@ describe('#buildConnectorsJson', function () {
 			)
 		]);
 
-		var parsedJsonSchema = outputJsonString;
+		const parsedJsonSchema = outputJsonString;
 
 		assert.deepEqual(parsedJsonSchema[0].messages[0].auth_scopes, scopeArray);
 
@@ -458,9 +612,9 @@ describe('#buildConnectorsJson', function () {
 
 	it('should not create file if `directory` is not a string', function () {
 
-		var inputConfig = _.cloneDeep(exampleConfig);
+		const inputConfig = _.cloneDeep(exampleConfig);
 
-		var outputJsonString = buildConnectorsJson(null, [
+		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					globalSchema: {
@@ -474,9 +628,9 @@ describe('#buildConnectorsJson', function () {
 					},
 					messages: [
 						{
-							name: 'my_message',
+							name: 'my_operation',
 							schema: {
-								title: 'My Message',
+								title: 'My operation',
 								input: {
 									name: {
 										type: 'string'
@@ -499,9 +653,9 @@ describe('#buildConnectorsJson', function () {
 
 	it('should create file if `directory` is a string', function () {
 
-		var inputConfig = _.cloneDeep(exampleConfig);
+		const inputConfig = _.cloneDeep(exampleConfig);
 
-		var outputJsonString = buildConnectorsJson('meh', [
+		const outputJsonString = buildConnectorsJson('meh', [
 			_.defaults(
 				{
 					globalSchema: {
@@ -515,9 +669,9 @@ describe('#buildConnectorsJson', function () {
 					},
 					messages: [
 						{
-							name: 'my_message',
+							name: 'my_operation',
 							schema: {
-								title: 'My Message',
+								title: 'My operation',
 								input: {
 									name: {
 										type: 'string'
@@ -534,7 +688,7 @@ describe('#buildConnectorsJson', function () {
 			)
 		]);
 
-		var parsedJsonSchema = JSON.parse(fileOutput);
+		const parsedJsonSchema = JSON.parse(fileOutput);
 
 		assert.deepEqual(
 			parsedJsonSchema,
@@ -544,7 +698,8 @@ describe('#buildConnectorsJson', function () {
 						icon: _.pick(inputConfig.icon, [ 'value', 'type' ]),
 						messages: [
 							{
-								title: 'My Message',
+								title: 'My operation',
+								type: 'public',
 								input_schema: {
 									type: 'object',
 									properties: {
