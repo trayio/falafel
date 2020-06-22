@@ -199,7 +199,7 @@ describe.only('#buildConnectorsJson', function () {
 
 	it('should autogenerate operation titles nicely if not already declared', function () {
 
-		const outputJsonString = buildConnectorsJson(null, [
+		const parsedJsonSchema = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -231,8 +231,6 @@ describe.only('#buildConnectorsJson', function () {
 			)
 		]);
 
-		const parsedJsonSchema = outputJsonString;
-
 		assert.equal(parsedJsonSchema[0].messages.length, 2);
 		// remember - operations are sorted by title
 		assert.equal(parsedJsonSchema[0].messages[1].title, 'My operation');
@@ -244,7 +242,7 @@ describe.only('#buildConnectorsJson', function () {
 
 	it('should autogenerate operation titles which include id, ids or url nicely if not already declared', function () {
 
-		const outputJsonString = buildConnectorsJson(null, [
+		const parsedJsonSchema = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -290,7 +288,6 @@ describe.only('#buildConnectorsJson', function () {
 			)
 		]);
 
-		const parsedJsonSchema = outputJsonString;
 		assert.equal(parsedJsonSchema[0].messages.length, 4);
 		// remember - operations are sorted by title
 		assert.equal(parsedJsonSchema[0].messages[0].title, 'My Amazing 4th operation');
@@ -306,7 +303,7 @@ describe.only('#buildConnectorsJson', function () {
 
 	it('should define `public` type for operations with schemas', function () {
 
-		const outputJsonString = buildConnectorsJson(null, [
+		const parsedJsonSchema = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -338,8 +335,6 @@ describe.only('#buildConnectorsJson', function () {
 			)
 		]);
 
-		const parsedJsonSchema = outputJsonString;
-
 		assert.equal(parsedJsonSchema[0].messages.length, 2);
 		assert.equal(parsedJsonSchema[0].messages[0].type, 'public');
 		assert.equal(parsedJsonSchema[0].messages[1].type, 'public');
@@ -347,7 +342,7 @@ describe.only('#buildConnectorsJson', function () {
 	});
 
 	it('should define `ddl` type for operations whose name ends with `_ddl`', function () {
-		const outputJsonString = buildConnectorsJson(null, [
+		const parsedJsonSchema = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -374,15 +369,13 @@ describe.only('#buildConnectorsJson', function () {
 			)
 		]);
 
-		const parsedJsonSchema = outputJsonString;
-
 		assert.equal(parsedJsonSchema[0].messages.length, 2);
 		assert.equal(parsedJsonSchema[0].messages[0].type, 'public');
 		assert.equal(parsedJsonSchema[0].messages[1].type, 'ddl');
 	});
 
 	it('should create generic schema for `ddl` type if schema is not provided', function () {
-		const outputJsonString = buildConnectorsJson(null, [
+		const parsedJsonSchema = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -395,8 +388,6 @@ describe.only('#buildConnectorsJson', function () {
 				exampleConfig
 			)
 		]);
-
-		const parsedJsonSchema = outputJsonString;
 
 		assert.equal(parsedJsonSchema[0].messages.length, 1);
 		assert.equal(parsedJsonSchema[0].messages[0].type, 'ddl');
@@ -414,7 +405,7 @@ describe.only('#buildConnectorsJson', function () {
 	});
 
 	it('should use schema for `ddl` type if schema is provided', function () {
-		const outputJsonString = buildConnectorsJson(null, [
+		const parsedJsonSchema = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -427,7 +418,7 @@ describe.only('#buildConnectorsJson', function () {
 										type: 'string',
 										required: true
 									}
-								}
+								},
 							}
 						}
 					]
@@ -435,8 +426,6 @@ describe.only('#buildConnectorsJson', function () {
 				exampleConfig
 			)
 		]);
-
-		const parsedJsonSchema = outputJsonString;
 
 		assert.equal(parsedJsonSchema[0].messages.length, 1);
 		assert.equal(parsedJsonSchema[0].messages[0].type, 'ddl');
@@ -458,9 +447,81 @@ describe.only('#buildConnectorsJson', function () {
 		);
 	});
 
-	it('should create from specified output schema if specified', function () {
+	it('should not include certain properties for `ddl` type if schema is provided', function () {
+		const parsedJsonSchema = buildConnectorsJson(null, [
+			_.defaults(
+				{
+					messages: [
+						{
+							name: 'my_operation_ddl',
+							model: {},
+							schema: {
+								helpLink: 'something',
+								delivery: 'acknowledge',
+								default: true,
+								timeoutMillis: 500,
+								input: {
+									dependant_property: {
+										type: 'string',
+										required: true
+									}
+								},
+								reply: {
+									test: {
+										type: 'string'
+									}
+								},
+							}
+						}
+					]
+				},
+				exampleConfig
+			)
+		]);
 
-		const outputJsonString = buildConnectorsJson(null, [
+		assert.strictEqual(parsedJsonSchema[0].messages.length, 1);
+		assert.strictEqual(parsedJsonSchema[0].messages[0].type, 'ddl');
+		const ddlOp = parsedJsonSchema[0].messages[0];
+		assert.strictEqual(ddlOp.default, undefined);
+		assert.strictEqual(ddlOp.delivery, undefined);
+		assert.strictEqual(ddlOp.helpLink, undefined);
+		assert.strictEqual(ddlOp.timeoutMillis, undefined);
+		assert.strictEqual(ddlOp.reply_schema, undefined);
+	});
+
+	it('should error if title for `ddl` type does not end with ` DDL`', function () {
+		try {
+			const parsedJsonSchema = buildConnectorsJson(null, [
+				_.defaults(
+					{
+						messages: [
+							{
+								name: 'my_operation_ddl',
+								model: {},
+								schema: {
+									title: 'My operation',
+									input: {
+										dependant_property: {
+											type: 'string',
+											required: true
+										}
+									}
+								}
+							}
+						]
+					},
+					exampleConfig
+				)
+			]);
+			assert.fail(parsedJsonSchema);
+		} catch (buildConnectorsJsonError) {
+			assert.strictEqual(buildConnectorsJsonError.message, 'DDL operation titles must end with ` DDL`');
+			assert.strictEqual(buildConnectorsJsonError.code, '#connector_error');
+		}
+	});
+
+	it('should create from specified output schema if specified', function () {
+		const parsedJsonSchema = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -488,16 +549,12 @@ describe.only('#buildConnectorsJson', function () {
 			)
 		]);
 
-		const parsedJsonSchema = outputJsonString;
-
 		assert(_.isPlainObject(parsedJsonSchema[0].messages[0].output_schema));
 		assert.equal(parsedJsonSchema[0].messages[0].output_schema.properties.result.type, 'integer');
-
 	});
 
 	it('should generate from sample response if specified', function () {
-
-		const outputJsonString = buildConnectorsJson(null, [
+		const parsedJsonSchema = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					messages: [
@@ -523,16 +580,12 @@ describe.only('#buildConnectorsJson', function () {
 			)
 		]);
 
-		const parsedJsonSchema = outputJsonString;
-
 		assert(_.isObject(parsedJsonSchema[0].messages[0].output_schema));
 		assert.equal(parsedJsonSchema[0].messages[0].output_schema.properties.result.type, 'boolean');
-
 	});
 
 	it('should add global schema input if declared', function () {
-
-		const outputJsonString = buildConnectorsJson(null, [
+		const parsedJsonSchema = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					globalSchema: {
@@ -564,20 +617,16 @@ describe.only('#buildConnectorsJson', function () {
 			)
 		]);
 
-		const parsedJsonSchema = outputJsonString;
-
 		assert.equal(_.keys(parsedJsonSchema[0].messages[0].input_schema.properties).length, 2);
 		assert.equal(parsedJsonSchema[0].messages[0].input_schema.properties.api_key.type, 'string');
 		assert.equal(parsedJsonSchema[0].messages[0].input_schema.properties.name.type, 'string');
 		assert.equal(parsedJsonSchema[0].messages.length, 1);
-
 	});
 
 	it('should add global auth scopes if not declared on a local level', function () {
-
 		const scopeArray = [ 'test_scope', 'another_scope' ];
 
-		const outputJsonString = buildConnectorsJson(null, [
+		const parsedJsonSchema = buildConnectorsJson(null, [
 			_.defaults(
 				{
 					globalSchema: {
@@ -604,10 +653,7 @@ describe.only('#buildConnectorsJson', function () {
 			)
 		]);
 
-		const parsedJsonSchema = outputJsonString;
-
 		assert.deepEqual(parsedJsonSchema[0].messages[0].auth_scopes, scopeArray);
-
 	});
 
 	it('should not create file if `directory` is not a string', function () {
