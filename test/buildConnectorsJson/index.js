@@ -15,7 +15,7 @@ const buildConnectorsJson = proxyquire(
 	}
 );
 
-describe.only('#buildConnectorsJson', function () {
+describe('#buildConnectorsJson', function () {
 
 	const exampleConfig = {
 		name: 'mailchimp',
