@@ -1648,7 +1648,10 @@ describe('#fileHandler', function () {
 		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 for v4 signature - (${random4xx})`, async () => {
 			const baseUrl = 'https://example.amazonaws.com',
 				endpoint = '/somefile',
-				queryParams = { 'X-Amz-Date': '20200628T160000Z' };
+				queryParams = {
+					'X-Amz-Date': '20200628T160000Z',
+					'X-Amz-Expires': 86400
+				};
 			const queryString = (new URLSearchParams(queryParams)).toString();
 			const fullUrl = `${baseUrl}${endpoint}?${queryString}`;
 
@@ -1686,11 +1689,11 @@ describe('#fileHandler', function () {
 					url: fullUrl,
 					name: 'somefile.txt',
 					mime_type: 'text/plain',
-					expires: 1591484751
+					expires: 1593442800
 				});
 			} catch (downloadError) {
 				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
-				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').format());
+				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').add(queryParams['X-Amz-Expires'], 's').format());
 			}
 		});
 
@@ -1860,7 +1863,10 @@ describe('#fileHandler', function () {
 		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 for v4 signature - (${random4xx})`, async () => {
 			const baseUrl = 'https://example.amazonaws.com',
 				endpoint = '/somefile',
-				queryParams = { 'X-Amz-Date': '20200628T160000Z' };
+				queryParams = {
+					'X-Amz-Date': '20200628T160000Z',
+					'X-Amz-Expires': 86400
+				};
 			const queryString = (new URLSearchParams(queryParams)).toString();
 			const fullUrl = `${baseUrl}${endpoint}?${queryString}`;
 
@@ -1897,11 +1903,11 @@ describe('#fileHandler', function () {
 					url: fullUrl,
 					name: 'somefile.txt',
 					mime_type: 'text/plain',
-					expires: 1591484751
+					expires: 1593442800
 				});
 			} catch (downloadError) {
 				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
-				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').format());
+				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').add(queryParams['X-Amz-Expires'], 's').format());
 			}
 
 		});
