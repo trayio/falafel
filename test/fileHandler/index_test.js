@@ -38,7 +38,7 @@ function getProxiedFileHandler (proxyModules = {}, options = {}) {
 	fileHandler(options);
 }
 
-describe('#fileHandler', function () {
+describe.only('#fileHandler', function () {
 	function beforeEachFunc () {
 		global.falafel = {};
 	}
@@ -81,7 +81,8 @@ describe('#fileHandler', function () {
 								{ region: 'us-west-2' }
 							);
 						}
-						async upload (uploadParams, callback) {
+						async upload (uploadParams, uploadOptions, callback) {
+							assert.deepEqual(uploadOptions, {});
 							assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads');
 							assert.strictEqual(uploadParams.Key, randomGuid);
 							assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -152,7 +153,7 @@ describe('#fileHandler', function () {
 									{ region: 'us-west-2' }
 								);
 							}
-							async upload (uploadParams, callback) {
+							async upload (uploadParams, uploadOptions,  callback) {
 								assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads-dev');
 								assert.strictEqual(uploadParams.Key, randomGuid);
 								assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -226,7 +227,8 @@ describe('#fileHandler', function () {
 								{ region: 'us-west-1' }
 							);
 						}
-						async upload (uploadParams, callback) {
+						async upload (uploadParams, uploadOptions, callback) {
+							assert.deepEqual(uploadOptions, {});
 							assert.strictEqual(uploadParams.Bucket, 'other-bucket');
 							assert.strictEqual(uploadParams.Key, randomGuid);
 							assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -302,7 +304,8 @@ describe('#fileHandler', function () {
 									{ region: 'us-west-1' }
 								);
 							}
-							async upload (uploadParams, callback) {
+							async upload (uploadParams, uploadOptions, callback) {
+								assert.deepEqual(uploadOptions, {});
 								assert.strictEqual(uploadParams.Bucket, 'other-bucket');
 								assert.strictEqual(uploadParams.Key, randomGuid);
 								assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -379,7 +382,8 @@ describe('#fileHandler', function () {
 										{ region: 'us-west-2' }
 									);
 								}
-								async upload (uploadParams, callback) {
+								async upload (uploadParams, uploadOptions, callback) {
+									assert.deepEqual(uploadOptions, {});
 									assert.strictEqual(uploadParams.Bucket, 'other-dev-bucket');
 									assert.strictEqual(uploadParams.Key, randomGuid);
 									assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -481,7 +485,8 @@ describe('#fileHandler', function () {
 								{ region: 'us-west-2' }
 							);
 						}
-						async upload (uploadParams, callback) {
+						async upload (uploadParams, uploadOptions, callback) {
+							assert.deepEqual(uploadOptions, {});
 							assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads');
 							assert.strictEqual(uploadParams.Key, randomGuid);
 							assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -549,7 +554,8 @@ describe('#fileHandler', function () {
 								{ region: 'us-west-2' }
 							);
 						}
-						async upload (uploadParams, callback) {
+						async upload (uploadParams, uploadOptions, callback) {
+							assert.deepEqual(uploadOptions, {});
 							assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads');
 							assert.strictEqual(uploadParams.Key, randomGuid);
 							assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -1556,12 +1562,11 @@ describe('#fileHandler', function () {
 			nock(baseUrl)
 			.get(endpoint)
 			.reply(
-				random2xx,
+				200,
 				(uri, reqBody) => {
 					return 'Example content';
 				}
 			);
-
 
 			getProxiedFileHandler({
 				needle: {

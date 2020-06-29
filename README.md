@@ -331,6 +331,8 @@ The `falafel.files.download` resolving with the following object:
 ```
 Similarly to `falafel.file.upload`, since this function requires keeping the file in local storage, this is the least recommended download option.
 
+**Note**: when using `falafel.files.download`, `needle.get` is internally used along with the `output` option; needle however only creates a file if the `statusCode` is `200`. If a file needs to be created in the `/tmp` directory for non-200 statusCodes, use `falafel.files.streamDownload`.
+
 ## Trigger connectors
 
 Trigger connectors follow a similar file structure to regular connectors, but the message
