@@ -1641,7 +1641,7 @@ describe('#fileHandler', function () {
 				});
 			} catch (downloadError) {
 				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
-				assert.strictEqual(downloadError.payload.datetimeExpired, moment(queryParams['Expires'], 'X').format());
+				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['Expires'], 'X').format());
 			}
 		});
 
@@ -1690,7 +1690,7 @@ describe('#fileHandler', function () {
 				});
 			} catch (downloadError) {
 				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
-				assert.strictEqual(downloadError.payload.datetimeExpired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').format());
+				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').format());
 			}
 		});
 
@@ -1852,7 +1852,7 @@ describe('#fileHandler', function () {
 				});
 			} catch (downloadError) {
 				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
-				assert.strictEqual(downloadError.payload.datetimeExpired, moment(queryParams['Expires'], 'X').format());
+				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['Expires'], 'X').format());
 			}
 
 		});
@@ -1901,7 +1901,7 @@ describe('#fileHandler', function () {
 				});
 			} catch (downloadError) {
 				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
-				assert.strictEqual(downloadError.payload.datetimeExpired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').format());
+				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').format());
 			}
 
 		});
