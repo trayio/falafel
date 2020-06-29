@@ -38,7 +38,7 @@ function getProxiedFileHandler (proxyModules = {}, options = {}) {
 	fileHandler(options);
 }
 
-describe.only('#fileHandler', function () {
+describe('#fileHandler', function () {
 	function beforeEachFunc () {
 		global.falafel = {};
 	}
@@ -1596,12 +1596,16 @@ describe.only('#fileHandler', function () {
 			assert.strictEqual(fs.readFileSync(downloadResult.file, 'utf8'), 'Example content');
 		});
 
-		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 - (${random4xx})`, async () => {
+		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 for v2 signature - (${random4xx})`, async () => {
 			const baseUrl = 'https://example.amazonaws.com',
-				endpoint = '/somefile';
+				endpoint = '/somefile',
+				queryParams = { 'Expires': '1593320298' };
+			const queryString = (new URLSearchParams(queryParams)).toString();
+			const fullUrl = `${baseUrl}${endpoint}?${queryString}`;
 
 			nock(baseUrl)
 			.get(endpoint)
+			.query(queryParams)
 			.reply(
 				random4xx,
 				(uri, reqBody) => {
@@ -1617,7 +1621,7 @@ describe.only('#fileHandler', function () {
 			getProxiedFileHandler({
 				needle: {
 					get: (url, options, callback) => {
-						assert.strictEqual(url, `${baseUrl}${endpoint}`);
+						assert.strictEqual(url, fullUrl);
 						assert.strictEqual(options.decode_response, false);
 						assert.strictEqual(options.parse, false);
 						assert.strictEqual(options.open_timeout, 0);
@@ -1630,15 +1634,64 @@ describe.only('#fileHandler', function () {
 
 			try {
 				await falafel.files.download({
-					url: `${baseUrl}${endpoint}`,
+					url: fullUrl,
+					name: 'somefile.txt',
+					mime_type: 'text/plain',
+					expires: 1593320298
+				});
+			} catch (downloadError) {
+				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
+				assert.strictEqual(downloadError.payload.datetimeExpired, moment(queryParams['Expires'], 'X').format());
+			}
+		});
+
+		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 for v4 signature - (${random4xx})`, async () => {
+			const baseUrl = 'https://example.amazonaws.com',
+				endpoint = '/somefile',
+				queryParams = { 'X-Amz-Date': '20200628T160000Z' };
+			const queryString = (new URLSearchParams(queryParams)).toString();
+			const fullUrl = `${baseUrl}${endpoint}?${queryString}`;
+
+			nock(baseUrl)
+			.get(endpoint)
+			.query(queryParams)
+			.reply(
+				random4xx,
+				(uri, reqBody) => {
+					return 'Request has expired';
+				},
+				{
+					'content-type': 'application/xml',
+					server: 'AmazonS3'
+				}
+			);
+
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.strictEqual(url, fullUrl);
+						assert.strictEqual(options.decode_response, false);
+						assert.strictEqual(options.parse, false);
+						assert.strictEqual(options.open_timeout, 0);
+						assert.strictEqual(options.read_timeout, 0);
+						assert(_.isString(options.output));
+						return needle.get(url, options, callback);
+					}
+				}
+			});
+
+			try {
+				await falafel.files.download({
+					url: fullUrl,
 					name: 'somefile.txt',
 					mime_type: 'text/plain',
 					expires: 1591484751
 				});
 			} catch (downloadError) {
-				assert.strictEqual(downloadError.message, 'The file provided has expired.');
+				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
+				assert.strictEqual(downloadError.payload.datetimeExpired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').format());
 			}
-
 		});
 
 		it(`should reject with standard status code error message for any other unexpected response - (${randomNon2xx})`, async () => {
@@ -1755,12 +1808,16 @@ describe.only('#fileHandler', function () {
 			});
 		});
 
-		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 - (${random4xx})`, async () => {
+		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 for v2 signature - (${random4xx})`, async () => {
 			const baseUrl = 'https://example.amazonaws.com',
-				endpoint = '/somefile';
+				endpoint = '/somefile',
+				queryParams = { 'Expires': '1593320298' };
+			const queryString = (new URLSearchParams(queryParams)).toString();
+			const fullUrl = `${baseUrl}${endpoint}?${queryString}`;
 
 			nock(baseUrl)
 			.get(endpoint)
+			.query(queryParams)
 			.reply(
 				random4xx,
 				(uri, reqBody) => {
@@ -1776,7 +1833,7 @@ describe.only('#fileHandler', function () {
 			getProxiedFileHandler({
 				needle: {
 					get: (url, options, callback) => {
-						assert.strictEqual(url, `${baseUrl}${endpoint}`);
+						assert.strictEqual(url, fullUrl);
 						assert.strictEqual(options.decode_response, false);
 						assert.strictEqual(options.parse, false);
 						assert.strictEqual(options.open_timeout, 0);
@@ -1788,13 +1845,63 @@ describe.only('#fileHandler', function () {
 
 			try {
 				await falafel.files.streamDownload({
-					url: `${baseUrl}${endpoint}`,
+					url: fullUrl,
+					name: 'somefile.txt',
+					mime_type: 'text/plain',
+					expires: 1593320298
+				});
+			} catch (downloadError) {
+				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
+				assert.strictEqual(downloadError.payload.datetimeExpired, moment(queryParams['Expires'], 'X').format());
+			}
+
+		});
+
+		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 for v4 signature - (${random4xx})`, async () => {
+			const baseUrl = 'https://example.amazonaws.com',
+				endpoint = '/somefile',
+				queryParams = { 'X-Amz-Date': '20200628T160000Z' };
+			const queryString = (new URLSearchParams(queryParams)).toString();
+			const fullUrl = `${baseUrl}${endpoint}?${queryString}`;
+
+			nock(baseUrl)
+			.get(endpoint)
+			.query(queryParams)
+			.reply(
+				random4xx,
+				(uri, reqBody) => {
+					return 'Request has expired';
+				},
+				{
+					'content-type': 'application/xml',
+					server: 'AmazonS3'
+				}
+			);
+
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.strictEqual(url, fullUrl);
+						assert.strictEqual(options.decode_response, false);
+						assert.strictEqual(options.parse, false);
+						assert.strictEqual(options.open_timeout, 0);
+						assert.strictEqual(options.read_timeout, 0);
+						return needle.get(url, options, callback);
+					}
+				}
+			});
+
+			try {
+				await falafel.files.streamDownload({
+					url: fullUrl,
 					name: 'somefile.txt',
 					mime_type: 'text/plain',
 					expires: 1591484751
 				});
 			} catch (downloadError) {
-				assert.strictEqual(downloadError.message, 'The file provided has expired.');
+				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
+				assert.strictEqual(downloadError.payload.datetimeExpired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').format());
 			}
 
 		});
