@@ -307,7 +307,7 @@ This function assumes the file is in local storage and will attempt to `createRe
 Generally, when an API provides an upload endpoint, one of falafel's download functions will need to be used. Both of the following download promise functions expect a file pointer object to be passed in.
 
 ##### needleOptions
-Both `falafel.files.streamDownload` and `falafel.files.download` accept a second argument, `needleOptions`, which is an object that can be used to override the default needle options defined when downloading the file (except the `output` property for `falafel.files.download`).
+Both `falafel.files.streamDownload` and `falafel.files.download` accept a second argument, `needleOptions`, which is an object that can be used to override the default needle options defined by falafel when downloading the file (except the `output` property for `falafel.files.download` - falafel takes precedence for this property).
 
 #### `falafel.files.streamDownload` (recommended)
 The `falafel.files.streamDownload` resolving with the following object:
