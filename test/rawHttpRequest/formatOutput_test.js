@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 const formatOutput = require('../../lib/rawHttpRequest/formatOutput.js');
 
-describe.only('formatOutput', () => {
+describe('formatOutput', () => {
 
 	it('should be a function', () => {
 		assert(_.isFunction(formatOutput));
