@@ -13,6 +13,19 @@
 		},
 		"messages": [
 			{
+				"name": "file_download",
+				"title": "Test operation",
+				"input_schema": {
+					"type": "object",
+					"properties": {},
+					"required": [],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				},
+				"dynamic_output": false
+			},
+			{
 				"name": "file_upload",
 				"title": "Test operation",
 				"input_schema": {

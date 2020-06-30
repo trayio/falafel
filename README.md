@@ -267,6 +267,10 @@ Example:
 ### API download / Falafel upload
 Generally, when an API provides a download endpoint, one of falafel's upload functions will need to be used. All three of the following upload promise functions will return a file pointer object when they resolve.
 
+Note: all signed URLs return an expiry time of 6 hours.
+
+`CONNECTOR_FILE_REGION` and `CONNECTOR_FILE_BUCKET` environment variables can be set to override the default region and bucket.
+
 #### `falafel.files.streamUpload` (recommended)
 The `falafel.files.streamUpload` accepts the following object:
 ```js
@@ -275,6 +279,9 @@ The `falafel.files.streamUpload` accepts the following object:
     name: '[File name]', //required
     length: [File size in bytes], //required
     contentType: '[Mime type of file]', //optional (falafel will attempt to derive it from name if not provided)
+
+    bucket: '[AWS bucket]', //optional target bucket
+    region: '[AWS region]' //optional target region
 }
 ```
 
@@ -289,6 +296,9 @@ The `falafel.files.upload` accepts the following object:
     name: '[File name]', //required
     length: [File size in bytes], //required
     contentType: '[Mime type of file]', //optional (falafel will attempt to derive it from name if not provided)
+
+    bucket: '[AWS bucket]', //optional target bucket
+    region: '[AWS region]' //optional target region
 }
 ```
 This function assumes the file is in local storage and will attempt to `createReadStream` from it; as such this is the least recommended upload option.
@@ -320,6 +330,8 @@ The `falafel.files.download` resolving with the following object:
 }
 ```
 Similarly to `falafel.file.upload`, since this function requires keeping the file in local storage, this is the least recommended download option.
+
+**Note**: when using `falafel.files.download`, `needle.get` is internally used along with the `output` option; needle however only creates a file if the `statusCode` is `200`. If a file needs to be created in the `/tmp` directory for non-200 statusCodes, use `falafel.files.streamDownload`.
 
 ## Trigger connectors
 
