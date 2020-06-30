@@ -9,7 +9,23 @@ module.exports = {};
 
 Doing this will simply use the [default](#default-model) model configuration defined by falafel. Providing any Threadneedle REST configuration properties will be merged with the default configuration, giving `rawHttpRequest.js` precedence over the defaults.
 
-**NOTE:** the connector documentation for connectors which enabled Raw HTTP Request must indicate what the base URL will be if `endpoint` is used in the URL input. Additionally, any further configuration, such as authentication settings, need to be mentioned too.
+**NOTE:** the connector documentation for connectors which enable Raw HTTP Request must indicate what the base URL will be if `endpoint` is used in the URL input. Additionally, any further configuration, such as authentication settings, need to be mentioned too.
+
+### schemaOptions
+In addition to defining the model properties, a `schemaOptions` property is also available.
+
+#### url
+```js
+{
+	schemaOptions: {
+		url: 'all'
+	}
+}
+```
+
+- **all** (default) - provides both "Full URL" and "Endpoint" oneOf options for the URL
+- **endpointOnly** - provides only the "Endpoint" option in the oneOf
+- **fullOnly** - provides only the "Full URL" option in the oneOf
 
 
 ## Default Model
