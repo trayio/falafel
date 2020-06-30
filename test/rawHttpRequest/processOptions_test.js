@@ -1,5 +1,4 @@
 const assert = require('assert');
-const fs = require('fs');
 const { PassThrough } = require('stream');
 
 const _ = require('lodash');

@@ -14,7 +14,7 @@
 		"messages": [
 			{
 				"name": "raw_http_request",
-				"title": "Raw HTTP Request (Advanced)",
+				"title": "Raw HTTP request (advanced)",
 				"description": "Perform a raw HTTP request with some pre-configuration and processing by the connector, such as authentication.",
 				"input_schema": {
 					"type": "object",
@@ -58,7 +58,7 @@
 										"full_url": {
 											"type": "string",
 											"description": "The full URL to make the request against. Must begin with `http://` or `https://`.",
-											"title": "Full url"
+											"title": "Full URL"
 										}
 									},
 									"required": [
@@ -70,7 +70,7 @@
 								}
 							],
 							"description": "The URL to make the request with.",
-							"title": "Url"
+							"title": "URL"
 						},
 						"headers": {
 							"type": "array",
@@ -143,10 +143,13 @@
 												"object"
 											],
 											"title": "raw",
+											"description": "Select either `string` to send the body as defined, or `object` to send the body as a JSON object.",
 											"format": "code"
 										}
 									},
-									"required": [],
+									"required": [
+										"raw"
+									],
 									"advanced": [],
 									"additionalProperties": false,
 									"title": "raw",
@@ -164,7 +167,8 @@
 												"oneOf": [
 													{
 														"type": "string",
-														"title": "Text"
+														"title": "Text",
+														"description": "A text value for the property in the form data body."
 													},
 													{
 														"type": "object",
@@ -173,6 +177,7 @@
 														"advanced": [],
 														"additionalProperties": false,
 														"title": "File",
+														"description": "The tray file object to retrieve the contents of and set it as the value for the property in the form data body.",
 														"format": "file"
 													}
 												]
@@ -181,10 +186,13 @@
 											"description": "The form data to perform the request with."
 										}
 									},
-									"required": [],
+									"required": [
+										"form_data"
+									],
 									"advanced": [],
 									"additionalProperties": false,
-									"title": "form-data"
+									"title": "form-data",
+									"description": "The form data body to perform the request with."
 								},
 								{
 									"type": "object",
@@ -201,10 +209,13 @@
 											"description": "The form url encoded data to perform the request with."
 										}
 									},
-									"required": [],
+									"required": [
+										"form_urlencoded"
+									],
 									"advanced": [],
 									"additionalProperties": false,
-									"title": "form-urlencoded"
+									"title": "form-urlencoded",
+									"description": "The form urlencoded body to perform the request with."
 								},
 								{
 									"type": "object",
@@ -220,26 +231,33 @@
 											"format": "file"
 										}
 									},
-									"required": [],
+									"required": [
+										"binary"
+									],
 									"advanced": [],
 									"additionalProperties": false,
-									"title": "binary"
+									"title": "binary",
+									"description": "The file to set as the body to perform the request with."
 								},
 								{
 									"type": "object",
 									"properties": {
 										"none": {
 											"type": "null",
-											"description": "Specify no body to send the request with.",
+											"description": "Send no body in the request.",
 											"title": "None"
 										}
 									},
-									"required": [],
+									"required": [
+										"none"
+									],
 									"advanced": [],
 									"additionalProperties": false,
-									"title": "none"
+									"title": "none",
+									"description": "Select this option to not send a body in the request."
 								}
-							]
+							],
+							"description": "The body type of the request. Select `none` to not send a body."
 						},
 						"include_raw_body": {
 							"type": "boolean",
@@ -279,7 +297,9 @@
 					"required": [
 						"method",
 						"url",
-						"include_raw_body"
+						"body",
+						"include_raw_body",
+						"parse_response"
 					],
 					"advanced": [
 						"include_raw_body",
@@ -343,7 +363,7 @@
 						},
 						"url": {
 							"type": "string",
-							"title": "Url"
+							"title": "URL"
 						}
 					},
 					"required": [

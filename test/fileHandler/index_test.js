@@ -81,7 +81,8 @@ describe('#fileHandler', function () {
 								{ region: 'us-west-2' }
 							);
 						}
-						async upload (uploadParams, callback) {
+						async upload (uploadParams, uploadOptions, callback) {
+							assert.deepEqual(uploadOptions, {});
 							assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads');
 							assert.strictEqual(uploadParams.Key, randomGuid);
 							assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -152,7 +153,7 @@ describe('#fileHandler', function () {
 									{ region: 'us-west-2' }
 								);
 							}
-							async upload (uploadParams, callback) {
+							async upload (uploadParams, uploadOptions,  callback) {
 								assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads-dev');
 								assert.strictEqual(uploadParams.Key, randomGuid);
 								assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -226,7 +227,8 @@ describe('#fileHandler', function () {
 								{ region: 'us-west-1' }
 							);
 						}
-						async upload (uploadParams, callback) {
+						async upload (uploadParams, uploadOptions, callback) {
+							assert.deepEqual(uploadOptions, {});
 							assert.strictEqual(uploadParams.Bucket, 'other-bucket');
 							assert.strictEqual(uploadParams.Key, randomGuid);
 							assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -302,7 +304,8 @@ describe('#fileHandler', function () {
 									{ region: 'us-west-1' }
 								);
 							}
-							async upload (uploadParams, callback) {
+							async upload (uploadParams, uploadOptions, callback) {
+								assert.deepEqual(uploadOptions, {});
 								assert.strictEqual(uploadParams.Bucket, 'other-bucket');
 								assert.strictEqual(uploadParams.Key, randomGuid);
 								assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -356,6 +359,87 @@ describe('#fileHandler', function () {
 			}
 		});
 
+		it(`should override default dev bucket in dev mode if specified in environment`, async () => {
+			const testFilePath = '/tmp/falafel/tests/example.txt';
+			fs.ensureFileSync(testFilePath);
+			fs.writeFileSync(testFilePath, 'Example content');
+			const contentLength = Buffer.byteLength('Example content', 'utf8');
+
+			process.env.CONNECTOR_FILE_DEV_BUCKET = 'other-dev-bucket';
+			try {
+				const randomGuid = guid();
+				let currentTime;
+				getProxiedFileHandler(
+					{
+						'mout/random/guid': () => {
+							return randomGuid;
+						},
+						'aws-sdk': {
+							'S3': class S3 {
+								constructor (params) {
+									assert.deepEqual(
+										params,
+										{ region: 'us-west-2' }
+									);
+								}
+								async upload (uploadParams, uploadOptions, callback) {
+									assert.deepEqual(uploadOptions, {});
+									assert.strictEqual(uploadParams.Bucket, 'other-dev-bucket');
+									assert.strictEqual(uploadParams.Key, randomGuid);
+									assert.strictEqual(uploadParams.ContentType, 'text/plain');
+									assert.strictEqual(uploadParams.ContentLength, contentLength);
+									assert(_.isFunction(uploadParams.Body.pipe));
+									const streamContent = await new Promise((resolve, reject) => {
+										let acc = '';
+										uploadParams.Body.on('data', (chunk) => {
+											acc += chunk.toString();
+										});
+										uploadParams.Body.on('end', (chunk) => {
+											if (chunk) {
+												acc += chunk.toString();
+											}
+											resolve(acc);
+										});
+										uploadParams.Body.on('error', reject);
+									});
+									assert.strictEqual(streamContent, 'Example content');
+									callback(null, {
+										Bucket: uploadParams.Bucket,
+										Key: uploadParams.Key,
+									});
+								}
+								getSignedUrl (operation, signedParams, callback) {
+									currentTime = moment();
+									assert.strictEqual(operation, 'getObject');
+									assert.strictEqual(signedParams.Bucket, 'other-dev-bucket');
+									assert.strictEqual(signedParams.Key, randomGuid);
+									assert.strictEqual(signedParams.Expires, 21600);
+									callback(null, 'https://test.aws.com/buckethash');
+								}
+							}
+						}
+					},
+					{
+						dev: true
+					}
+				);
+
+				const uploadResult = await falafel.files.upload({
+					contentType: 'text/plain',
+					name: 'example.txt',
+					length: contentLength,
+					file: testFilePath
+				});
+
+				assert.strictEqual(uploadResult.name, 'example.txt');
+				assert.strictEqual(uploadResult.url, 'https://test.aws.com/buckethash');
+				assert.strictEqual(uploadResult.mime_type, 'text/plain');
+				assert.strictEqual(uploadResult.expires, currentTime.add(6, 'hours').unix());
+			} finally {
+				delete process.env.CONNECTOR_FILE_DEV_BUCKET;
+			}
+		});
+
 		it(`should error in correct format if length is not provided`, async () => {
 			const testFilePath = '/tmp/falafel/tests/example.txt';
 			fs.ensureFileSync(testFilePath);
@@ -401,7 +485,8 @@ describe('#fileHandler', function () {
 								{ region: 'us-west-2' }
 							);
 						}
-						async upload (uploadParams, callback) {
+						async upload (uploadParams, uploadOptions, callback) {
+							assert.deepEqual(uploadOptions, {});
 							assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads');
 							assert.strictEqual(uploadParams.Key, randomGuid);
 							assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -469,7 +554,8 @@ describe('#fileHandler', function () {
 								{ region: 'us-west-2' }
 							);
 						}
-						async upload (uploadParams, callback) {
+						async upload (uploadParams, uploadOptions, callback) {
+							assert.deepEqual(uploadOptions, {});
 							assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads');
 							assert.strictEqual(uploadParams.Key, randomGuid);
 							assert.strictEqual(uploadParams.ContentType, 'text/plain');
@@ -1011,6 +1097,95 @@ describe('#fileHandler', function () {
 			}
 		});
 
+		it(`should override default dev bucket in dev mode if specified in environment`, async () => {
+			process.env.CONNECTOR_FILE_DEV_BUCKET = 'other-dev-bucket';
+
+			try {
+				const passThroughStream = new stream.PassThrough();
+
+				const randomGuid = guid();
+				let currentTime;
+				getProxiedFileHandler(
+					{
+						'mout/random/guid': () => {
+							return randomGuid;
+						},
+						'aws-sdk': {
+							'S3': class S3 {
+								constructor (params) {
+									assert.deepEqual(
+										params,
+										{ region: 'us-west-2' }
+									);
+								}
+								async upload (uploadParams, uploadOptions, callback) {
+									assert.strictEqual(uploadParams.Bucket, 'other-dev-bucket');
+									assert.strictEqual(uploadParams.Key, randomGuid);
+									assert.strictEqual(uploadParams.ContentType, 'text/plain');
+
+									assert.deepEqual(
+										uploadOptions,
+										{
+											partSize: 8388608,
+											queueSize: 4,
+										}
+									);
+
+									assert(_.isFunction(uploadParams.Body.pipe));
+									const streamContent = await new Promise((resolve, reject) => {
+										let acc = '';
+										uploadParams.Body.on('data', (chunk) => {
+											acc += chunk.toString();
+										});
+										uploadParams.Body.on('end', (chunk) => {
+											if (chunk) {
+												acc += chunk.toString();
+											}
+											resolve(acc);
+										});
+										uploadParams.Body.on('error', reject);
+									});
+									assert.strictEqual(streamContent, 'Example content');
+									callback(null, {
+										Bucket: uploadParams.Bucket,
+										Key: uploadParams.Key,
+									});
+								}
+								getSignedUrl (operation, signedParams, callback) {
+									currentTime = moment();
+									assert.strictEqual(operation, 'getObject');
+									assert.strictEqual(signedParams.Bucket, 'other-dev-bucket');
+									assert.strictEqual(signedParams.Key, randomGuid);
+									assert.strictEqual(signedParams.Expires, 21600);
+									callback(null, 'https://test.aws.com/buckethash');
+								}
+							}
+						}
+					},
+					{
+						dev: true
+					}
+				);
+
+				setTimeout(() => {
+					passThroughStream.write('Example content');
+					passThroughStream.end();
+				}, 500);
+				const uploadResult = await falafel.files.streamMPUpload({
+					contentType: 'text/plain',
+					name: 'example.txt',
+					readStream: passThroughStream
+				});
+
+				assert.strictEqual(uploadResult.name, 'example.txt');
+				assert.strictEqual(uploadResult.url, 'https://test.aws.com/buckethash');
+				assert.strictEqual(uploadResult.mime_type, 'text/plain');
+				assert.strictEqual(uploadResult.expires, currentTime.add(6, 'hours').unix());
+			} finally {
+				delete process.env.CONNECTOR_FILE_DEV_BUCKET;
+			}
+		});
+
 		it(`should increase queueSize if CONNECTOR_MAX_ALLOCATED_RAM_MB is defined`, async () => {
 			process.env.CONNECTOR_MAX_ALLOCATED_RAM_MB = 512;
 
@@ -1387,12 +1562,11 @@ describe('#fileHandler', function () {
 			nock(baseUrl)
 			.get(endpoint)
 			.reply(
-				random2xx,
+				200,
 				(uri, reqBody) => {
 					return 'Example content';
 				}
 			);
-
 
 			getProxiedFileHandler({
 				needle: {
@@ -1422,12 +1596,16 @@ describe('#fileHandler', function () {
 			assert.strictEqual(fs.readFileSync(downloadResult.file, 'utf8'), 'Example content');
 		});
 
-		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 - (${random4xx})`, async () => {
+		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 for v2 signature - (${random4xx})`, async () => {
 			const baseUrl = 'https://example.amazonaws.com',
-				endpoint = '/somefile';
+				endpoint = '/somefile',
+				queryParams = { 'Expires': '1593320298' };
+			const queryString = (new URLSearchParams(queryParams)).toString();
+			const fullUrl = `${baseUrl}${endpoint}?${queryString}`;
 
 			nock(baseUrl)
 			.get(endpoint)
+			.query(queryParams)
 			.reply(
 				random4xx,
 				(uri, reqBody) => {
@@ -1443,7 +1621,7 @@ describe('#fileHandler', function () {
 			getProxiedFileHandler({
 				needle: {
 					get: (url, options, callback) => {
-						assert.strictEqual(url, `${baseUrl}${endpoint}`);
+						assert.strictEqual(url, fullUrl);
 						assert.strictEqual(options.decode_response, false);
 						assert.strictEqual(options.parse, false);
 						assert.strictEqual(options.open_timeout, 0);
@@ -1456,15 +1634,67 @@ describe('#fileHandler', function () {
 
 			try {
 				await falafel.files.download({
-					url: `${baseUrl}${endpoint}`,
+					url: fullUrl,
 					name: 'somefile.txt',
 					mime_type: 'text/plain',
-					expires: 1591484751
+					expires: 1593320298
 				});
 			} catch (downloadError) {
-				assert.strictEqual(downloadError.message, 'The file provided has expired.');
+				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
+				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['Expires'], 'X').format());
 			}
+		});
 
+		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 for v4 signature - (${random4xx})`, async () => {
+			const baseUrl = 'https://example.amazonaws.com',
+				endpoint = '/somefile',
+				queryParams = {
+					'X-Amz-Date': '20200628T160000Z',
+					'X-Amz-Expires': 86400
+				};
+			const queryString = (new URLSearchParams(queryParams)).toString();
+			const fullUrl = `${baseUrl}${endpoint}?${queryString}`;
+
+			nock(baseUrl)
+			.get(endpoint)
+			.query(queryParams)
+			.reply(
+				random4xx,
+				(uri, reqBody) => {
+					return 'Request has expired';
+				},
+				{
+					'content-type': 'application/xml',
+					server: 'AmazonS3'
+				}
+			);
+
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.strictEqual(url, fullUrl);
+						assert.strictEqual(options.decode_response, false);
+						assert.strictEqual(options.parse, false);
+						assert.strictEqual(options.open_timeout, 0);
+						assert.strictEqual(options.read_timeout, 0);
+						assert(_.isString(options.output));
+						return needle.get(url, options, callback);
+					}
+				}
+			});
+
+			try {
+				await falafel.files.download({
+					url: fullUrl,
+					name: 'somefile.txt',
+					mime_type: 'text/plain',
+					expires: 1593442800
+				});
+			} catch (downloadError) {
+				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
+				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').add(queryParams['X-Amz-Expires'], 's').format());
+			}
 		});
 
 		it(`should reject with standard status code error message for any other unexpected response - (${randomNon2xx})`, async () => {
@@ -1581,12 +1811,16 @@ describe('#fileHandler', function () {
 			});
 		});
 
-		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 - (${random4xx})`, async () => {
+		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 for v2 signature - (${random4xx})`, async () => {
 			const baseUrl = 'https://example.amazonaws.com',
-				endpoint = '/somefile';
+				endpoint = '/somefile',
+				queryParams = { 'Expires': '1593320298' };
+			const queryString = (new URLSearchParams(queryParams)).toString();
+			const fullUrl = `${baseUrl}${endpoint}?${queryString}`;
 
 			nock(baseUrl)
 			.get(endpoint)
+			.query(queryParams)
 			.reply(
 				random4xx,
 				(uri, reqBody) => {
@@ -1602,7 +1836,7 @@ describe('#fileHandler', function () {
 			getProxiedFileHandler({
 				needle: {
 					get: (url, options, callback) => {
-						assert.strictEqual(url, `${baseUrl}${endpoint}`);
+						assert.strictEqual(url, fullUrl);
 						assert.strictEqual(options.decode_response, false);
 						assert.strictEqual(options.parse, false);
 						assert.strictEqual(options.open_timeout, 0);
@@ -1614,13 +1848,66 @@ describe('#fileHandler', function () {
 
 			try {
 				await falafel.files.streamDownload({
-					url: `${baseUrl}${endpoint}`,
+					url: fullUrl,
 					name: 'somefile.txt',
 					mime_type: 'text/plain',
-					expires: 1591484751
+					expires: 1593320298
 				});
 			} catch (downloadError) {
-				assert.strictEqual(downloadError.message, 'The file provided has expired.');
+				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
+				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['Expires'], 'X').format());
+			}
+
+		});
+
+		it(`should reject with expiry error for statusCode between 400 and 500 if from s3 for v4 signature - (${random4xx})`, async () => {
+			const baseUrl = 'https://example.amazonaws.com',
+				endpoint = '/somefile',
+				queryParams = {
+					'X-Amz-Date': '20200628T160000Z',
+					'X-Amz-Expires': 86400
+				};
+			const queryString = (new URLSearchParams(queryParams)).toString();
+			const fullUrl = `${baseUrl}${endpoint}?${queryString}`;
+
+			nock(baseUrl)
+			.get(endpoint)
+			.query(queryParams)
+			.reply(
+				random4xx,
+				(uri, reqBody) => {
+					return 'Request has expired';
+				},
+				{
+					'content-type': 'application/xml',
+					server: 'AmazonS3'
+				}
+			);
+
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.strictEqual(url, fullUrl);
+						assert.strictEqual(options.decode_response, false);
+						assert.strictEqual(options.parse, false);
+						assert.strictEqual(options.open_timeout, 0);
+						assert.strictEqual(options.read_timeout, 0);
+						return needle.get(url, options, callback);
+					}
+				}
+			});
+
+			try {
+				await falafel.files.streamDownload({
+					url: fullUrl,
+					name: 'somefile.txt',
+					mime_type: 'text/plain',
+					expires: 1593442800
+				});
+			} catch (downloadError) {
+				assert.strictEqual(downloadError.message, 'The file provided has expired. Please note that links to files downloaded by connectors expire within 6 hours.');
+				assert.strictEqual(downloadError.payload.datetime_expired, moment(queryParams['X-Amz-Date'], 'YYYYMMDD[T]HHmmss[Z]').add(queryParams['X-Amz-Expires'], 's').format());
 			}
 
 		});
