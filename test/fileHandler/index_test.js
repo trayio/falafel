@@ -1736,8 +1736,25 @@ describe('#fileHandler', function () {
 				assert.strictEqual(downloadError.message, 'An issue has occured when attempting to download the file.');
 				assert.strictEqual(downloadError.payload.error, `Status code: ${randomNon2xx}`);
 			}
+        });
+        
+        it('should throw error if invalid file object passed through', async() => {
+            const invalidFileObj = {
+                name: "some.pdf",
+                mime_type: "application/pdf",
+                expires: 1594289612,
+            }
 
-		});
+            getProxiedFileHandler({});
+
+            try {
+				await falafel.files.download(invalidFileObj);
+			} catch (downloadError) {
+				assert.strictEqual(downloadError.code, '#connector_error');
+				assert.strictEqual(downloadError.message, 'The file object passed in must contain valid properties \'name\', \'url\', \'mime_type\', \'expires\'.');
+			}
+        })
+
 	});
 
 	describe('streamDownload', () => {
@@ -1951,6 +1968,23 @@ describe('#fileHandler', function () {
 				assert.strictEqual(downloadError.payload.error, `Status code: ${randomNon2xx}`);
 			}
 
-		});
+        });
+        
+        it('should throw error if invalid file object passed through', async() => {
+            const invalidFileObj = {
+                name: "some.pdf",
+                mime_type: "application/pdf",
+                expires: 1594289612,
+            }
+
+            getProxiedFileHandler({});
+
+            try {
+				await falafel.files.download(invalidFileObj);
+			} catch (downloadError) {
+				assert.strictEqual(downloadError.code, '#connector_error');
+				assert.strictEqual(downloadError.message, 'The file object passed in must contain valid properties \'name\', \'url\', \'mime_type\', \'expires\'.');
+			}
+        })
 	});
 });
