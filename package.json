@@ -24,7 +24,7 @@
     "@trayio/threadneedle": "~1.11.0",
     "aws-sdk": "~2.413.0",
     "generate-schema": "~2.6.0",
-    "lodash": "~4.17.15",
+    "lodash": "~4.17.19",
     "mime": "~2.4.4",
     "moment": "~2.24.0",
     "mout": "~1.1.0",
