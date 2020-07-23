@@ -1736,8 +1736,55 @@ describe('#fileHandler', function () {
 				assert.strictEqual(downloadError.message, 'An issue has occured when attempting to download the file.');
 				assert.strictEqual(downloadError.payload.error, `Status code: ${randomNon2xx}`);
 			}
-
 		});
+        
+		it('should throw error if invalid file object passed through', async () => {
+			const invalidFileObj = {
+				name: 'some.pdf',
+				mime_type: 'application/pdf',
+				expires: 1594289612,
+			};
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.fail(url);
+					}
+				} 
+			});
+
+			try {
+				await falafel.files.download(invalidFileObj);
+			} catch (downloadError) {
+				assert.strictEqual(downloadError.code, '#connector_error');
+				assert.strictEqual(downloadError.message, `The 'url' property is missing. The file object passed through must contain all properties 'name', 'url', 'mime_type', 'expires'.`);
+			}
+		});
+
+		it('should throw error if file object values are of an invalid type', async () => {
+			const invalidFileObj = {
+				name: 'some.pdf',
+				url: 123,
+				mime_type: 'application/pdf',
+				expires: 1594289612,
+			};
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.fail(url);
+					}
+				} 
+			});
+
+			try {
+				await falafel.files.download(invalidFileObj);
+			} catch (downloadError) {
+				assert.strictEqual(downloadError.code, '#connector_error');
+				assert.strictEqual(downloadError.message, `The file object passed through contains invalid type for the 'url' key.`);
+			}
+		});
+
 	});
 
 	describe('streamDownload', () => {
@@ -1951,6 +1998,53 @@ describe('#fileHandler', function () {
 				assert.strictEqual(downloadError.payload.error, `Status code: ${randomNon2xx}`);
 			}
 
+		});
+        
+		it('should throw error if invalid file object passed through', async () => {
+			const invalidFileObj = {
+				name: 'some.pdf',
+				mime_type: 'application/pdf',
+				expires: 1594289612,
+			};
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.fail(url);
+					}
+				} 
+			});
+
+			try {
+				await falafel.files.download(invalidFileObj);
+			} catch (downloadError) {
+				assert.strictEqual(downloadError.code, '#connector_error');
+				assert.strictEqual(downloadError.message, `The 'url' property is missing. The file object passed through must contain all properties 'name', 'url', 'mime_type', 'expires'.`);
+			}
+		});
+
+		it('should throw error if file object values are of an invalid type', async () => {
+			const invalidFileObj = {
+				name: 'some.pdf',
+				url: 123,
+				mime_type: 'application/pdf',
+				expires: 1594289612,
+			};
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.fail(url);
+					}
+				} 
+			});
+
+			try {
+				await falafel.files.download(invalidFileObj);
+			} catch (downloadError) {
+				assert.strictEqual(downloadError.code, '#connector_error');
+				assert.strictEqual(downloadError.message, `The file object passed through contains invalid type for the 'url' key.`);
+			}
 		});
 	});
 });
