@@ -15,6 +15,7 @@
 			{
 				"name": "file_download",
 				"title": "Test operation",
+				"type": "public",
 				"input_schema": {
 					"type": "object",
 					"properties": {},
@@ -28,6 +29,7 @@
 			{
 				"name": "file_upload",
 				"title": "Test operation",
+				"type": "public",
 				"input_schema": {
 					"type": "object",
 					"properties": {},
