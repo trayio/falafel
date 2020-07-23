@@ -607,7 +607,7 @@ describe('#buildConnectorsJson', function () {
 			]);
 			assert.fail(parsedJsonSchema);
 		} catch (buildConnectorsJsonError) {
-			assert.strictEqual(buildConnectorsJsonError.message, 'DDL operation titles must end with ` DDL`');
+			assert.strictEqual(buildConnectorsJsonError.message, 'DDL operation titles must end with `DDL` suffix; my_operation_ddl');
 			assert.strictEqual(buildConnectorsJsonError.code, '#connector_error');
 		}
 	});
