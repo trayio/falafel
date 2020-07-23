@@ -168,7 +168,7 @@ describe('#buildConnectorsJson', function () {
 
 	});
 
-	it('should add operations with schemas', function () {
+	it('should add operations with schemas (as public, if type is not defined)', function () {
 
 		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
@@ -194,6 +194,98 @@ describe('#buildConnectorsJson', function () {
 		]);
 
 		assert.equal(outputJsonString[0].messages.length, 1);
+
+	});
+
+	it('should add operations with schemas with type \'public\'', function () {
+
+		const outputJsonString = buildConnectorsJson(null, [
+			_.defaults(
+				{
+					messages: [
+						{
+							name: 'my_operation',
+							model: {
+								url: '..'
+							},
+							schema: {
+								type: 'public',
+								input: {
+									name: {
+										type: 'string'
+									}
+								}
+							}
+						}
+					]
+				},
+				exampleConfig
+			)
+		]);
+
+		assert.equal(outputJsonString[0].messages.length, 1);
+		assert.equal(outputJsonString[0].messages[0].type, 'public');
+
+	});
+
+	it('should add operations with schemas with type \'ddl\'', function () {
+
+		const outputJsonString = buildConnectorsJson(null, [
+			_.defaults(
+				{
+					messages: [
+						{
+							name: 'my_operation_ddl',
+							model: {
+								url: '..'
+							},
+							schema: {
+								type: 'ddl',
+								input: {
+									name: {
+										type: 'string'
+									}
+								}
+							}
+						}
+					]
+				},
+				exampleConfig
+			)
+		]);
+
+		assert.equal(outputJsonString[0].messages.length, 1);
+		assert.equal(outputJsonString[0].messages[0].type, 'ddl');
+
+	});
+
+	it('should not add operations with schemas with type \'private\'', function () {
+
+		const outputJsonString = buildConnectorsJson(null, [
+			_.defaults(
+				{
+					messages: [
+						{
+							name: 'my_operation',
+							model: {
+								url: '..'
+							},
+							schema: {
+								type: 'private',
+								input: {
+									name: {
+										type: 'string'
+									}
+								}
+							}
+						}
+					]
+				},
+				exampleConfig
+			)
+		]);
+
+		assert.equal(outputJsonString[0].messages.length, 0);
 
 	});
 
