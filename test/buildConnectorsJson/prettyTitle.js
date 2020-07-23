@@ -44,8 +44,8 @@ describe('#prettyTitle', function () {
 		assert.strictEqual(prettyTitle('ddl'), 'DDL');
 		assert.strictEqual(prettyTitle('list_ddl'), 'List DDL');
 
-		assert.strictEqual(prettyTitle('lurl'), 'Lurl');
-		assert.strictEqual(prettyTitle('list baseurl'), 'List baseurl');
+		assert.strictEqual(prettyTitle('abcddl'), 'Abcddl');
+		assert.strictEqual(prettyTitle('list abcddl'), 'List abcddl');
 	});
 
 	it('should globally upper case id, ids and url', function () {
