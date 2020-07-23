@@ -20,6 +20,11 @@
 				"input_schema": {
 					"type": "object",
 					"properties": {
+						"domain": {
+							"type": "string",
+							"description": "Domain",
+							"title": "Domain"
+						},
 						"date": {
 							"type": "number",
 							"format": "date",
@@ -93,7 +98,9 @@
 							"title": "My object"
 						}
 					},
-					"required": [],
+					"required": [
+						"domain"
+					],
 					"advanced": [],
 					"$schema": "http://json-schema.org/draft-04/schema#",
 					"additionalProperties": false
@@ -344,6 +351,11 @@
 				"input_schema": {
 					"type": "object",
 					"properties": {
+						"domain": {
+							"type": "string",
+							"description": "Domain",
+							"title": "Domain"
+						},
 						"test": {
 							"type": "string",
 							"default": "Hello world",
@@ -351,6 +363,7 @@
 						}
 					},
 					"required": [
+						"domain",
 						"test"
 					],
 					"advanced": [],
@@ -380,6 +393,11 @@
 				"input_schema": {
 					"type": "object",
 					"properties": {
+						"domain": {
+							"type": "string",
+							"description": "Domain",
+							"title": "Domain"
+						},
 						"test": {
 							"type": "object",
 							"properties": {},
@@ -390,6 +408,7 @@
 						}
 					},
 					"required": [
+						"domain",
 						"test"
 					],
 					"advanced": [],
@@ -419,13 +438,20 @@
 				"input_schema": {
 					"type": "object",
 					"properties": {
+						"domain": {
+							"type": "string",
+							"description": "Domain",
+							"title": "Domain"
+						},
 						"test": {
 							"type": "string",
 							"default": "Hello world",
 							"title": "Test"
 						}
 					},
-					"required": [],
+					"required": [
+						"domain"
+					],
 					"advanced": [],
 					"$schema": "http://json-schema.org/draft-04/schema#",
 					"additionalProperties": false
