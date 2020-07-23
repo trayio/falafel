@@ -16,6 +16,7 @@
 				"name": "test_date_formatter",
 				"title": "Test date formatter",
 				"description": "Auto formats dates.",
+				"type": "public",
 				"input_schema": {
 					"type": "object",
 					"properties": {
@@ -102,6 +103,7 @@
 			{
 				"name": "test_op_function",
 				"title": "Test function operation",
+				"type": "public",
 				"input_schema": {
 					"type": "object",
 					"properties": {},
@@ -115,6 +117,7 @@
 			{
 				"name": "test_op",
 				"title": "Test operation",
+				"type": "public",
 				"input_schema": {
 					"type": "object",
 					"properties": {
@@ -197,7 +200,7 @@
 											"type": "string",
 											"default": "raw",
 											"format": "hidden",
-											"title": "Id"
+											"title": "ID"
 										},
 										"content": {
 											"type": "string",
@@ -217,7 +220,7 @@
 											"type": "string",
 											"default": "form-data",
 											"format": "hidden",
-											"title": "Id"
+											"title": "ID"
 										},
 										"content": {
 											"type": "array",
@@ -281,7 +284,7 @@
 											"type": "string",
 											"default": "form-urlencoded",
 											"format": "hidden",
-											"title": "Id"
+											"title": "ID"
 										},
 										"content": {
 											"type": "object",
@@ -304,7 +307,7 @@
 											"type": "string",
 											"default": "binary",
 											"format": "hidden",
-											"title": "Id"
+											"title": "ID"
 										},
 										"content": {
 											"type": "object",
@@ -337,6 +340,7 @@
 			{
 				"name": "test_op2",
 				"title": "Test operation",
+				"type": "public",
 				"input_schema": {
 					"type": "object",
 					"properties": {
@@ -372,6 +376,7 @@
 			{
 				"name": "test_op4",
 				"title": "Test operation",
+				"type": "public",
 				"input_schema": {
 					"type": "object",
 					"properties": {
@@ -410,6 +415,7 @@
 			{
 				"name": "test_deepcall",
 				"title": "Test operation 3",
+				"type": "public",
 				"input_schema": {
 					"type": "object",
 					"properties": {
@@ -439,6 +445,26 @@
 					"additionalProperties": false
 				},
 				"dynamic_output": false
+			},
+			{
+				"name": "test_op_ddl",
+				"title": "Test operation DDL",
+				"type": "ddl",
+				"input_schema": {
+					"type": "object",
+					"properties": {
+						"dependant_property": {
+							"type": "string",
+							"title": "Dependant property"
+						}
+					},
+					"required": [
+						"dependant_property"
+					],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				}
 			}
 		]
 	}
