@@ -7,4 +7,14 @@
 
 module.exports = {
 
+	input: {
+
+		domain: {
+			type: 'string',
+			description: 'Domain',
+			required: true
+		}
+
+	}
+
 };
