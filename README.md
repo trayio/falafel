@@ -451,7 +451,7 @@ module.exports = function (params, http) {
     if (http.method === 'post') {
       resolve(http.body);
     } else {
-      reject('#trigger_ignore');
+      reject('#no_trigger');
     }
 
   });
