@@ -3,110 +3,114 @@ var assert 		= require('assert');
 var getGlobalModel = require('../../lib/parseConfig/getGlobalModel');
 
 
-describe('#getGlobalModel', function () {
+describe.only('#getGlobalModel', function () {
 
 	var sampleGlobalModel;
 
 	beforeEach(function () {
 		sampleGlobalModel = {
-		    "type": "object",
-		    "value": {
-		      "afterFailure": {
-		        "type": "function",
-		        "value": "function () { }"
-		      },
-		      "afterSuccess": {
-		        "type": "function",
-		        "value": "function () { }"
-		      },
-		      "auth": {
-		        "type": "object",
-		        "value": {}
-		      },
-		      "baseUrl": {
-		        "type": "string",
-		        "value": "https://app.asana.com/api/1.0"
-		      },
-		      "before": {
-		        "type": "function",
-		        "value": "function () { }"
-		      },
-		      "data": {
-		        "type": "object",
-		        "value": {
-		        	"name": {
-		        		"type": "string",
-		        		"value": "Chris"
-		        	}
-		        }
-		      },
-		      "expects": {
-		        "type": "string",
-		        "value": "2xx"
-		      },
-		      "headers": {
-		        "type": "array",
-		        "value": [{
-		        	"type": "object",
-		        	"value": {
-		        		"name": {
-		        			"type": "string",
-		        			"value": "Content-Type"
-		        		},
-		        		"value": {
-		        			"type": "string",
-		        			"value": "application/json"
-		        		}
-		        	}
-		        }, 
-		        {
-		        	"type": "object",
-		        	"value": {
-		        		"name": {
-		        			"type": "string",
-		        			"value": "Content-Length"
-		        		},
-		        		"value": {
-		        			"type": "number",
-		        			"value": 252
-		        		}
-		        	}
-		        }]
-		      },
-		      "notExpects": {
-		        "type": "function",
-		        "value": "function (input) {}"
-		      },
-		      "query": {
-		        "type": "array",
-		        "value": [{
-		        	"type": "object",
-		        	"value": {
-		        		"key": {
-		        			"type": "string",
-		        			"value": "per_page"
-		        		},
-		        		"value": {
-		        			"type": "string",
-		        			"value": "100"
-		        		}
-		        	}
-		        }, 
-		        {
-		        	"type": "object",
-		        	"value": {
-		        		"key": {
-		        			"type": "string",
-		        			"value": "page"
-		        		},
-		        		"value": {
-		        			"type": "string",
-		        			"value": "1"
-		        		}
-		        	}
-		        }]
-		      }
-		    }
+			'type': 'object',
+			'value': {
+				'afterFailure': {
+					'type': 'function',
+					'value': 'function () { }'
+				},
+				'afterSuccess': {
+					'type': 'function',
+					'value': 'function () { }'
+				},
+				'auth': {
+					'type': 'object',
+					'value': {}
+				},
+				'baseUrl': {
+					'type': 'string',
+					'value': 'https://app.asana.com/api/1.0'
+				},
+				'before': {
+					'type': 'function',
+					'value': 'function () { }'
+				},
+				'data': {
+					'type': 'object',
+					'value': {
+						'name': {
+							'type': 'string',
+							'value': 'Chris'
+						}
+					}
+				},
+				'expects': {
+					'type': 'string',
+					'value': '2xx'
+				},
+				'headers': {
+					'type': 'array',
+					'value': [
+						{
+							'type': 'object',
+							'value': {
+								'name': {
+									'type': 'string',
+									'value': 'Content-Type'
+								},
+								'value': {
+									'type': 'string',
+									'value': 'application/json'
+								}
+							}
+						},
+						{
+							'type': 'object',
+							'value': {
+								'name': {
+									'type': 'string',
+									'value': 'Content-Length'
+								},
+								'value': {
+									'type': 'number',
+									'value': 252
+								}
+							}
+						}
+					]
+				},
+				'notExpects': {
+					'type': 'function',
+					'value': 'function (input) {}'
+				},
+				'query': {
+					'type': 'array',
+					'value': [
+						{
+							'type': 'object',
+							'value': {
+								'key': {
+									'type': 'string',
+									'value': 'per_page'
+								},
+								'value': {
+									'type': 'string',
+									'value': '100'
+								}
+							}
+						},
+						{
+							'type': 'object',
+							'value': {
+								'key': {
+									'type': 'string',
+									'value': 'page'
+								},
+								'value': {
+									'type': 'string',
+									'value': '1'
+								}
+							}
+						}
+					]
+				}
+			}
 		};
 
 		// console.log(sampleGlobalModel)
@@ -114,16 +118,16 @@ describe('#getGlobalModel', function () {
 
 
 	it('should bind base URL', function () {
-		var globalModel = getGlobalModel({ model: sampleGlobalModel });
+		const globalModel = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
 
 		assert.strictEqual(globalModel.baseUrl, 'https://app.asana.com/api/1.0');
 
 		sampleGlobalModel.value.baseUrl = {
 			type: 'function',
 			value: 'function (input) { return \'https://app.asana.com/api/1.0\'; }',
-		}
-		var globalModel = getGlobalModel({ model: sampleGlobalModel });
-		assert(_.isFunction(globalModel.baseUrl));
+		};
+		const globalModel2 = getGlobalModel({ name: 'global_model2', model: sampleGlobalModel });
+		assert(_.isFunction(globalModel2.baseUrl));
 	});
 
 
@@ -135,7 +139,7 @@ describe('#getGlobalModel', function () {
 
 
 	it('should bind the lifecycle methods', function () {
-		var globalModel = getGlobalModel({ model: sampleGlobalModel });
+		var globalModel = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
 
 		assert(_.isFunction(globalModel.before));
 		assert(_.isFunction(globalModel.afterSuccess));
@@ -144,40 +148,42 @@ describe('#getGlobalModel', function () {
 
 
 	it('should bind the query', function () {
-		var globalModel = getGlobalModel({ model: sampleGlobalModel });
-		assert.deepEqual(globalModel.query, { 
-			per_page: '100', 
-			page: '1' 
+		var globalModel = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
+		assert.deepEqual(globalModel.query, {
+			per_page: '100',
+			page: '1'
 		});
 	});
 
 	it('should not bind auth headers with no name', function () {
 		sampleGlobalModel.value.query = {
 			type: 'array',
-			value: [{
-				type: 'object',
-				value: {
-					name: {
-						type: 'string',
-						value: ' '
-					},
+			value: [
+				{
+					type: 'object',
 					value: {
-						type: 'string',
-						value: '123abc'
+						name: {
+							type: 'string',
+							value: ' '
+						},
+						value: {
+							type: 'string',
+							value: '123abc'
+						}
 					}
 				}
-			}]
+			]
 		};
 
-		var model = getGlobalModel({ model: sampleGlobalModel });
+		var model = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
 		assert.strictEqual(model.query[' '], undefined);
 	});
 
 
 	it('should bind the headers', function () {
-		var globalModel = getGlobalModel({ model: sampleGlobalModel });
-		assert.deepEqual(globalModel.options.headers, { 
-			'Content-Type': 'application/json', 
+		var globalModel = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
+		assert.deepEqual(globalModel.options.headers, {
+			'Content-Type': 'application/json',
 			'Content-Length': 252
 		});
 	});
@@ -185,29 +191,31 @@ describe('#getGlobalModel', function () {
 	it('should not bind auth headers with no name', function () {
 		sampleGlobalModel.value.headers = {
 			type: 'array',
-			value: [{
-				type: 'object',
-				value: {
-					name: {
-						type: 'string',
-						value: ' '
-					},
+			value: [
+				{
+					type: 'object',
 					value: {
-						type: 'string',
-						value: '123abc'
+						name: {
+							type: 'string',
+							value: ' '
+						},
+						value: {
+							type: 'string',
+							value: '123abc'
+						}
 					}
 				}
-			}]
+			]
 		};
 
-		var model = getGlobalModel({ model: sampleGlobalModel });
+		var model = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
 		assert.strictEqual(model.options.headers[' '], undefined);
 	});
 
 
 	it('should bind the data', function () {
-		var globalModel = getGlobalModel({ model: sampleGlobalModel });
-		assert.deepEqual(globalModel.data, { 
+		var globalModel = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
+		assert.deepEqual(globalModel.data, {
 			name: 'Chris'
 		});
 	});
@@ -220,24 +228,26 @@ describe('#getGlobalModel', function () {
 				value: 'oauth2'
 			},
 			headers: {
-				"type": "array",
-		        "value": [{
-		        	"type": "object",
-		        	"value": {
-		        		"name": {
-		        			"type": "string",
-		        			"value": "Authorization"
-		        		},
-		        		"value": {
-		        			"type": "string",
-		        			"value": "Bearer {{{access_token}}}"
-		        		}
-		        	}
-		        }]
+				'type': 'array',
+				'value': [
+					{
+						'type': 'object',
+						'value': {
+							'name': {
+								'type': 'string',
+								'value': 'Authorization'
+							},
+							'value': {
+								'type': 'string',
+								'value': 'Bearer {{{access_token}}}'
+							}
+						}
+					}
+				]
 			}
 		};
 
-		var globalModel = getGlobalModel({ model: sampleGlobalModel });
+		var globalModel = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
 		assert.deepEqual(globalModel.options.headers.Authorization, 'Bearer {{{access_token}}}');
 
 
@@ -261,7 +271,7 @@ describe('#getGlobalModel', function () {
 			}
 		};
 
-		var globalModel = getGlobalModel({ model: sampleGlobalModel });
+		var globalModel = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
 
 		assert.deepEqual(globalModel.options.username, 'admin');
 		assert.deepEqual(globalModel.options.password, 'supersecure');
@@ -276,23 +286,25 @@ describe('#getGlobalModel', function () {
 			},
 			query: {
 				type: 'array',
-				value: [{
-		        	"type": "object",
-		        	"value": {
-		        		"key": {
-		        			"type": "string",
-		        			"value": "api_key"
-		        		},
-		        		"value": {
-		        			"type": "string",
-		        			"value": "123abc"
-		        		}
-		        	}
-		        }]
-		    }
+				value: [
+					{
+						'type': 'object',
+						'value': {
+							'key': {
+								'type': 'string',
+								'value': 'api_key'
+							},
+							'value': {
+								'type': 'string',
+								'value': '123abc'
+							}
+						}
+					}
+				]
+			}
 		};
 
-		var globalModel = getGlobalModel({ model: sampleGlobalModel });
+		var globalModel = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
 
 		assert.deepEqual(globalModel.query.api_key, '123abc');
 	});
@@ -305,23 +317,25 @@ describe('#getGlobalModel', function () {
 			},
 			query: {
 				type: 'array',
-				value: [{
-					type: 'object',
-					value: {
-						key: {
-							type: 'string',
-							value: ' '
-						},
+				value: [
+					{
+						type: 'object',
 						value: {
-							type: 'string',
-							value: '123abc'
+							key: {
+								type: 'string',
+								value: ' '
+							},
+							value: {
+								type: 'string',
+								value: '123abc'
+							}
 						}
 					}
-				}]
+				]
 			}
 		};
 
-		var model = getGlobalModel({ model: sampleGlobalModel });
+		var model = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
 		assert.strictEqual(model.query[' '], undefined);
 	});
 
@@ -334,23 +348,25 @@ describe('#getGlobalModel', function () {
 			},
 			headers: {
 				type: 'array',
-				value: [{
-		        	"type": "object",
-		        	"value": {
-		        		"name": {
-		        			"type": "string",
-		        			"value": "X-PW-AccessKey"
-		        		},
-		        		"value": {
-		        			"type": "string",
-		        			"value": "123abc"
-		        		}
-		        	}
-		        }]
-		    }
+				value: [
+					{
+						'type': 'object',
+						'value': {
+							'name': {
+								'type': 'string',
+								'value': 'X-PW-AccessKey'
+							},
+							'value': {
+								'type': 'string',
+								'value': '123abc'
+							}
+						}
+					}
+				]
+			}
 		};
 
-		var globalModel = getGlobalModel({ model: sampleGlobalModel });
+		var globalModel = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
 		assert.deepEqual(globalModel.options.headers['X-PW-AccessKey'], '123abc');
 	});
 
@@ -362,29 +378,32 @@ describe('#getGlobalModel', function () {
 			},
 			headers: {
 				type: 'array',
-				value: [{
-					type: 'object',
-					value: {
-						name: {
-							type: 'string',
-							value: ' '
-						},
+				value: [
+					{
+						type: 'object',
 						value: {
-							type: 'string',
-							value: '123abc'
+							name: {
+								type: 'string',
+								value: ' '
+							},
+							value: {
+								type: 'string',
+								value: '123abc'
+							}
 						}
 					}
-				}]
+				]
 			}
 		};
 
-		var model = getGlobalModel({ model: sampleGlobalModel });
+		var model = getGlobalModel({ name: 'global_model', model: sampleGlobalModel });
 		assert.strictEqual(model.options.headers[' '], undefined);
 	});
 
 
 	it('should return a function if the global model is a function', function () {
-		var model = getGlobalModel({ 
+		var model = getGlobalModel({
+			name: 'global_model',
 			model: {
 				type: 'function',
 				value: 'function (input) { return { success: true }; }'
