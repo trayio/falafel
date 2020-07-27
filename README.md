@@ -99,7 +99,7 @@ module.exports = {
 };
 ```
 
-### Messages
+### Operations (previously Messages)
 
 On a high level, the following rules apply for each message.
 
@@ -140,6 +140,7 @@ module.exports = {
 This schema will be used to generate the `input_schema` for each message. Also, the
 `required` variable applies a validation before the operation executes at runtime.
 
+`type` is a top level schema.js property for which the allowed values are `public`, `ddl`, and `private`. If `type` is not provided, the `public` is assumed by default, unless the operation name ends with `_ddl`. Only `public` and `ddl` operation types are added to the connectors.json.
 
 ### Model
 

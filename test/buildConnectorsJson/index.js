@@ -52,6 +52,62 @@ describe('#buildConnectorsJson', function () {
 
 	});
 
+	it('should have name for all operation variants', function () {
+		const outputJsonString = buildConnectorsJson(null, [
+			_.defaults(
+				{
+					messages: [
+						{
+							name: 'my_operation',
+							model: {
+								url: '..'
+							},
+							schema: {
+								input: {
+									name: {
+										type: 'string'
+									}
+								}
+							}
+						},
+						{
+							name: 'my_private_operation',
+							model: {
+								url: '..'
+							}
+						},
+						{
+							name: 'my_operation_ddl',
+							model: {
+								url: '..'
+							},
+							schema: {
+								type: 'ddl',
+								input: {
+									name: {
+										type: 'string'
+									}
+								}
+							}
+						},
+						{
+							name: 'my_operation_two_ddl',
+							model: {
+								url: '..'
+							}
+						}
+					]
+				},
+				exampleConfig
+			)
+		]);
+
+		assert.equal(outputJsonString[0].messages.length, 3);
+		assert.equal(outputJsonString[0].messages[0].name, 'my_operation');
+		assert.equal(outputJsonString[0].messages[1].name, 'my_operation_ddl');
+		assert.equal(outputJsonString[0].messages[2].name, 'my_operation_two_ddl');
+	});
+
 	it('should validate `branches` property', function () {
 
 		const inputConfig = _.cloneDeep(exampleConfig);
@@ -121,7 +177,7 @@ describe('#buildConnectorsJson', function () {
 
 	});
 
-	it('should not add operations without schemas', function () {
+	it('should not add private operations (non-ddl ops without schemas)', function () {
 
 		const outputJsonString = buildConnectorsJson(null, [
 			_.defaults(
@@ -482,6 +538,7 @@ describe('#buildConnectorsJson', function () {
 		]);
 
 		assert.equal(parsedJsonSchema[0].messages.length, 1);
+		assert.equal(parsedJsonSchema[0].messages[0].name, 'my_operation_ddl');
 		assert.equal(parsedJsonSchema[0].messages[0].type, 'ddl');
 		assert.deepEqual(
 			parsedJsonSchema[0].messages[0].input_schema,
@@ -836,6 +893,7 @@ describe('#buildConnectorsJson', function () {
 						icon: _.pick(inputConfig.icon, [ 'value', 'type' ]),
 						messages: [
 							{
+								name: 'my_operation',
 								title: 'My operation',
 								type: 'public',
 								input_schema: {
