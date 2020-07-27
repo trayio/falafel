@@ -122,6 +122,26 @@
 				"dynamic_output": false
 			},
 			{
+				"title": "Test op two DDL",
+				"type": "ddl",
+				"input_schema": {
+					"type": "object",
+					"properties": {
+						"domain": {
+							"type": "string",
+							"description": "Domain",
+							"title": "Domain"
+						}
+					},
+					"required": [
+						"domain"
+					],
+					"advanced": [],
+					"$schema": "http://json-schema.org/draft-04/schema#",
+					"additionalProperties": false
+				}
+			},
+			{
 				"name": "test_op",
 				"title": "Test operation",
 				"type": "public",
