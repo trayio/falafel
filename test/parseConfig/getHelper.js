@@ -3,7 +3,7 @@ var assert    = require('assert');
 var getHelper = require('../../lib/parseConfig/getHelper');
 
 
-describe.only('#getHelper', function () {
+describe('#getHelper', function () {
 
 	it('should get a helper, parsed and ready for use', function () {
 		var data = {

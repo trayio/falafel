@@ -3,7 +3,7 @@ var assert 		= require('assert');
 var getFunctionParameter = require('../../lib/parseConfig/getFunctionParameter');
 
 
-describe.only('#getFunctionParameter', function () {
+describe('#getFunctionParameter', function () {
 
 	it('should return a function for a valid function string input', function () {
 		var fnString = 'function (input) { input.test = false; }';

@@ -3,7 +3,7 @@ var assert 		= require('assert');
 var getGlobalModel = require('../../lib/parseConfig/getGlobalModel');
 
 
-describe.only('#getGlobalModel', function () {
+describe('#getGlobalModel', function () {
 
 	var sampleGlobalModel;
 

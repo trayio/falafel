@@ -3,7 +3,7 @@ var assert 		= require('assert');
 var normalize = require('../../lib/parseConfig/normalizeModelParameter');
 
 
-describe.only('#normalizeModelParameter', function () {
+describe('#normalizeModelParameter', function () {
 
 	it('should normalize a flat parameter', function () {
 		var data = {

@@ -3,7 +3,7 @@ var assert 		= require('assert');
 var getModel = require('../../lib/parseConfig/getModel');
 
 
-describe.only('#getModel', function () {
+describe('#getModel', function () {
 
 	var sampleModel;
 
