@@ -123,6 +123,7 @@
 			},
 			{
 				"title": "Test op two DDL",
+				"name": "test_op_two_ddl",
 				"type": "ddl",
 				"input_schema": {
 					"type": "object",
