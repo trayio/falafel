@@ -99,7 +99,7 @@ module.exports = {
 };
 ```
 
-### Messages
+### Operations (previously Messages)
 
 On a high level, the following rules apply for each message.
 
@@ -140,6 +140,7 @@ module.exports = {
 This schema will be used to generate the `input_schema` for each message. Also, the
 `required` variable applies a validation before the operation executes at runtime.
 
+`type` is a top level schema.js property for which the allowed values are `public`, `ddl`, and `private`. If `type` is not provided, the `public` is assumed by default, unless the operation name ends with `_ddl`. Only `public` and `ddl` operation types are added to the connectors.json.
 
 ### Model
 
@@ -267,6 +268,10 @@ Example:
 ### API download / Falafel upload
 Generally, when an API provides a download endpoint, one of falafel's upload functions will need to be used. All three of the following upload promise functions will return a file pointer object when they resolve.
 
+Note: all signed URLs return an expiry time of 6 hours.
+
+`CONNECTOR_FILE_REGION` and `CONNECTOR_FILE_BUCKET` environment variables can be set to override the default region and bucket.
+
 #### `falafel.files.streamUpload` (recommended)
 The `falafel.files.streamUpload` accepts the following object:
 ```js
@@ -275,6 +280,9 @@ The `falafel.files.streamUpload` accepts the following object:
     name: '[File name]', //required
     length: [File size in bytes], //required
     contentType: '[Mime type of file]', //optional (falafel will attempt to derive it from name if not provided)
+
+    bucket: '[AWS bucket]', //optional target bucket
+    region: '[AWS region]' //optional target region
 }
 ```
 
@@ -289,12 +297,18 @@ The `falafel.files.upload` accepts the following object:
     name: '[File name]', //required
     length: [File size in bytes], //required
     contentType: '[Mime type of file]', //optional (falafel will attempt to derive it from name if not provided)
+
+    bucket: '[AWS bucket]', //optional target bucket
+    region: '[AWS region]' //optional target region
 }
 ```
 This function assumes the file is in local storage and will attempt to `createReadStream` from it; as such this is the least recommended upload option.
 
 ### API upload / Falafel download
 Generally, when an API provides an upload endpoint, one of falafel's download functions will need to be used. Both of the following download promise functions expect a file pointer object to be passed in.
+
+##### needleOptions
+Both `falafel.files.streamDownload` and `falafel.files.download` accept a second argument, `needleOptions`, which is an object that can be used to override the default needle options defined by falafel when downloading the file (except the `output` property for `falafel.files.download` - falafel takes precedence for this property).
 
 #### `falafel.files.streamDownload` (recommended)
 The `falafel.files.streamDownload` resolving with the following object:
@@ -320,6 +334,8 @@ The `falafel.files.download` resolving with the following object:
 }
 ```
 Similarly to `falafel.file.upload`, since this function requires keeping the file in local storage, this is the least recommended download option.
+
+**Note**: when using `falafel.files.download`, `needle.get` is internally used along with the `output` option; needle however only creates a file if the `statusCode` is `200`. If a file needs to be created in the `/tmp` directory for non-200 statusCodes, use `falafel.files.streamDownload`.
 
 ## Trigger connectors
 
@@ -436,7 +452,7 @@ module.exports = function (params, http) {
     if (http.method === 'post') {
       resolve(http.body);
     } else {
-      reject('#trigger_ignore');
+      reject('#no_trigger');
     }
 
   });

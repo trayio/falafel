@@ -20,7 +20,7 @@ describe('#normalizeModelParameter', function () {
 			}
 		};
 
-		assert.deepEqual(normalize(data), {
+		assert.deepEqual(normalize(data, 'test_op'), {
 			name: 'Chris',
 			age: 27
 		});
@@ -47,7 +47,7 @@ describe('#normalizeModelParameter', function () {
 			}
 		};
 
-		assert.deepEqual(normalize(data), {
+		assert.deepEqual(normalize(data, 'test_op'), {
 			employees: {
 				adrien: false,
 				chris: true,
@@ -67,7 +67,7 @@ describe('#normalizeModelParameter', function () {
 			}
 		};
 
-		assert.deepEqual(normalize(data), {
+		assert.deepEqual(normalize(data, 'test_op'), {
 			employees: {}
 		});
 	});
@@ -79,55 +79,63 @@ describe('#normalizeModelParameter', function () {
 			value: {
 				users: {
 					type: 'array',
-					value: [{
-						type: 'object',
-						value: {
-							name: {
-								type: 'string',
-								value: 'Ali'
-							},
-							favorite_foods: {
-								type: 'array',
-								value: [{
+					value: [
+						{
+							type: 'object',
+							value: {
+								name: {
 									type: 'string',
-									value: 'Katsu Wrap'
-								}, {
+									value: 'Ali'
+								},
+								favorite_foods: {
+									type: 'array',
+									value: [
+										{
+											type: 'string',
+											value: 'Katsu Wrap'
+										}, {
+											type: 'string',
+											value: 'Byron Milkshake'
+										}
+									]
+								}
+							}
+						}, {
+							type: 'object',
+							value: {
+								name: {
 									type: 'string',
-									value: 'Byron Milkshake'
-								}]
+									value: 'Chris'
+								},
+								favorite_foods: {
+									type: 'array',
+									value: [
+										{
+											type: 'string',
+											value: 'Poppies'
+										}, {
+											type: 'string',
+											value: 'Japanika'
+										}
+									]
+								}
 							}
 						}
-					}, {
-						type: 'object',
-						value: {
-							name: {
-								type: 'string',
-								value: 'Chris'
-							},
-							favorite_foods: {
-								type: 'array',
-								value: [{
-									type: 'string',
-									value: 'Poppies'
-								}, {
-									type: 'string',
-									value: 'Japanika'
-								}]
-							}
-						}
-					}]
+					]
 				}
 			}
 		};
 
-		assert.deepEqual(normalize(data), {
-			users: [{
-				name: 'Ali',
-				favorite_foods: ['Katsu Wrap', 'Byron Milkshake']
-			}, {
-				name: 'Chris',
-				favorite_foods: ['Poppies', 'Japanika']
-			}]
+		assert.deepEqual(normalize(data, 'test_op'), {
+			users: [
+				{
+					name: 'Ali',
+					favorite_foods: [ 'Katsu Wrap', 'Byron Milkshake' ]
+				}, {
+					name: 'Chris',
+					favorite_foods: [ 'Poppies', 'Japanika' ]
+				}
+			]
 		});
 	});
 
@@ -138,7 +146,7 @@ describe('#normalizeModelParameter', function () {
 			value: 'function (input) { return { name: "Chris" }; }'
 		};
 
-		const fn = normalize(data);
+		const fn = normalize(data, 'test_op');
 
 		assert(_.isFunction(fn));
 		assert.deepEqual(fn(), { name: 'Chris' });
@@ -151,7 +159,7 @@ describe('#normalizeModelParameter', function () {
 			value: undefined
 		};
 
-		const fn = normalize(data);
+		const fn = normalize(data, 'test_op');
 
 		assert(_.isFunction(fn));
 		assert.deepEqual(fn({ test: true, age: 27 }), {});
@@ -172,7 +180,7 @@ describe('#normalizeModelParameter', function () {
 			}
 		};
 
-		const obj = normalize(data2);
+		const obj = normalize(data2, 'test_op');
 		assert(_.isObject(obj));
 		assert.deepEqual(obj, { age: 27 });
 	});

@@ -11,7 +11,7 @@ describe('#getHelper', function () {
 			value: 'function (foo) { return \'test\' + foo; }',
 		};
 
-		var helper = getHelper(data);
+		var helper = getHelper(data, 'test_helper');
 
 		assert(_.isFunction(helper));
 		assert(helper('chris'), 'testchris');

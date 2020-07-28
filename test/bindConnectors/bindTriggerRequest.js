@@ -426,7 +426,7 @@ describe('#bindTrigger', function () {
 			assert.deepEqual(
 				err.body,
 				{
-					code: '#trigger_ignore',
+					code: '#no_trigger',
 					message: 'Ignore this request.'
 				}
 			);
