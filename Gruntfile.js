@@ -5,14 +5,11 @@ module.exports = function (grunt) {
 
 		mochaTest: {
 			test: {
-				options: {
-          reporter: 'mocha-unfunk-reporter'
-        },
-        src: [
-        	'test/*.js',
-        	'test/*/*.js',
-        	'test/*/*/*.js',
-        ]
+				src: [
+					'test/*.js',
+					'test/*/*.js',
+					'test/*/*/*.js',
+				]
 			}
 		}
 
