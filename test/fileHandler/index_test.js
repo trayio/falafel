@@ -610,6 +610,42 @@ describe('#fileHandler', function () {
 				}
 			}
 		});
+
+		it(`should upload file with access control list`, async () => {
+			const testFilePath = '/tmp/falafel/tests/example.txt';
+			fs.ensureFileSync(testFilePath);
+			fs.writeFileSync(testFilePath, 'Example content');
+			const contentLength = Buffer.byteLength('Example content', 'utf8');
+
+			const randomGuid = guid();
+			let currentTime;
+			getProxiedFileHandler({
+				'mout/random/guid': () => {
+					return randomGuid;
+				},
+				'aws-sdk': {
+					'S3': class S3 {
+						async upload (uploadParams, uploadOptions, callback) {
+							assert.strictEqual(uploadParams.ACL, 'bucket-owner-full-control');
+							callback(null, {
+								Bucket: uploadParams.Bucket,
+								Key: uploadParams.Key,
+							});
+						}
+						getSignedUrl (operation, signedParams, callback) {
+							callback(null, 'https://test.aws.com/buckethash');
+						}
+					}
+				}
+			});
+
+			const uploadResult = await falafel.files.upload({
+				contentType: 'text/plain',
+				name: 'example.txt',
+				length: contentLength,
+				file: testFilePath
+			});
+		});
 	});
 
 	describe('streamUpload', () => {
@@ -1544,6 +1580,45 @@ describe('#fileHandler', function () {
 					assert.fail(uploadError);
 				}
 			}
+		});
+
+		it(`should stream upload file with access control list`, async () => {
+			const passThroughStream = new stream.PassThrough();
+			const contentLength = Buffer.byteLength('Example content', 'utf8');
+
+			const randomGuid = guid();
+			let currentTime;
+			getProxiedFileHandler({
+				'mout/random/guid': () => {
+					return randomGuid;
+				},
+				'aws-sdk': {
+					'S3': class S3 {
+						async upload (uploadParams, uploadOptions, callback) {
+							console.log('UPLOAD PARAMS', uploadParams);
+							assert.strictEqual(uploadParams.ACL, 'bucket-owner-full-control');
+							callback(null, {
+								Bucket: uploadParams.Bucket,
+								Key: uploadParams.Key,
+							});
+						}
+						getSignedUrl (operation, signedParams, callback) {
+							callback(null, 'https://test.aws.com/buckethash');
+						}
+					}
+				}
+			});
+
+			setTimeout(() => {
+				passThroughStream.write('Example content');
+				passThroughStream.end();
+			}, 500);
+			const uploadResult = await falafel.files.streamUpload({
+				contentType: 'text/plain',
+				name: 'example.txt',
+				length: contentLength,
+				readStream: passThroughStream
+			});
 		});
 	});
 
