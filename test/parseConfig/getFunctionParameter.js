@@ -36,7 +36,7 @@ describe('#getFunctionParameter', function () {
 			fn({ sample: 'input' });
 		} catch (err) {
 			assert(_.isError(err));
-			assert.strictEqual(err.message, `Error occured for module 'test_op'. Error evaluating function 'before': Unexpected token {`);
+			assert.strictEqual(err.message, `Error occured for module 'test_op'. Error evaluating function 'before': Unexpected token '{'`);
 			didCatch = true;
 		}
 
