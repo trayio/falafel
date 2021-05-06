@@ -282,7 +282,8 @@ The `falafel.files.streamUpload` accepts the following object:
     contentType: '[Mime type of file]', //optional (falafel will attempt to derive it from name if not provided)
 
     bucket: '[AWS bucket]', //optional target bucket
-    region: '[AWS region]' //optional target region
+    region: '[AWS region]',  //optional target region
+    disableObjectAcl: // optional flag to disable S3 object ACL for bucket-owner-full-control
 }
 ```
 
@@ -299,7 +300,8 @@ The `falafel.files.upload` accepts the following object:
     contentType: '[Mime type of file]', //optional (falafel will attempt to derive it from name if not provided)
 
     bucket: '[AWS bucket]', //optional target bucket
-    region: '[AWS region]' //optional target region
+    region: '[AWS region]', //optional target region
+    disableObjectAcl: // optional flag to disable S3 object ACL for bucket-owner-full-control
 }
 ```
 This function assumes the file is in local storage and will attempt to `createReadStream` from it; as such this is the least recommended upload option.
