@@ -272,6 +272,8 @@ Note: all signed URLs return an expiry time of 6 hours.
 
 `CONNECTOR_FILE_REGION` and `CONNECTOR_FILE_BUCKET` environment variables can be set to override the default region and bucket.
 
+Unless the `disableObjectAcl` flag is set, the upload functions will create the S3 object with the access control list (ACL) property of `bucket-owner-full-control`. This means the owning AWS account of the target bucket will have access to the object even if the upload is being run from a different account.
+
 #### `falafel.files.streamUpload` (recommended)
 The `falafel.files.streamUpload` accepts the following object:
 ```js
