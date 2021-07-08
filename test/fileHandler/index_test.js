@@ -7,7 +7,7 @@ const guid = require('mout/random/guid');
 const fs = require('fs-extra');
 const proxyquire = require('proxyquire');
 const nock = require('nock');
-const needle = require('needle');
+const needle = require('@trayio/needle');
 const moment = require('moment');
 
 function getProxiedFileHandler (proxyModules = {}, options = {}) {
