@@ -2,7 +2,7 @@
 layout: default
 title: Home
 nav_order: 1
-description: "Some stuff"
+description: "A Node.js framework for building Tray.io connectors"
 permalink: /
 ---
 
