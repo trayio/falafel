@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Trigger connectors
-nav_order: 4
 description: "Trigger connectors"
 permalink: /trigger-connectors
 ---

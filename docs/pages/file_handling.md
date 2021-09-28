@@ -1,7 +1,6 @@
 ---
 layout: default
 title: File handling
-nav_order: 3
 description: "File Handling"
 permalink: /file-handling
 ---
