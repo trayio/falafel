@@ -7,7 +7,6 @@ permalink: /
 ---
 
 # Falafel
-
 {: .no_toc}
 
 A Node.js framework for making it crazy easy to build connectors. 
