@@ -8,6 +8,10 @@ description: >- # this means to ignore newlines until "baseurl:"
 remote_theme: pmarsceill/just-the-docs
 theme: "just-the-docs"
 
+# logo: "https://tray.io/favicon-32x32.png"
+
+color_scheme: light
+
 search:
   heading_level: 3
 
