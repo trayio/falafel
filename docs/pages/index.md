@@ -83,9 +83,6 @@ module.exports = {
    value: 'http://images.tray.io.s3.amazonaws.com/static/icons/placeholder.png',
  },
 
- // Help link
- help_link: 'http://docs.tray.io/'
-
 };
 ```
 
