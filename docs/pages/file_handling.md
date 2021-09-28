@@ -6,7 +6,7 @@ description: "File Handling"
 permalink: /file-handling
 ---
 
-## File handling
+# File handling
 In tray.io workflows, files are handled by uploading files to bucket in AWS S3, and the using a pointer object to reference the file in workflows. The default bucket is `workflow-file-uploads`, except in development mode, in which case it is `workflow-file-uploads-dev`; in both cases the region is `us-west-2`.
 
 The file pointer object takes the following formatting:
@@ -29,7 +29,7 @@ Example:
 }
 ```
 
-### API download / Falafel upload
+## API download / Falafel upload
 Generally, when an API provides a download endpoint, one of falafel's upload functions will need to be used. All three of the following upload promise functions will return a file pointer object when they resolve.
 
 Note: all signed URLs return an expiry time of 6 hours.
@@ -38,7 +38,7 @@ Note: all signed URLs return an expiry time of 6 hours.
 
 Unless the `disableObjectAcl` flag is set, the upload functions will create the S3 object with the access control list (ACL) property of `bucket-owner-full-control`. This means the owning AWS account of the target bucket will have access to the object even if the upload is being run from a different account.
 
-#### `falafel.files.streamUpload` (recommended)
+### falafel.files.streamUpload (recommended)
 The `falafel.files.streamUpload` accepts the following object:
 ```js
 {
@@ -53,10 +53,10 @@ The `falafel.files.streamUpload` accepts the following object:
 }
 ```
 
-#### `falafel.files.streamMPUpload`
+### falafel.files.streamMPUpload
 The `falafel.files.streamMPUpload` is the same as `streamUpload`, but does not require a `length` to be specified. However, this is less performant since the lack of content length information will default the AWS SDK to split the stream into 5MB chunks and upload them individually. Only use this if it is not possible to determine the content size beforehand without downloading the whole file to memory and/or local storage.
 
-#### `falafel.files.upload`
+### falafel.files.upload
 The `falafel.files.upload` accepts the following object:
 ```js
 {
@@ -72,13 +72,13 @@ The `falafel.files.upload` accepts the following object:
 ```
 This function assumes the file is in local storage and will attempt to `createReadStream` from it; as such this is the least recommended upload option.
 
-### API upload / Falafel download
+## API upload / Falafel download
 Generally, when an API provides an upload endpoint, one of falafel's download functions will need to be used. Both of the following download promise functions expect a file pointer object to be passed in.
 
-##### needleOptions
+### needleOptions
 Both `falafel.files.streamDownload` and `falafel.files.download` accept a second argument, `needleOptions`, which is an object that can be used to override the default needle options defined by falafel when downloading the file (except the `output` property for `falafel.files.download` - falafel takes precedence for this property).
 
-#### `falafel.files.streamDownload` (recommended)
+### falafel.files.streamDownload (recommended)
 The `falafel.files.streamDownload` resolving with the following object:
 ```js
 {
@@ -90,7 +90,7 @@ The `falafel.files.streamDownload` resolving with the following object:
 }
 ```
 
-#### `falafel.files.download`
+### falafel.files.download
 The `falafel.files.download` resolving with the following object:
 ```js
 {
