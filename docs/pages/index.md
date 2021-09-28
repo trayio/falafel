@@ -232,7 +232,7 @@ This is simple - just **don't add** the `schema.js` and `response.sample.json` f
 
 ## Dynamic output schemas
 If an operation is to support dynamic output schemas, an `output.js` file simply needs to be included in the operation's folder. The file should always export a promise function to be run, like so:
-```JavaScript
+```js
 module.exports = function (params) {
 	return when.promise(function (resolve, reject) {
 		//Return an object or JSON schema
