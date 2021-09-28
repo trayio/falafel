@@ -1,0 +1,24 @@
+title: Falafel
+# email: your-email@example.com
+description: >- # this means to ignore newlines until "baseurl:"
+  A Node.js framework for building Tray.io connectors
+baseurl: "/falafel" # the subpath of your site, e.g. /blog
+url: "https://trayio.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+
+remote_theme: pmarsceill/just-the-docs
+theme: "just-the-docs"
+
+# logo: "https://tray.io/favicon-32x32.png"
+
+color_scheme: light
+
+back_to_top: true
+back_to_top_text: "Back to top"
+
+search:
+  heading_level: 3
+  button: true
+
+aux_links:
+  "Falafel on GitHub":
+    - "//github.com/trayio/falafel"
