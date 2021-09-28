@@ -16,7 +16,7 @@ permalink: /getting-started
 
 * Node.js 12.0 or newer. [Setup](https://nodejs.org/en/download/)
 
-## Generating the folder structure
+## Generate the connector folder structure
 
 The quickest way to get started with building a connector is to use our Yeoman Generator.
 
@@ -50,14 +50,14 @@ $ yo trayio-nodejs-connector
 ```
 
 
-## Running the connector locally
+## Run the connector locally
 To run the connector as a local server you can call, run the following command:
 ```sh
 $ NODE_ENV=development node main.js
 Connector dev server listening on port 8989
 ```
 
-## Running the included operation
+## Run the included operation
 
 The folder structure will include an operation called `sample_operation` with no inputs.
 
