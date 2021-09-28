@@ -45,14 +45,14 @@ Falafel requires you to follow a strict folder structure for organising connecto
 ```
 connectors/
   connectorname/
-  	my-message/
-  		model.js
-  		schema.js
-  		response.sample.json
-  	my-second-message/
-  		model.js
-  		schema.js
-  		response.sample.json
+    my-message/
+      model.js
+      schema.js
+      response.sample.json
+    my-second-message/
+      model.js
+      schema.js
+      response.sample.json
     connector.js
     global_model.js (optional)
     global_schema.js (optional)
