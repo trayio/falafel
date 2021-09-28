@@ -12,6 +12,9 @@ permalink: /
 A Node.js framework for making it crazy easy to build connectors. 
 Built on top of [threadneedle](https://github.com/trayio/threadneedle) allowing for a declarative operation based approach.
 
+[Get started now](getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[View it on GitHub](https://github.com/trayio/falafel){: .btn .fs-5 .mb-4 .mb-md-0 }
+
 Falafel uses JavaScript-based schemas as a superset of connectors.json, but unlike connectors.json, the schema also has a direct impact on the running of operations.
 For example, the use of `required` makes a field required in connectors.json as well
 as on the operational level.
@@ -21,21 +24,6 @@ as on the operational level.
 
 1. TOC
 {:toc}
-
-## Getting started
-
-Create a connector using the [Yeoman generator](https://github.com/trayio/generator-trayio-nodejs-connector), inputting the settings when prompted:
-
-```
-yo trayio-nodejs-connector
-```
-
-Next up, start the server in development mode (will auto-generate `connectors.json`):
-
-```
-NODE_ENV=development node main.js
-```
-
 
 ## Project structuring
 

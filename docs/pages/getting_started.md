@@ -7,6 +7,10 @@ permalink: /getting-started
 ---
 
 # Getting Started
+{: .no_toc}
+
+1. TOC
+{:toc}
 
 ## Prerequisites
 
@@ -16,33 +20,25 @@ permalink: /getting-started
 
 The quickest way to get started with building a connector is to use our Yeoman Generator.
 
-If you do not have yeoman installed, you can install it like so:
+### Install Yeoman and the Tray.io Connector Generator
 
 ```sh
 npm install -g yo
-```
-
-Install the Tray.io Connector Generator
-
-```sh
 npm install -g generator-trayio-nodejs-connector
 ```
 
-Create a folder for your connector and navigate to it.
+### Create a folder for your connector and navigate to it
 
 ```sh
 mkdir my-connector
 cd my-connector
 ```
 
-Run the yeoman generator.
-
-```sh
-yo trayio-nodejs-connector
-```
+### Run the yeoman generator
 
 Example inputs for a basic connector:
 ```sh
+$ yo trayio-nodejs-connector
 ? Connector title (as it will appear in the tray UI) My connector
 ? Connector name (how it will be referenced in workflows) my-connector
 ? Service name (the app the connector will be tied to) my-connector
