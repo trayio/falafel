@@ -1,6 +1,9 @@
 #Git
 .git*
 
+#Docs
+docs
+
 #Test Files
 example-run.js
 example
