@@ -12,12 +12,12 @@ permalink: /
 A Node.js framework for making it crazy easy to build connectors. 
 Built on top of [threadneedle](https://github.com/trayio/threadneedle) allowing for a declarative operation based approach.
 
-[Get started now](getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[View it on GitHub](https://github.com/trayio/falafel){: .btn .fs-5 .mb-4 .mb-md-0 }
-
 Falafel uses JavaScript-based schemas as a superset of connectors.json, but unlike connectors.json, the schema also has a direct impact on the running of operations.
 For example, the use of `required` makes a field required in connectors.json as well
 as on the operational level.
+
+[Get started now](getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[View it on GitHub](https://github.com/trayio/falafel){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ## Table of contents
 {: .no_toc .text-delta }
