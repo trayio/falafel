@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Utils
-nav_order: 4
+nav_order: 5
 description: Falafel provides a few utility function to aid with connector development.
 permalink: /utils
 ---
