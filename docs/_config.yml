@@ -1,9 +1,9 @@
-title: Connector SDK
+title: Falafel
 # email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   Falafel stuff here
-# baseurl: "" # the subpath of your site, e.g. /blog
-# url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/falafel" # the subpath of your site, e.g. /blog
+url: "https://trayio.github.com" # the base hostname & protocol for your site, e.g. http://example.com
 
 remote_theme: pmarsceill/just-the-docs
 theme: "just-the-docs"
@@ -12,8 +12,12 @@ theme: "just-the-docs"
 
 color_scheme: light
 
+back_to_top: true
+back_to_top_text: "Back to top"
+
 search:
   heading_level: 3
+  button: true
 
 aux_links:
   "Falafel on GitHub":
