@@ -128,7 +128,7 @@ module.exports = function (params, http) {
 };
 ```
 
-#### Adding a HTTP reply with `#no_trigger` error code
+### Adding a HTTP reply with `#no_trigger` error code
 If a HTTP response needs to be specified along with the `#no_trigger` rejection code, the following format should be used:
 ```js
 {
