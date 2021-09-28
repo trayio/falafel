@@ -7,3 +7,10 @@ description: >- # this means to ignore newlines until "baseurl:"
 
 remote_theme: pmarsceill/just-the-docs
 theme: "just-the-docs"
+
+search:
+  heading_level: 3
+
+aux_links:
+  "Falafel on GitHub":
+    - "//github.com/trayio/falafel"
