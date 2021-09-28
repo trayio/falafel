@@ -78,10 +78,11 @@ JSON body:
   "body": {}
 }
 ```
-The `message` field is the name of the operation, and the `body` field is the inputs to the operation.
+The `message` field is the name of the operation, and the `body` field contains the inputs for the operation.
 For this sample operation, there are no inputs so the `body` is just an empty object.
 
-You should receive the following response:
+You should receive the following response.
+The `body` property is what the connector returns.
 
 ```json
 {
