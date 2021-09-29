@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Raw HTTP Request
-nav_order: 5
 description: The Raw HTTP Request functionality provides (REST) connectors a way to expose a more generic/raw operation in order to perform direct API requests
 permalink: /raw-http-request
 ---
