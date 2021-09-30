@@ -18,7 +18,7 @@ The following input types are supported in the Tray properties panel.
 
 ## String
 
-String fields require the user the enter some value as text.
+String fields require the user to enter some value as text.
 Example input:
 
 ```js
@@ -92,7 +92,7 @@ Using `format: 'code'` will present the user with a code editor text box.
 
 ## Number
 
-Number fields require the user the enter some value as a number.
+Number fields require the user to enter some value as a number.
 Example input:
 
 ```js
@@ -114,7 +114,7 @@ If the user entered `51` into the box, the connector would receive the following
 ```
 
 Notice how this time you get a number, not a string.  
-If this was a `type: 'string'` field instead, the connector would have received a string instead.
+If this was a `type: 'string'` field instead, the connector would have received a string.
 
 ```json
 {
