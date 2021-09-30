@@ -9,14 +9,17 @@ parent: Input Schema
 # Input types
 {: .no_toc}
 
-The following input types are supported:
+An input must have a specified type, or multiple types.
+The following input types are supported in the Tray properties panel.
 
 1. TOC
 {:toc}
 
 ## String
+
 String fields require the user the enter some value as text.
 Example input:
+
 ```js
 {
     name: {
@@ -25,8 +28,10 @@ Example input:
     }
 }
 ```
+
 This would ask the user to enter a string into the text box.  
 If the user entered `Bobby` into the box, the connector would receive the following input:
+
 ```json
 {
     "name": "Bobby"
@@ -34,9 +39,11 @@ If the user entered `Bobby` into the box, the connector would receive the follow
 ```
 
 ### Format
+
 The `format` property can affect how a text field shows up in the interface to the user.
 
 ### Format: Text
+
 Using `format: 'text'` will make the textbox multiline and expandable.
 This can be useful when users would need to enter larger text entries like paragraphs.
 
@@ -50,6 +57,7 @@ This can be useful when users would need to enter larger text entries like parag
 ```
 
 ### Format: datetime
+
 Using `format: 'datetime'` will present the user with a date/time picker.
 The saved value will be stored in local time.  
 This field is commonly used alongside the `datemask` property.
@@ -69,6 +77,7 @@ Datemask formatting does not work for inputs nested inside a `oneOf` input. In t
 ```
 
 ### Format: Code
+
 Using `format: 'code'` will present the user with a code editor text box.
 
 ```js
@@ -81,8 +90,10 @@ Using `format: 'code'` will present the user with a code editor text box.
 ```
 
 ## Number
+
 Number fields require the user the enter some value as a number.
 Example input:
+
 ```js
 {
     house_number: {
@@ -91,15 +102,19 @@ Example input:
     }
 }
 ```
+
 This would ask the user to enter a number into the text box.  
 If the user entered `51` into the box, the connector would receive the following input.
+
 ```json
 {
     "house_number": 51
 }
 ```
+
 Notice how this time you get a number, not a string.  
 If this was a `type: 'string'` field instead, the connector would have received a string instead.
+
 ```json
 {
     "house_number": "51"
@@ -107,7 +122,9 @@ If this was a `type: 'string'` field instead, the connector would have received 
 ```
 
 ## Boolean
+
 A boolean input presents the user with a tickbox.
+
 ```js
 {
     is_hidden: {
@@ -117,7 +134,8 @@ A boolean input presents the user with a tickbox.
 ```
 
 This will send either `true` or `false` to the connector.
-```
+
+```js
 {
     "is_hidden": true
 }
@@ -163,7 +181,7 @@ Array inputs are useful for when a user needs to enter multiple items for an inp
 Array items are defined just like any other input schema, and can be as complex as you like, such as having `object` type inputs.  
 the following input schema will ask the user for a list of `ingredients`, each of which is a simple `string` field.
 
-```
+```js
 {
     ingredients: {
         type: 'array',
@@ -185,3 +203,18 @@ If a user enters `sugar` and `flour` as the items in the list, the connector wil
 }
 ```
 
+## Multiple types
+
+An input can have multiple types.
+If multiple types are defined, the user can choose which type to use.
+
+```js
+{
+    id: {
+        type: ['string', 'number'],
+        required: true,
+    }
+}
+```
+
+This input supported either a number or a string as valid inputs.
