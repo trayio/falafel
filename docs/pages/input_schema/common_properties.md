@@ -139,3 +139,18 @@ If English was chosen here, the connector would receive the following:
     "language": "english"
 }
 ```
+
+## Default JSON Path
+The `defaultJsonPath` property will make the default value of the input a JSON Path.
+The type of the field will still stay as you defined it, but the default type will be set to `JSON Path` with the specified path being the default.
+
+```js
+{
+    public_url: {
+        type: 'string',
+        required: true,
+        defaultJsonPath: '$.env.public_url',
+    },
+}
+```
+
