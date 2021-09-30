@@ -4,6 +4,7 @@ title: Input Types
 nav_order: 1
 description: "Which input types are supported"
 parent: Input Schema
+permalink: /input-schema/input-types
 ---
 
 # Input types

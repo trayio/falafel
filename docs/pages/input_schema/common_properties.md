@@ -3,6 +3,7 @@ layout: default
 title: Common properties
 description: "Common properties for configuring inputs"
 parent: Input Schema
+permalink: /input-schema/common-properties
 ---
 
 # Common input properties
