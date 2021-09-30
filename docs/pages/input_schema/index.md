@@ -36,6 +36,7 @@ To do this, you would put them in the `schema.js` file within the operation fold
 
 To add a `user_id` number input to an operation `get_user` you would add input to the following file:
 `connectors/my-connector/get_user/schema.js`
+
 ```js
 module.exports = {
     input: {
@@ -48,6 +49,28 @@ module.exports = {
     }
 }
 ```
+
+### Disabling global schema
+
+If you want a specific operation to not inherit the global inputs defined in `global_schema.js`, you can use the `globals` setting.
+
+```js
+module.exports = {
+    globals: false,
+
+    input: {
+        user_id: {
+            title: 'User ID',
+            type: 'number',
+            required: true,
+            description: 'The ID of the user.',
+        }
+    }
+}
+```
+
+The above `schema.js` file will ignore any global inputs and just display `user_id`.
+
 
 ## connectors.json
 

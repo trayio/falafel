@@ -179,32 +179,6 @@ set `globals: false` in the `model.js` config file.
 See the [threadneedle docs](https://github.com/trayio/threadneedle#global) for more information on globals.
 
 
-## Global message schemas
-
-Sometimes you'll want to use the same generic data as inputs in every single message. A good example is passing
-API keys or other authentication data.
-
-You don't have to add these to every single message - you can specify them in a `global_schema.js` file:
-
-```js
-// global_schema.js
-module.exports = {
-
-  input: {
-    access_token: {
-      type: 'string',
-      advanced: true,
-      required: true,
-      defaultJsonPath: '$.auth.access_token'  
-    }
-  }
-
-};
-```
-
-__Tip:__ if you'd like to disable global schemas a particular message, specify `globals: false` in the message `schema.js` file.
-
-
 ## Private methods
 
 Sometimes you'll want to create an internal method that should not be exposed to
