@@ -33,6 +33,53 @@ If the user entered `Bobby` into the box, the connector would receive the follow
 }
 ```
 
+### Format
+The `format` property can affect how a text field shows up in the interface to the user.
+
+### Format: Text
+Using `format: 'text'` will make the textbox multiline and expandable.
+This can be useful when users would need to enter larger text entries like paragraphs.
+
+```js
+{
+    content: {
+        type: 'string',
+        format: 'text',
+    }
+}
+```
+
+### Format: datetime
+Using `format: 'datetime'` will present the user with a date/time picker.
+The saved value will be stored in local time.  
+This field is commonly used alongside the `datemask` property.
+If a datemask is set, falafel will automatically convert the saved timestamp to the specified format.
+Falafel uses Moment.js to format the timestamp, so datemasks should adhere to the [Moment.js format](https://momentjs.com/docs/#/displaying/).
+Datemask formatting does not work for inputs nested inside a `oneOf` input. In this case you will need to write logic to format it yourself.
+
+
+```js
+{
+    timestamp: {
+        type: 'string',
+        format: 'datetime',
+        datemask: 'YYYY-MM-DDThh:mmTZD',
+    }
+}
+```
+
+### Format: Code
+Using `format: 'code'` will present the user with a code editor text box.
+
+```js
+{
+    script: {
+        type: 'string',
+        format: 'code',
+    }
+}
+```
+
 ## Number
 Number fields require the user the enter some value as a number.
 Example input:
