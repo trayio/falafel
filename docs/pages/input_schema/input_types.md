@@ -175,6 +175,37 @@ If the user fills in both the `page` and `count` field, the connector will recei
 
 The inputs defined inside `properties` are just like any other input schema definitions, so could be as complex as needed.
 
+### Additional Properties
+
+The `additionalProperties` setting can allow users to provide a custom object structure when needed.
+If `additionalProperties` is set to `true`, users can create any structure they want for the child properties of the input.
+
+```js
+{
+  custom_object: {
+    type: 'object',
+    additionalProperties: true,
+  }
+}
+```
+
+Alternatively, `additionalProperties` can be set to an input schema.
+This lets you control the structure of the child properties.
+
+```js
+{
+    headers: {
+        type: 'object',
+        description: 'HTTP headers to send',
+        additionalProperties: {
+            type: 'string',
+        },
+    },
+}
+```
+
+With the above schema, users can create an object with custom property keys, but are restricted to only providing strings as the values.
+
 ## Array
 
 Array inputs are useful for when a user needs to enter multiple items for an input.  
