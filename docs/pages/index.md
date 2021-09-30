@@ -231,13 +231,6 @@ Falafel accepts two possibilities for the returned data; either an object or a J
 **Note:** Depending on whether a `output.js` is included or not, Falafel will automatically set the `dynamic_output` key in `connectors.json` for each operation; thus `dynamic_output` attribute does not need to be added in `schema.js`.
 Additionally, the dynamic output sub-operation can be referenced as `message_dynamic_output`.
 
-## Generating connectors.json
-
-The `connectors.json` file will get auto generated when starting the server with `NODE_ENV` set to `development`.
-
-Depends on the `generate-schema` module being installed as a `devDependency` of the parent module. (It is automatically from the Yeoman generator)
-
-
 ## Testing the connector
 ### As a server/exposed function
 Running the connector with `NODE_ENV` set to `development` as an environment variable will spin up a testing HTTP server, to which request to connector operations can be made via a tool like Postman.

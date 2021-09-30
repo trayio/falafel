@@ -48,3 +48,9 @@ module.exports = {
     }
 }
 ```
+
+## connectors.json
+
+In the top level of the connector folder, you will see a file called `connectors.json`.
+When you run the connector server using `node main.js`, the schema of all operations is combined into this file automatically.
+As this file is auto generated you should not edit it directly, but it can be useful for debugging your schema code to see what is actually being generated.
