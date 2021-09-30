@@ -179,32 +179,6 @@ set `globals: false` in the `model.js` config file.
 See the [threadneedle docs](https://github.com/trayio/threadneedle#global) for more information on globals.
 
 
-## Global message schemas
-
-Sometimes you'll want to use the same generic data as inputs in every single message. A good example is passing
-API keys or other authentication data.
-
-You don't have to add these to every single message - you can specify them in a `global_schema.js` file:
-
-```js
-// global_schema.js
-module.exports = {
-
-  input: {
-    access_token: {
-      type: 'string',
-      advanced: true,
-      required: true,
-      defaultJsonPath: '$.auth.access_token'  
-    }
-  }
-
-};
-```
-
-__Tip:__ if you'd like to disable global schemas a particular message, specify `globals: false` in the message `schema.js` file.
-
-
 ## Private methods
 
 Sometimes you'll want to create an internal method that should not be exposed to
@@ -230,13 +204,6 @@ Falafel accepts two possibilities for the returned data; either an object or a J
 
 **Note:** Depending on whether a `output.js` is included or not, Falafel will automatically set the `dynamic_output` key in `connectors.json` for each operation; thus `dynamic_output` attribute does not need to be added in `schema.js`.
 Additionally, the dynamic output sub-operation can be referenced as `message_dynamic_output`.
-
-## Generating connectors.json
-
-The `connectors.json` file will get auto generated when starting the server with `NODE_ENV` set to `development`.
-
-Depends on the `generate-schema` module being installed as a `devDependency` of the parent module. (It is automatically from the Yeoman generator)
-
 
 ## Testing the connector
 ### As a server/exposed function
