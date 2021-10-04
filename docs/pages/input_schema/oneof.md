@@ -1,6 +1,6 @@
 ---
 layout: default
-title: OneOf inputs
+title: oneOf inputs
 nav_order: 3
 description: "How to utilise oneOf schemas for more input flexibility."
 parent: Input Schema
@@ -10,8 +10,8 @@ permalink: /input-schema/oneof
 # oneOf Schemas
 {: .no_toc}
 
-Firstly, it should be understood that the `oneOf` implementation/intended use in [tray.io](http://tray.io) is different from the JSON schema specification; 
-i.e. whereas the JSON schema spec primarily uses `oneOf` for validation purposes,
+Firstly, it should be understood that the `oneOf` implementation/intended use in [tray.io](http://tray.io) is different from the JSON schema specification.
+While the JSON schema spec primarily uses `oneOf` for validation purposes,
 the Tray properties panel uses `oneOf` to generate a form.
 
 The general issue surrounding `oneOf`  is that for child schema options that are the same/similar,
