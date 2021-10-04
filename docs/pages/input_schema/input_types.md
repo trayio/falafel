@@ -250,3 +250,6 @@ If multiple types are defined, the user can choose which type to use.
 ```
 
 This input supported either a number or a string as valid inputs.
+
+## oneOf
+`oneOf` is another way of allowing multiple types for an input, but is more complex to use and offers more flexibility. For a more detailed guide, [see here](oneof)
