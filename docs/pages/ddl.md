@@ -8,9 +8,6 @@ permalink: /ddl
 # Dynamic Data Lists (DDLs)
 {: .no_toc}
 
-1. TOC
-{:toc}
-
 DDLs are used to provide a dynamic dropdown list for an input.
 Unlike enums, DDLs are mainly there to help the user pick a value, not restrict which options are available.
 Users can choose to ignore the dropdown list and provide a value themselves.  
@@ -20,6 +17,9 @@ For example, you could have user UUIDs as the values, and have their emails as t
 This would let users choose the input by finding the right email address, instead of having to find the UUID manually.  
 The other advantage of DDLs is the values can be fetched dynamically, using the user's authentication.
 This means you can make an API call and use the result to generate the list.
+
+1. TOC
+{:toc}
 
 ## What are DDLs
 
