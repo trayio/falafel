@@ -121,7 +121,7 @@ To add a DDL to an input field, you need to use the `lookup` property.
 ```
 
 Most simple lookup configurations will look like this.
-The `message` paramater is where you specify the name of the operation to call.
+The `message` parameter is where you specify the name of the operation to call.
 
 
 ### Input dependent DDLs
