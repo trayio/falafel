@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Common properties
+nav_order: 2
 description: "Common properties for configuring inputs"
 parent: Input Schema
 permalink: /input-schema/common-properties
