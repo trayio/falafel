@@ -142,6 +142,15 @@ If English was chosen here, the connector would receive the following:
 }
 ```
 
+## Lookup
+
+The `lookup` property is used to add a DDL to an input.
+DDLs are used to provide a dynamic dropdown list for an input.
+Unlike enums, DDLs are mainly there to help the user pick a value, not restrict which options are available.
+Users can choose to ignore the dropdown list and provide a value themselves.
+
+[Learn more about DDLs](../ddl)
+
 ## Default JSON Path
 The `defaultJsonPath` property will make the default value of the input a JSON Path.
 The type of the field will still stay as you defined it, but the default type will be set to `JSON Path` with the specified path being the default.

@@ -104,7 +104,7 @@ module.exports = async (params) => {
 To add a DDL to an input field, you need to use the `lookup` property.
 
 ```js
-module.exports = {
+{% raw %}module.exports = {
   user_id: {
     type: 'string',
     description: 'The ID of the user',
@@ -117,8 +117,50 @@ module.exports = {
       },
     },
   },
-}
+}{% endraw %}
 ```
 
 Most simple lookup configurations will look like this.
 The `message` paramater is where you specify the name of the operation to call.
+
+
+### Input dependent DDLs
+
+Sometimes, you might need to pass some user input into a DDL.
+For example, you might have chosen a `postcode` already,
+and the DDL for choosing an address needs to know the postcode in order to lookup the available options.
+
+To do this, you would need to pass the `postcode` input to the DDL.
+
+```js
+{% raw %}module.exports = {
+  postcode: {
+    type: 'string',
+    required: true,
+  },
+  street_address: {
+    type: 'string',
+    title: 'Street Address',
+    description: "Choose a street address",
+    lookup: {
+      url: '{{{step.ephemeral_url}}}',
+      body: {
+        message: 'list_street_addresses_ddl',
+        auth_id: '{{{step.auth_id}}}',
+        step_settings: {
+          postcode: {
+            type: 'string',
+            value: '{{{properties.postcode}}}',
+          }
+        },
+      },
+    },
+  },
+}{% endraw %}
+```
+
+In this example, we are using `list_street_addresses_ddl` as the DDL operation. 
+We are also passing in an input called `postcode`, and getting the value for this from the input panel property `postcode`.
+
+When a user has entered a postcode input such as `SW1 1AA`, they can click on the `street_address` field,
+and the DDL will call `list_street_addresses_ddl` operation with `{ postcode: 'SW1 1AA' }` as the input.
