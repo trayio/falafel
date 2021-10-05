@@ -4,6 +4,7 @@ title: Input Schema
 description: "How to write input schema for connectors"
 permalink: /input-schema
 has_children: true
+nav_order: 2
 ---
 
 # Input schema
