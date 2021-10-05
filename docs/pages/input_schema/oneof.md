@@ -17,7 +17,7 @@ the Tray properties panel uses `oneOf` to generate a form.
 The general issue surrounding `oneOf`  is that for child schema options that are the same/similar,
 there is no easy way to differentiate between those options using just the saved data.
 This consequently can cause issues; on refresh for example,
-FE will default to the first child schema that is a match to the saved input/data.
+the properties panel will default to the first child schema that is a match to the saved input/data.
 
 It is therefore necessary to make the `oneOf` child schemas unique in some manner,
 so that differentiation and therefore identification is possible.
@@ -63,7 +63,7 @@ The following features are not supported for `oneOf` input types:
         },
       },
       {
-        title: 'option_3',
+        title: 'option_4',
         type: 'object',
         properties: {
           field_a: {
