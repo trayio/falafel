@@ -21,12 +21,26 @@ The type of error thrown has an effect on workflow behaviour and how the error i
 A user input error should be thrown when you are sure the user input is wrong and the API call will never be valid.
 When a user input is thrown, the step **will not retry**.
 
+```js
+throw new Error({
+  code: '#user_input_error',
+  message: 'Please supply at least one of Status Text, Status Emoji, or Status Expiration.',
+});
+```
+
 ### API Error
 
 An API error should be thrown if the error is with the API.
 Steps that fail with an API Error will retry automatically.
 
 If the connector is configured with `expects` to check the response status code, this is the type of error that is thrown when the status code is out of the accepted range.
+
+```js
+throw new Error({
+  code: '#api_error',
+  message: 'API returned a status code of 404',
+});
+```
 
 ### Connector Error
 
