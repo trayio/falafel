@@ -16,6 +16,9 @@ permalink: /error-handling
 Connectors can throw a variety of different error types.
 The type of error thrown has an effect on workflow behaviour and how the error is handled.
 
+The `connector-utils` node package has some helper functions included. 
+You can install the package by running `npm i --save @trayio/connector-utils`.
+
 ### User Input Error
 
 A user input error should be thrown when you are sure the user input is wrong and the API call will never be valid.
@@ -26,6 +29,14 @@ throw new Error({
   code: '#user_input_error',
   message: 'Please supply at least one of Status Text, Status Emoji, or Status Expiration.',
 });
+```
+
+_With connector-utils_
+
+```js
+const { UserInputError } = require('@trayio/connector-utils').error;
+
+throw new UserInputError('This address entered is invalid');
 ```
 
 ### API Error
@@ -42,6 +53,14 @@ throw new Error({
 });
 ```
 
+_With connector-utils_
+
+```js
+const { ApiError } = require('@trayio/connector-utils').error;
+
+throw new ApiError('Login to the API  failed.');
+```
+
 ### Connector Error
 
 This is the default error type for when there is a code problem.
@@ -50,16 +69,65 @@ If your code throws an exception that isn't caught, it will default to a Connect
 Connector Errors are not displayed to the user, as they will just see a message like `Unfortunately, the connector unexpectedly failed`.
 When this error type is thrown, the step will retry by default.
 
+_With connector-utils_
+
+```js
+const { ConnectorError } = require('@trayio/connector-utils').error;
+
+throw new ConnectorError('Failed to parse downloaded JSON');
+```
+
 ### OAuth Refresh Error
 
 OAuth Refresh errors are used signal that the access token has expired and needs refreshing. 
 If your connetors uses OAuth2, it is recommended that you add checks in `afterFailure` to check for the appropriate status code and throw this error when needed.
 When thrown, the user's authentication will be refreshed and the step retried.
 
+```js
+throw new Error({
+  code: '#oauth_refresh',
+  message: 'Expired token',
+});
+```
+
+_With connector-utils_
+
+```js
+const { OAuthRefresh } = require('@trayio/connector-utils').error;
+
+throw new OAuthRefresh();
+```
+
 ### No Trigger Error
 
 No Trigger errors are used in trigger `request.js` files to tell the workflow that the trigger invocation should not trigger a workflow execution.
 This is mainly used for filtering incoming events, allowing you to choose which ones trigger the workflow and which don't.
+
+```js
+throw {
+    code: '#no_trigger',
+    message: 'No trigger',
+};
+```
+
+
+_With connector-utils_
+
+```js
+const {
+  NoTriggerError
+} = require('@trayio/connector-utils').error;
+
+module.exports = async (params, http) => {
+  if (http.method === 'POST') {
+    return {
+      output: http.body,
+    };
+  }
+
+  throw new NoTriggerError('Invalid method.');
+};
+```
 
 ### Timeout Error
 
