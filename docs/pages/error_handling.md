@@ -8,16 +8,17 @@ permalink: /error-handling
 # Error Handling
 {: .no_toc}
 
-1. TOC
-{:toc}
-
-## Error Types
-
 Connectors can throw a variety of different error types.
 The type of error thrown has an effect on workflow behaviour and how the error is handled.
 
 The `connector-utils` node package has some helper functions included. 
 You can install the package by running `npm i --save @trayio/connector-utils`.
+
+## Error Types
+{: .no_toc}
+
+- TOC
+{:toc}
 
 ### User Input Error
 
