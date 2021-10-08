@@ -41,10 +41,11 @@ throw new UserInputError('This address entered is invalid');
 
 ### API Error
 
-An API error should be thrown if the error is with the API.
+An API error should be thrown if the error is caused by the API.
 Steps that fail with an API Error will retry automatically.
 
-If the connector is configured with `expects` to check the response status code, this is the type of error that is thrown when the status code is out of the accepted range.
+If the connector is configured with `expects` to check the response status code,
+this is the type of error that is thrown when the status code is out of the accepted range.
 
 ```js
 throw new Error({
@@ -131,6 +132,23 @@ module.exports = async (params, http) => {
 
 ### Timeout Error
 
+This error code is used to signal that the connector operation timed out.
+In the case of an AWS Lambda reaching the end of it's duration, this error is thrown automatically.
+
+```js
+throw {
+    code: '#timeout_error',
+    message: 'Your connection has timed out.'
+};
+```
+
 ### Retry with delay
 
+In the case of API rate limiting, you can return a special error code that tells Tray to only retry after a certain amount of time has passed.
 
+```js
+throw {
+    code: '#retry_delay_seconds:120',
+    message: 'API throttling, retrying after 2 minutes',
+};
+```
