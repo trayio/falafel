@@ -81,8 +81,8 @@ throw new ConnectorError('Failed to parse downloaded JSON');
 
 ### OAuth Refresh Error
 
-OAuth Refresh errors are used signal that the access token has expired and needs refreshing. 
-If your connetors uses OAuth2, it is recommended that you add checks in `afterFailure` to check for the appropriate status code and throw this error when needed.
+OAuth Refresh errors are used to signal that the access token has expired and needs refreshing.
+If your connector uses OAuth2, it is recommended that you add checks in `afterFailure` to check for the appropriate status code and throw this error when needed.
 When thrown, the user's authentication will be refreshed and the step retried.
 
 ```js
