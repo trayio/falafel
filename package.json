@@ -25,7 +25,7 @@
     "aws-sdk": "~2.814.0",
     "generate-schema": "~2.6.0",
     "lodash": "~4.17.20",
-    "mime": "~2.4.6",
+    "mime": "~2.5.2",
     "moment": "~2.29.1",
     "mout": "~1.2.2",
     "@trayio/needle": "~3.1.0",
