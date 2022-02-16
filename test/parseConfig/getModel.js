@@ -173,7 +173,7 @@ describe('#getModel', function () {
 		];
 
 		var model = getModel({ name: 'test_op', model: sampleModel });
-		assert.deepEqual(model.query, []);
+		assert.deepEqual(model.query, {});
 	});
 
 
