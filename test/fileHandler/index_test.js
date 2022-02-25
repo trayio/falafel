@@ -440,6 +440,8 @@ describe('#fileHandler', function () {
 			}
 		});
 
+		it(`should application/octet-stream as default mime_type if it cannot be derived`, async () => {
+			const testFilePath = '/tmp/falafel/tests/example.txt';
 			fs.ensureFileSync(testFilePath);
 			fs.writeFileSync(testFilePath, 'Example content');
 			const contentLength = Buffer.byteLength('Example content', 'utf8');
