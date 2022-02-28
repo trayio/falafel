@@ -440,6 +440,76 @@ describe('#fileHandler', function () {
 			}
 		});
 
+		it(`should application/octet-stream as default mime_type if it cannot be derived`, async () => {
+			const testFilePath = '/tmp/falafel/tests/example.txt';
+			fs.ensureFileSync(testFilePath);
+			fs.writeFileSync(testFilePath, 'Example content');
+			const contentLength = Buffer.byteLength('Example content', 'utf8');
+
+			const randomGuid = guid();
+			let currentTime;
+			getProxiedFileHandler({
+				'mout/random/guid': () => {
+					return randomGuid;
+				},
+				'aws-sdk': {
+					'S3': class S3 {
+						constructor (params) {
+							assert.deepEqual(
+								params,
+								{ region: 'us-west-2' }
+							);
+						}
+						async upload (uploadParams, uploadOptions, callback) {
+							assert.deepEqual(uploadOptions, {});
+							assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads');
+							assert.strictEqual(uploadParams.Key, randomGuid);
+							assert.strictEqual(uploadParams.ContentType, 'application/octet-stream');
+							assert.strictEqual(uploadParams.ContentLength, contentLength);
+							assert(_.isFunction(uploadParams.Body.pipe));
+							const streamContent = await new Promise((resolve, reject) => {
+								let acc = '';
+								uploadParams.Body.on('data', (chunk) => {
+									acc += chunk.toString();
+								});
+								uploadParams.Body.on('end', (chunk) => {
+									if (chunk) {
+										acc += chunk.toString();
+									}
+									resolve(acc);
+								});
+								uploadParams.Body.on('error', reject);
+							});
+							assert.strictEqual(streamContent, 'Example content');
+							callback(null, {
+								Bucket: uploadParams.Bucket,
+								Key: uploadParams.Key,
+							});
+						}
+						getSignedUrl (operation, signedParams, callback) {
+							currentTime = moment();
+							assert.strictEqual(operation, 'getObject');
+							assert.strictEqual(signedParams.Bucket, 'workflow-file-uploads');
+							assert.strictEqual(signedParams.Key, randomGuid);
+							assert.strictEqual(signedParams.Expires, 21600);
+							callback(null, 'https://test.aws.com/buckethash');
+						}
+					}
+				}
+			});
+
+			const uploadResult = await falafel.files.upload({
+				name: 'example',
+				length: contentLength,
+				file: testFilePath
+			});
+
+			assert.strictEqual(uploadResult.name, 'example');
+			assert.strictEqual(uploadResult.url, 'https://test.aws.com/buckethash');
+			assert.strictEqual(uploadResult.mime_type, 'application/octet-stream');
+			assert.strictEqual(uploadResult.expires, currentTime.add(6, 'hours').unix());
+		});
+
 		it(`should error in correct format if length is not provided`, async () => {
 			const testFilePath = '/tmp/falafel/tests/example.txt';
 			fs.ensureFileSync(testFilePath);
@@ -1456,6 +1526,83 @@ describe('#fileHandler', function () {
 			assert.strictEqual(uploadResult.expires, currentTime.add(6, 'hours').unix());
 		});
 
+		it(`should application/octet-stream as default mime_type if it cannot be derived`, async () => {
+			const passThroughStream = new stream.PassThrough();
+
+			const randomGuid = guid();
+			let currentTime;
+			getProxiedFileHandler({
+				'mout/random/guid': () => {
+					return randomGuid;
+				},
+				'aws-sdk': {
+					'S3': class S3 {
+						constructor (params) {
+							assert.deepEqual(
+								params,
+								{ region: 'us-west-2' }
+							);
+						}
+						async upload (uploadParams, uploadOptions, callback) {
+							assert.strictEqual(uploadParams.Bucket, 'workflow-file-uploads');
+							assert.strictEqual(uploadParams.Key, randomGuid);
+							assert.strictEqual(uploadParams.ContentType, 'application/octet-stream');
+
+							assert.deepEqual(
+								uploadOptions,
+								{
+									partSize: 8388608,
+									queueSize: 4,
+								}
+							);
+
+							assert(_.isFunction(uploadParams.Body.pipe));
+							const streamContent = await new Promise((resolve, reject) => {
+								let acc = '';
+								uploadParams.Body.on('data', (chunk) => {
+									acc += chunk.toString();
+								});
+								uploadParams.Body.on('end', (chunk) => {
+									if (chunk) {
+										acc += chunk.toString();
+									}
+									resolve(acc);
+								});
+								uploadParams.Body.on('error', reject);
+							});
+							assert.strictEqual(streamContent, 'Example content');
+							callback(null, {
+								Bucket: uploadParams.Bucket,
+								Key: uploadParams.Key,
+							});
+						}
+						getSignedUrl (operation, signedParams, callback) {
+							currentTime = moment();
+							assert.strictEqual(operation, 'getObject');
+							assert.strictEqual(signedParams.Bucket, 'workflow-file-uploads');
+							assert.strictEqual(signedParams.Key, randomGuid);
+							assert.strictEqual(signedParams.Expires, 21600);
+							callback(null, 'https://test.aws.com/buckethash');
+						}
+					}
+				}
+			});
+
+			setTimeout(() => {
+				passThroughStream.write('Example content');
+				passThroughStream.end();
+			}, 500);
+			const uploadResult = await falafel.files.streamMPUpload({
+				name: 'example',
+				readStream: passThroughStream
+			});
+
+			assert.strictEqual(uploadResult.name, 'example');
+			assert.strictEqual(uploadResult.url, 'https://test.aws.com/buckethash');
+			assert.strictEqual(uploadResult.mime_type, 'application/octet-stream');
+			assert.strictEqual(uploadResult.expires, currentTime.add(6, 'hours').unix());
+		});
+
 		it('should error if readStream is not provided', async () => {
 			getProxiedFileHandler();
 
@@ -1957,7 +2104,7 @@ describe('#fileHandler', function () {
 				assert.strictEqual(downloadError.payload.error, `Status code: ${randomNon2xx}`);
 			}
 		});
-        
+
 		it('should throw error if invalid file object passed through', async () => {
 			const invalidFileObj = {
 				name: 'some.pdf',
@@ -1970,7 +2117,7 @@ describe('#fileHandler', function () {
 					get: (url, options, callback) => {
 						assert.fail(url);
 					}
-				} 
+				}
 			});
 
 			try {
@@ -1994,7 +2141,7 @@ describe('#fileHandler', function () {
 					get: (url, options, callback) => {
 						assert.fail(url);
 					}
-				} 
+				}
 			});
 
 			try {
@@ -2005,6 +2152,94 @@ describe('#fileHandler', function () {
 			}
 		});
 
+		it('should allow mime_type to be null in file object and uses content-type from source if provided', async () => {
+			const baseUrl = 'https://example.aws.com',
+				endpoint = '/somefile';
+
+			nock(baseUrl)
+			.get(endpoint)
+			.reply(
+				200,
+				(uri, reqBody) => {
+					return 'Example content';
+				},
+				{
+					'content-type': 'text/plain'
+				}
+			);
+
+			const fileObj = {
+				name: 'something',
+				url: 'https://example.aws.com/somefile',
+				mime_type: null,
+				expires: 1594289612,
+			};
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.strictEqual(url, `${baseUrl}${endpoint}`);
+						assert.strictEqual(options.decode_response, false);
+						assert.strictEqual(options.parse, false);
+						assert.strictEqual(options.open_timeout, 0);
+						assert.strictEqual(options.read_timeout, 0);
+						assert.strictEqual(options.output, '/tmp/something');
+						return needle.get(url, options, callback);
+					}
+				}
+			});
+
+			const downloadResult = await falafel.files.download(fileObj);
+
+			assert.strictEqual(downloadResult.file, '/tmp/something');
+			assert.strictEqual(downloadResult.name, 'something');
+			assert.strictEqual(downloadResult.mime_type, 'text/plain');
+			assert.strictEqual(downloadResult.expires, 1594289612);
+			assert.strictEqual(fs.readFileSync(downloadResult.file, 'utf8'), 'Example content');
+		});
+
+		it('should allow mime_type to be null in file object and defaults to application/octet-stream', async () => {
+			const baseUrl = 'https://example.aws.com',
+				endpoint = '/somefile';
+
+			nock(baseUrl)
+			.get(endpoint)
+			.reply(
+				200,
+				(uri, reqBody) => {
+					return 'Example content';
+				}
+			);
+
+			const fileObj = {
+				name: 'something',
+				url: 'https://example.aws.com/somefile',
+				mime_type: null,
+				expires: 1594289612,
+			};
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.strictEqual(url, `${baseUrl}${endpoint}`);
+						assert.strictEqual(options.decode_response, false);
+						assert.strictEqual(options.parse, false);
+						assert.strictEqual(options.open_timeout, 0);
+						assert.strictEqual(options.read_timeout, 0);
+						assert.strictEqual(options.output, '/tmp/something');
+						return needle.get(url, options, callback);
+					}
+				}
+			});
+
+			const downloadResult = await falafel.files.download(fileObj);
+
+			assert.strictEqual(downloadResult.file, '/tmp/something');
+			assert.strictEqual(downloadResult.name, 'something');
+			assert.strictEqual(downloadResult.mime_type, 'application/octet-stream');
+			assert.strictEqual(downloadResult.expires, 1594289612);
+			assert.strictEqual(fs.readFileSync(downloadResult.file, 'utf8'), 'Example content');
+		});
 	});
 
 	describe('streamDownload', () => {
@@ -2219,7 +2454,7 @@ describe('#fileHandler', function () {
 			}
 
 		});
-        
+
 		it('should throw error if invalid file object passed through', async () => {
 			const invalidFileObj = {
 				name: 'some.pdf',
@@ -2232,7 +2467,7 @@ describe('#fileHandler', function () {
 					get: (url, options, callback) => {
 						assert.fail(url);
 					}
-				} 
+				}
 			});
 
 			try {
@@ -2256,7 +2491,7 @@ describe('#fileHandler', function () {
 					get: (url, options, callback) => {
 						assert.fail(url);
 					}
-				} 
+				}
 			});
 
 			try {
@@ -2265,6 +2500,143 @@ describe('#fileHandler', function () {
 				assert.strictEqual(downloadError.code, '#connector_error');
 				assert.strictEqual(downloadError.message, `The file object passed through contains invalid type for the 'url' key.`);
 			}
+		});
+
+		it('should allow mime_type to be null in file object and uses content-type from source if provided', async () => {
+			const baseUrl = 'https://example.aws.com',
+				endpoint = '/somefile';
+
+			nock(baseUrl)
+			.get(endpoint)
+			.reply(
+				200,
+				(uri, reqBody) => {
+					return 'Example content';
+				},
+				{
+					'content-type': 'text/plain',
+					'content-length': Buffer.byteLength('Example content', 'utf8')
+				}
+			);
+
+			const fileObj = {
+				name: 'something',
+				url: 'https://example.aws.com/somefile',
+				mime_type: null,
+				expires: 1594289612,
+			};
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.strictEqual(url, `${baseUrl}${endpoint}`);
+						assert.strictEqual(options.decode_response, false);
+						assert.strictEqual(options.parse, false);
+						assert.strictEqual(options.open_timeout, 0);
+						assert.strictEqual(options.read_timeout, 0);
+						assert.strictEqual(options.output, '/tmp/something');
+						return needle.get(url, options, callback);
+					}
+				}
+			});
+
+			const downloadObject = await falafel.files.streamDownload(fileObj);
+
+			assert(_.isPlainObject(downloadObject));
+			assert.strictEqual(downloadObject.name, 'something');
+			assert.strictEqual(downloadObject.mime_type, 'text/plain');
+			assert.strictEqual(downloadObject.expires, 1594289612);
+			assert.equal(downloadObject.size, 15);
+
+			const downloadStream = downloadObject.readStream;
+			assert(_.isFunction(downloadStream.pipe));
+			assert(_.isFunction(downloadStream.on));
+
+			await new Promise((resolve, reject) => {
+				let acc = '';
+				downloadStream.on('data', (chunk) => {
+					acc += chunk.toString();
+				});
+
+				downloadStream.on('end', () => {
+					try {
+						assert.strictEqual(acc, 'Example content');
+						resolve();
+					} catch (asertError) {
+						reject(asertError);
+					}
+				});
+
+				downloadStream.on('error', reject);
+			});
+		});
+
+		it('should allow mime_type to be null in file object and defaults to application/octet-stream', async () => {
+			const baseUrl = 'https://example.aws.com',
+				endpoint = '/somefile';
+
+			nock(baseUrl)
+			.get(endpoint)
+			.reply(
+				200,
+				(uri, reqBody) => {
+					return 'Example content';
+				},
+				{
+					'content-length': Buffer.byteLength('Example content', 'utf8')
+				}
+			);
+
+			const fileObj = {
+				name: 'something',
+				url: 'https://example.aws.com/somefile',
+				mime_type: null,
+				expires: 1594289612,
+			};
+
+			getProxiedFileHandler({
+				needle: {
+					get: (url, options, callback) => {
+						assert.strictEqual(url, `${baseUrl}${endpoint}`);
+						assert.strictEqual(options.decode_response, false);
+						assert.strictEqual(options.parse, false);
+						assert.strictEqual(options.open_timeout, 0);
+						assert.strictEqual(options.read_timeout, 0);
+						assert.strictEqual(options.output, '/tmp/something');
+						return needle.get(url, options, callback);
+					}
+				}
+			});
+
+			const downloadObject = await falafel.files.streamDownload(fileObj);
+
+			assert(_.isPlainObject(downloadObject));
+			assert.strictEqual(downloadObject.name, 'something');
+			assert.strictEqual(downloadObject.mime_type, 'application/octet-stream');
+			assert.strictEqual(downloadObject.expires, 1594289612);
+			assert.equal(downloadObject.size, 15);
+
+			const downloadStream = downloadObject.readStream;
+			assert(_.isFunction(downloadStream.pipe));
+			assert(_.isFunction(downloadStream.on));
+
+			await new Promise((resolve, reject) => {
+				let acc = '';
+				downloadStream.on('data', (chunk) => {
+					acc += chunk.toString();
+				});
+
+				downloadStream.on('end', () => {
+					try {
+						assert.strictEqual(acc, 'Example content');
+						resolve();
+					} catch (asertError) {
+						reject(asertError);
+					}
+				});
+
+				downloadStream.on('error', reject);
+			});
 		});
 	});
 });
