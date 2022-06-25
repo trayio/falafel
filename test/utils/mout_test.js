@@ -9,6 +9,7 @@ const {
 	camelCase,
 	unCamelCase,
 	sentenceCase,
+	trim,
 } = require('../../lib/utils/mout');
 
 describe('util/mout - setParam', function () {
@@ -189,7 +190,7 @@ describe('util/mout - unCamelCase', function () {
 	});
 
 	it('should use specified separator', function () {
-		var str = 'loremIpsumDolor';
+		const str = 'loremIpsumDolor';
 		assert.strictEqual(unCamelCase(str, '-'), 'lorem-ipsum-dolor');
 	});
 
@@ -216,4 +217,27 @@ describe('util/mout - sentenceCase', function () {
 	it('should treat undefined as empty string', function () {
 		assert.strictEqual(sentenceCase(void 0), '');
 	});
+});
+
+describe('util/mout - trim', function () {
+
+	it('should remove whitespaces from begin and end of string', function () {
+		const str = '   \t \t \t\t     lorem  ipsum    \t \t  \t\t  ';
+		assert.strictEqual(trim(str), 'lorem  ipsum');
+	});
+
+	it('should remove specified chars from begin and end of string', function () {
+		const str = '-+-*test*-+-';
+		const chars = [ '-', '+', '*' ];
+		assert.strictEqual(trim(str, chars), 'test');
+	});
+
+	it('should treat null as empty string', function () {
+		assert.strictEqual(trim(null), '');
+	});
+
+	it('should treat undefined as empty string', function () {
+		assert.strictEqual(trim(void 0), '');
+	});
+
 });
