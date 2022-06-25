@@ -10,6 +10,7 @@ const {
 	unCamelCase,
 	sentenceCase,
 	trim,
+	typecast,
 } = require('../../lib/utils/mout');
 
 describe('util/mout - setParam', function () {
@@ -220,7 +221,6 @@ describe('util/mout - sentenceCase', function () {
 });
 
 describe('util/mout - trim', function () {
-
 	it('should remove whitespaces from begin and end of string', function () {
 		const str = '   \t \t \t\t     lorem  ipsum    \t \t  \t\t  ';
 		assert.strictEqual(trim(str), 'lorem  ipsum');
@@ -239,5 +239,18 @@ describe('util/mout - trim', function () {
 	it('should treat undefined as empty string', function () {
 		assert.strictEqual(trim(void 0), '');
 	});
+});
 
+describe('util/mout - typecast', function () {
+	it('should typecast values if Number, Boolean, null or undefined', function () {
+		assert.strictEqual(typecast('true'), true );
+		assert.strictEqual(typecast('false'), false );
+		assert.strictEqual(typecast('123'), 123 );
+		assert.strictEqual(typecast('123.45'), 123.45 );
+		assert.strictEqual(typecast('null'), null );
+		assert.strictEqual(typecast(null), null );
+		assert.strictEqual(typecast('undefined'), undefined );
+		assert.strictEqual(typecast(), undefined );
+		assert.strictEqual(typecast('foo'), 'foo' );
+	});
 });
