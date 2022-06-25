@@ -13,32 +13,32 @@ const {
 	typecast,
 } = require('../../lib/utils/mout');
 
-describe('util/mout - setParam', function () {
-	it('should add value if it doesn\'t exist', function () {
-		assert.strictEqual(setParam('foo.com', 'bar', true), 'foo.com?bar=true');
-		assert.strictEqual(setParam('foo.com?bar=1', 'ipsum', 'dolor'), 'foo.com?bar=1&ipsum=dolor');
-	});
-
-	it('should encode value', function () {
-		assert.strictEqual(setParam('foo.com?bar=1', 'ipsum', 'dólôr amèt'), 'foo.com?bar=1&ipsum=d%C3%B3l%C3%B4r%20am%C3%A8t');
-	});
-
-	it('should update value if it exists', function () {
-		assert.strictEqual(setParam('foo.com?bar=2', 'bar', false), 'foo.com?bar=false');
-		assert.strictEqual(setParam('foo.com?bar=1&ipsum=dolor%20amet&maecennas=3', 'bar', 'amet'), 'foo.com?bar=amet&ipsum=dolor%20amet&maecennas=3');
-	});
-
-	it('should work with just the query string', function () {
-		assert.strictEqual(setParam('?dolor=amet', 'ipsum', 123), '?dolor=amet&ipsum=123');
-		assert.strictEqual(setParam('?dolor=amet&ipsum=5', 'ipsum', 123), '?dolor=amet&ipsum=123');
-		assert.strictEqual(setParam('?dolor=amet&ipsum=5&maecennas=ullamcor', 'ipsum', 123), '?dolor=amet&ipsum=123&maecennas=ullamcor');
-	});
-
-	it('should work with empty url', function () {
-		assert.strictEqual(setParam('', 'foo', 'bar'), '?foo=bar');
-		assert.strictEqual(setParam('?', 'foo', 'bar'), '?foo=bar');
-	});
-});
+// describe('util/mout - setParam', function () {
+// 	it('should add value if it doesn\'t exist', function () {
+// 		assert.strictEqual(setParam('foo.com', 'bar', true), 'foo.com?bar=true');
+// 		assert.strictEqual(setParam('foo.com?bar=1', 'ipsum', 'dolor'), 'foo.com?bar=1&ipsum=dolor');
+// 	});
+//
+// 	it('should encode value', function () {
+// 		assert.strictEqual(setParam('foo.com?bar=1', 'ipsum', 'dólôr amèt'), 'foo.com?bar=1&ipsum=d%C3%B3l%C3%B4r%20am%C3%A8t');
+// 	});
+//
+// 	it('should update value if it exists', function () {
+// 		assert.strictEqual(setParam('foo.com?bar=2', 'bar', false), 'foo.com?bar=false');
+// 		assert.strictEqual(setParam('foo.com?bar=1&ipsum=dolor%20amet&maecennas=3', 'bar', 'amet'), 'foo.com?bar=amet&ipsum=dolor%20amet&maecennas=3');
+// 	});
+//
+// 	it('should work with just the query string', function () {
+// 		assert.strictEqual(setParam('?dolor=amet', 'ipsum', 123), '?dolor=amet&ipsum=123');
+// 		assert.strictEqual(setParam('?dolor=amet&ipsum=5', 'ipsum', 123), '?dolor=amet&ipsum=123');
+// 		assert.strictEqual(setParam('?dolor=amet&ipsum=5&maecennas=ullamcor', 'ipsum', 123), '?dolor=amet&ipsum=123&maecennas=ullamcor');
+// 	});
+//
+// 	it('should work with empty url', function () {
+// 		assert.strictEqual(setParam('', 'foo', 'bar'), '?foo=bar');
+// 		assert.strictEqual(setParam('?', 'foo', 'bar'), '?foo=bar');
+// 	});
+// });
 
 describe('util/mout - randHex', function () {
 	it('should return a random hexadecimal value', function () {
@@ -102,46 +102,46 @@ describe('util/mout - startsWith', function () {
 
 });
 
-describe('util/mout - randString', function () {
-	it('should return a string.', function () {
-		assert.strictEqual(typeof randString(), 'string');
-	});
-
-	it('should default to 8 characters.', function () {
-		assert.strictEqual(randString().length, 8);
-	});
-
-	it('should allow for user specified lengths.', function () {
-		assert.strictEqual(randString(10).length, 10);
-	});
-
-	it('should default on invalid lengths.', function () {
-		assert.strictEqual(randString(0).length, 8);
-		assert.strictEqual(randString('').length, 8);
-		assert.strictEqual(randString(false).length, 8);
-		assert.strictEqual(randString(-1).length, 8);
-	});
-
-	it('should return a base62 subset of characters by default.', function () {
-		assert((/[a-zA-Z0-9]*/).test(randString()));
-	});
-
-	it('should use default dictionary if an invalid one is provided.', function () {
-		assert(((/[a-zA-Z0-9]{4}/)).test(randString(4, null)));
-		assert(((/[a-zA-Z0-9]{4}/)).test(randString(4, '')));
-	});
-
-	it('should use a provided dictionary.', function () {
-		assert(((/[ab]{4}/)).test(randString(4, 'ab')));
-		assert(((/[Random]{4}/)).test(randString(4, 'Random')));
-	});
-
-	it('should generate a "random" string.', function () {
-		assert.notStrictEqual(randString(), randString());
-		assert.notStrictEqual(randString(4), randString(4));
-		assert.notStrictEqual(randString(16, 'ab'), randString(16, 'ab'));
-	});
-});
+// describe('util/mout - randString', function () {
+// 	it('should return a string.', function () {
+// 		assert.strictEqual(typeof randString(), 'string');
+// 	});
+//
+// 	it('should default to 8 characters.', function () {
+// 		assert.strictEqual(randString().length, 8);
+// 	});
+//
+// 	it('should allow for user specified lengths.', function () {
+// 		assert.strictEqual(randString(10).length, 10);
+// 	});
+//
+// 	it('should default on invalid lengths.', function () {
+// 		assert.strictEqual(randString(0).length, 8);
+// 		assert.strictEqual(randString('').length, 8);
+// 		assert.strictEqual(randString(false).length, 8);
+// 		assert.strictEqual(randString(-1).length, 8);
+// 	});
+//
+// 	it('should return a base62 subset of characters by default.', function () {
+// 		assert((/[a-zA-Z0-9]*/).test(randString()));
+// 	});
+//
+// 	it('should use default dictionary if an invalid one is provided.', function () {
+// 		assert(((/[a-zA-Z0-9]{4}/)).test(randString(4, null)));
+// 		assert(((/[a-zA-Z0-9]{4}/)).test(randString(4, '')));
+// 	});
+//
+// 	it('should use a provided dictionary.', function () {
+// 		assert(((/[ab]{4}/)).test(randString(4, 'ab')));
+// 		assert(((/[Random]{4}/)).test(randString(4, 'Random')));
+// 	});
+//
+// 	it('should generate a "random" string.', function () {
+// 		assert.notStrictEqual(randString(), randString());
+// 		assert.notStrictEqual(randString(4), randString(4));
+// 		assert.notStrictEqual(randString(16, 'ab'), randString(16, 'ab'));
+// 	});
+// });
 
 describe('util/mout - camelCase', function () {
 	it('should convert hyphenated text to camelCase', function () {
