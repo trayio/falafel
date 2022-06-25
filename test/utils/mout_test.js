@@ -7,6 +7,7 @@ const {
 	setParam,
 	randString,
 	camelCase,
+	unCamelCase,
 	sentenceCase,
 } = require('../../lib/utils/mout');
 
@@ -140,7 +141,7 @@ describe('util/mout - randString', function () {
 	});
 });
 
-describe.only('string/camelCase()', function () {
+describe('util/mout - camelCase', function () {
 	it('should convert hyphenated text to camelCase', function () {
 		const str = 'lorem-ipsum-dolor';
 		assert.strictEqual(camelCase(str), 'loremIpsumDolor');
@@ -178,6 +179,28 @@ describe.only('string/camelCase()', function () {
 	it('should treat undefined as empty string', function () {
 		assert.strictEqual(camelCase(void 0), '');
 	});
+});
+
+describe('util/mout - unCamelCase', function () {
+
+	it('should add space between camelCase text', function () {
+		assert.strictEqual(unCamelCase('loremIpsumDolor'), 'lorem ipsum dolor');
+		assert.strictEqual(unCamelCase('lorem IpsumDolor'), 'lorem ipsum dolor');
+	});
+
+	it('should use specified separator', function () {
+		var str = 'loremIpsumDolor';
+		assert.strictEqual(unCamelCase(str, '-'), 'lorem-ipsum-dolor');
+	});
+
+	it('should treat null as empty string', function () {
+		assert.strictEqual(unCamelCase(null), '');
+	});
+
+	it('should treat undefined as empty string', function () {
+		assert.strictEqual(unCamelCase(void 0), '');
+	});
+
 });
 
 describe('util/mout - sentenceCase', function () {
