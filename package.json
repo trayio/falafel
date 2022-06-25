@@ -22,7 +22,7 @@
   "homepage": "https://github.com/trayio/falafel#readme",
   "dependencies": {
     "@trayio/needle": "~3.1.0",
-    "@trayio/threadneedle": "~1.15.1",
+    "@trayio/threadneedle": "~1.15.2",
     "aws-sdk": "~2.814.0",
     "generate-schema": "~2.6.0",
     "lodash": "~4.17.20",
