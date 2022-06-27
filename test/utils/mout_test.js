@@ -11,6 +11,7 @@ const {
 	sentenceCase,
 	trim,
 	typecast,
+	lowerCase,
 } = require('../../lib/utils/mout');
 
 // describe('util/mout - setParam', function () {
@@ -252,5 +253,22 @@ describe('util/mout - typecast', function () {
 		assert.strictEqual(typecast('undefined'), undefined );
 		assert.strictEqual(typecast(), undefined );
 		assert.strictEqual(typecast('foo'), 'foo' );
+	});
+});
+
+
+describe('string/lowerCase()', function () {
+	it('should convert string to lower case', function () {
+		assert.strictEqual(lowerCase('FOO'),  'foo');
+		assert.strictEqual(lowerCase('Bar'),  'bar');
+		assert.strictEqual(lowerCase('ipsum'),  'ipsum');
+	});
+
+	it('should treat null as empty string', function () {
+		assert.strictEqual(lowerCase(null), '');
+	});
+
+	it('should treat undefined as empty string', function () {
+		assert.strictEqual(lowerCase(void 0), '');
 	});
 });
