@@ -12,7 +12,7 @@ const {
 	lowerCase,
 } = require('../../lib/utils/mout');
 
-describe('util/mout - randHex', function () {
+describe('utils/mout - randHex', function () {
 	it('should return a random hexadecimal value', function () {
 		const a = randHex(),
 			b = randHex();
@@ -36,7 +36,7 @@ describe('util/mout - randHex', function () {
 
 });
 
-describe('util/mout - guid', function () {
+describe('utils/mout - guid', function () {
 	it('returns a random guid each call', function () {
 		let a = guid();
 		let b = guid();
@@ -47,7 +47,7 @@ describe('util/mout - guid', function () {
 	});
 });
 
-describe('util/mout - startsWith', function () {
+describe('utils/mout - startsWith', function () {
 
 	it('should return true if string starts with prefix', function () {
 		assert(startsWith('lorem-ipsum', 'lorem'));
@@ -74,7 +74,7 @@ describe('util/mout - startsWith', function () {
 
 });
 
-describe('util/mout - camelCase', function () {
+describe('utils/mout - camelCase', function () {
 	it('should convert hyphenated text to camelCase', function () {
 		const str = 'lorem-ipsum-dolor';
 		assert.strictEqual(camelCase(str), 'loremIpsumDolor');
@@ -114,7 +114,7 @@ describe('util/mout - camelCase', function () {
 	});
 });
 
-describe('util/mout - unCamelCase', function () {
+describe('utils/mout - unCamelCase', function () {
 
 	it('should add space between camelCase text', function () {
 		assert.strictEqual(unCamelCase('loremIpsumDolor'), 'lorem ipsum dolor');
@@ -136,7 +136,7 @@ describe('util/mout - unCamelCase', function () {
 
 });
 
-describe('util/mout - sentenceCase', function () {
+describe('utils/mout - sentenceCase', function () {
 	it('should uppercase first char of each sentence and lowercase others', function () {
 		const str = 'lorem Ipsum doLOr. sit amet dolor.';
 		assert.strictEqual(sentenceCase(str), 'Lorem ipsum dolor. Sit amet dolor.');
@@ -151,7 +151,7 @@ describe('util/mout - sentenceCase', function () {
 	});
 });
 
-describe('util/mout - trim', function () {
+describe('utils/mout - trim', function () {
 	it('should remove whitespaces from begin and end of string', function () {
 		const str = '   \t \t \t\t     lorem  ipsum    \t \t  \t\t  ';
 		assert.strictEqual(trim(str), 'lorem  ipsum');
@@ -172,7 +172,7 @@ describe('util/mout - trim', function () {
 	});
 });
 
-describe('util/mout - typecast', function () {
+describe('utils/mout - typecast', function () {
 	it('should typecast values if Number, Boolean, null or undefined', function () {
 		assert.strictEqual(typecast('true'), true );
 		assert.strictEqual(typecast('false'), false );
