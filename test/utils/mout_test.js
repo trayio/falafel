@@ -4,8 +4,6 @@ const {
 	randHex,
 	guid,
 	startsWith,
-	setParam,
-	randString,
 	camelCase,
 	unCamelCase,
 	sentenceCase,
