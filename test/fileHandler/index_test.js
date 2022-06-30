@@ -3,12 +3,13 @@ const util = require('util');
 const stream = require('stream');
 
 const _  = require('lodash');
-const guid = require('mout/random/guid');
 const fs = require('fs-extra');
 const proxyquire = require('proxyquire');
 const nock = require('nock');
 const needle = require('@trayio/needle');
 const moment = require('moment');
+
+const { guid }  = require('../../lib/utils/mout');
 
 function getProxiedFileHandler (proxyModules = {}, options = {}) {
 	const fileHandler = proxyquire(
@@ -70,8 +71,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -142,8 +145,10 @@ describe('#fileHandler', function () {
 			let currentTime;
 			getProxiedFileHandler(
 				{
-					'mout/random/guid': () => {
-						return randomGuid;
+					'../utils/mout': {
+						guid: () => {
+							return randomGuid;
+						}
 					},
 					'aws-sdk': {
 						'S3': class S3 {
@@ -216,8 +221,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -293,8 +300,10 @@ describe('#fileHandler', function () {
 				const randomGuid = guid();
 				let currentTime;
 				getProxiedFileHandler({
-					'mout/random/guid': () => {
-						return randomGuid;
+					'../utils/mout': {
+						guid: () => {
+							return randomGuid;
+						}
 					},
 					'aws-sdk': {
 						'S3': class S3 {
@@ -371,8 +380,10 @@ describe('#fileHandler', function () {
 				let currentTime;
 				getProxiedFileHandler(
 					{
-						'mout/random/guid': () => {
-							return randomGuid;
+						'../utils/mout': {
+							guid: () => {
+								return randomGuid;
+							}
 						},
 						'aws-sdk': {
 							'S3': class S3 {
@@ -449,8 +460,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -544,8 +557,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -613,8 +628,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -689,8 +706,10 @@ describe('#fileHandler', function () {
 
 			const randomGuid = guid();
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -724,8 +743,10 @@ describe('#fileHandler', function () {
 
 			const randomGuid = guid();
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -760,8 +781,10 @@ describe('#fileHandler', function () {
 
 			const randomGuid = guid();
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -801,8 +824,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -953,8 +978,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -1032,8 +1059,10 @@ describe('#fileHandler', function () {
 			let currentTime;
 			getProxiedFileHandler(
 				{
-					'mout/random/guid': () => {
-						return randomGuid;
+					'../utils/mout': {
+						guid: () => {
+							return randomGuid;
+						}
 					},
 					'aws-sdk': {
 						'S3': class S3 {
@@ -1114,8 +1143,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -1198,8 +1229,10 @@ describe('#fileHandler', function () {
 				const randomGuid = guid();
 				let currentTime;
 				getProxiedFileHandler({
-					'mout/random/guid': () => {
-						return randomGuid;
+					'../utils/mout': {
+						guid: () => {
+							return randomGuid;
+						}
 					},
 					'aws-sdk': {
 						'S3': class S3 {
@@ -1284,8 +1317,10 @@ describe('#fileHandler', function () {
 				let currentTime;
 				getProxiedFileHandler(
 					{
-						'mout/random/guid': () => {
-							return randomGuid;
+						'../utils/mout': {
+							guid: () => {
+								return randomGuid;
+							}
 						},
 						'aws-sdk': {
 							'S3': class S3 {
@@ -1372,8 +1407,10 @@ describe('#fileHandler', function () {
 				const randomGuid = guid();
 				let currentTime;
 				getProxiedFileHandler({
-					'mout/random/guid': () => {
-						return randomGuid;
+					'../utils/mout': {
+						guid: () => {
+							return randomGuid;
+						}
 					},
 					'aws-sdk': {
 						'S3': class S3 {
@@ -1453,8 +1490,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -1532,8 +1571,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -1646,8 +1687,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -1722,8 +1765,10 @@ describe('#fileHandler', function () {
 			const randomGuid = guid();
 			let currentTime;
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -1806,8 +1851,10 @@ describe('#fileHandler', function () {
 
 			const randomGuid = guid();
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -1843,8 +1890,10 @@ describe('#fileHandler', function () {
 
 			const randomGuid = guid();
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
@@ -1881,8 +1930,10 @@ describe('#fileHandler', function () {
 
 			const randomGuid = guid();
 			getProxiedFileHandler({
-				'mout/random/guid': () => {
-					return randomGuid;
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
 				},
 				'aws-sdk': {
 					'S3': class S3 {
