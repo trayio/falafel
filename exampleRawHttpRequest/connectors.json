@@ -16,6 +16,7 @@
 				"name": "raw_http_request",
 				"title": "Raw HTTP request (advanced)",
 				"description": "Perform a raw HTTP request with some pre-configuration and processing by the connector, such as authentication.",
+				"type": "public",
 				"input_schema": {
 					"type": "object",
 					"properties": {
@@ -41,7 +42,7 @@
 									"properties": {
 										"endpoint": {
 											"type": "string",
-											"description": "The endpoint to call in relation to the base URL used by the connector. E.g: `/department/marketing/employees`.",
+											"description": "The endpoint to call in relation to the base URL dummy.restapiexample.com/api/v1/employees",
 											"title": "Endpoint"
 										}
 									},
@@ -354,6 +355,7 @@
 			{
 				"name": "test_op",
 				"title": "Test operation",
+				"type": "public",
 				"input_schema": {
 					"type": "object",
 					"properties": {
