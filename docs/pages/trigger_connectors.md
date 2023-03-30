@@ -117,7 +117,7 @@ If you'd like more fine grained control, declare it as a function returning a pr
 module.exports = function (params, http) {
   return when.promise(function (resolve, reject) {
 
-    if (http.method === 'post') {
+    if (http.method === 'POST') {
       resolve(http.body);
     } else {
       reject('#no_trigger');
