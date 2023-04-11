@@ -24,7 +24,7 @@
     "@datadog/datadog-api-client": "^1.9.0",
     "@trayio/needle": "~3.1.0",
     "@trayio/threadneedle": "~1.16.0",
-    "aws-sdk": "~2.814.0",
+    "aws-sdk": "^2.1354.0",
     "generate-schema": "~2.6.0",
     "lodash": "~4.17.20",
     "mime": "~2.6.0",
