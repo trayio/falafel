@@ -21,7 +21,6 @@
 	],
 	"homepage": "https://github.com/trayio/falafel#readme",
 	"dependencies": {
-		"@datadog/datadog-api-client": "^1.9.0",
 		"@trayio/needle": "~3.1.0",
 		"@trayio/threadneedle": "~1.16.0",
 		"aws-sdk": "^2.1354.0",
