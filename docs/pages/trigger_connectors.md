@@ -127,6 +127,17 @@ module.exports = function (params, http) {
 };
 ```
 
+The following is the HTTP object provided:
+```JSON
+{
+	"http": "POST",
+	"headers": {
+		// key/string pairs of the incoming headers
+	},
+	"body": // the body from the incoming request. Parsed using JSON.parse if content-type is application/json
+}
+```
+
 **Note:** the HTTP verb provided is always upper case
 
 ### Adding a HTTP reply with `#no_trigger` error code
