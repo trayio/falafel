@@ -117,7 +117,7 @@ If you'd like more fine grained control, declare it as a function returning a pr
 module.exports = function (params, http) {
   return when.promise(function (resolve, reject) {
 
-    if (http.method === 'POST') {
+    if (http.method === 'post') {
       resolve(http.body);
     } else {
       reject('#no_trigger');
@@ -126,19 +126,6 @@ module.exports = function (params, http) {
   });
 };
 ```
-
-The following is the HTTP object provided:
-```JSON
-{
-	"http": "POST",
-	"headers": {
-		// key/string pairs of the incoming headers
-	},
-	"body": // the body from the incoming request. Parsed using JSON.parse if content-type is application/json
-}
-```
-
-**Note:** the HTTP verb provided is always upper case
 
 ### Adding a HTTP reply with `#no_trigger` error code
 If a HTTP response needs to be specified along with the `#no_trigger` rejection code, the following format should be used:

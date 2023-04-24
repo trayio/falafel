@@ -16,7 +16,7 @@
 // module.exports = function (params, http) {
 //   return when.promise(function (resolve, reject) {
 //
-//     if (http.method === 'POST') {
+//     if (http.method === 'post') {
 //       resolve(http.body);
 //     } else {
 //       reject('#trigger_ignore');
