@@ -21,7 +21,7 @@
 	],
 	"homepage": "https://github.com/trayio/falafel#readme",
 	"dependencies": {
-		"@trayio/needle": "~3.1.0",
+		"@trayio/needle": "~4.0.0",
 		"@trayio/threadneedle": "~1.16.0",
 		"aws-sdk": "~2.1506.0",
 		"generate-schema": "~2.6.0",
