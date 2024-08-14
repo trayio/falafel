@@ -411,7 +411,7 @@ describe('#bindConnectors', function () {
 						}
 					],
 					{
-						: function () {
+						getRemainingTimeInMillis: function () {
 							return 6000; //20s
 						}
 					},
