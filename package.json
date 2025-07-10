@@ -1,6 +1,6 @@
 {
   "name": "@trayio/falafel",
-  "version": "1.38.0",
+  "version": "1.38.1",
   "description": "A framework for developing and running connectors.",
   "main": "lib/index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   "homepage": "https://github.com/trayio/falafel#readme",
   "dependencies": {
     "@trayio/needle": "~4.0.0",
-    "@trayio/threadneedle": "1.19.0-beta.0",
+    "@trayio/threadneedle": "~1.18.0",
     "aws-sdk": "~2.1506.0",
     "generate-schema": "~2.6.0",
     "lodash": "~4.17.20",
