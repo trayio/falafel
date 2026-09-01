@@ -1,10 +1,10 @@
-const assert = require('assert');
+var assert = require('assert');
 
-const _ = require('lodash');
+var _ = require('lodash');
 
-const formatError = require('../../lib/bindConnectors/formatError.js');
+var formatError = require('../../lib/bindConnectors/formatError');
 
-const event = { id: 'event-1' };
+var event = { id: 'event-1' };
 
 //Builds a fake stack referencing a given threadneedle source file
 function threadneedleStack (sourceFile) {
@@ -16,7 +16,7 @@ function threadneedleStack (sourceFile) {
 }
 
 function errorWithStack (message, stack, code) {
-	const error = new Error(message);
+	var error = new Error(message);
 	error.stack = stack;
 	if (code) {
 		error.code = code;
@@ -25,17 +25,17 @@ function errorWithStack (message, stack, code) {
 }
 
 
-describe('formatError', () => {
+describe('#formatError', function () {
 
-	it('should be a function', () => {
+	it('should be a function', function () {
 		assert(_.isFunction(formatError));
 	});
 
-	describe('envelope', () => {
+	describe('envelope', function () {
 
-		it('should return the event id, an error header and a body', () => {
+		it('should return the event id, an error header and a body', function () {
 
-			const formatted = formatError({ headers: {}, body: { code: '#api_error', message: 'Boom' } }, event);
+			var formatted = formatError({ headers: {}, body: { code: '#api_error', message: 'Boom' } }, event);
 
 			assert.strictEqual(formatted.id, 'event-1');
 			assert.strictEqual(formatted.header.error, true);
@@ -44,9 +44,9 @@ describe('formatError', () => {
 
 		});
 
-		it('should merge the response headers into the header, keeping `error` true', () => {
+		it('should merge the response headers into the header, keeping `error` true', function () {
 
-			const formatted = formatError({
+			var formatted = formatError({
 				headers: { error: false, trigger_deduplication_id: 'abc' },
 				body: {}
 			}, event);
@@ -56,9 +56,9 @@ describe('formatError', () => {
 
 		});
 
-		it('should default the code and message when neither is supplied', () => {
+		it('should default the code and message when neither is supplied', function () {
 
-			const formatted = formatError({ headers: {}, body: {} }, event);
+			var formatted = formatError({ headers: {}, body: {} }, event);
 
 			assert.strictEqual(formatted.body.code, '#api_error');
 			assert.strictEqual(formatted.body.message, 'API error');
@@ -69,9 +69,9 @@ describe('formatError', () => {
 			The cluster service calls this with the `{ headers, body }` shape,
 			but a bare Error is normalised into it first.
 		*/
-		it('should accept a bare Error as the response', () => {
+		it('should accept a bare Error as the response', function () {
 
-			const formatted = formatError(new Error('bare error'), event);
+			var formatted = formatError(new Error('bare error'), event);
 
 			assert.strictEqual(formatted.header.error, true);
 			assert.strictEqual(formatted.body.message, 'bare error');
@@ -81,55 +81,55 @@ describe('formatError', () => {
 
 	});
 
-	describe('Error instances', () => {
+	describe('Error instances', function () {
 
-		it('should default to `#api_error` when the Error has a message', () => {
+		it('should default to `#api_error` when the Error has a message', function () {
 
-			const formatted = formatError({ headers: {}, body: new Error('the API said no') }, event);
+			var formatted = formatError({ headers: {}, body: new Error('the API said no') }, event);
 
 			assert.strictEqual(formatted.body.code, '#api_error');
 			assert.strictEqual(formatted.body.message, 'the API said no');
 
 		});
 
-		it('should default to `#connector_error` when the Error has no message', () => {
+		it('should default to `#connector_error` when the Error has no message', function () {
 
-			const formatted = formatError({ headers: {}, body: new Error() }, event);
+			var formatted = formatError({ headers: {}, body: new Error() }, event);
 
 			assert.strictEqual(formatted.body.code, '#connector_error');
 			assert.strictEqual(formatted.body.message, 'No error message defined.');
 
 		});
 
-		it('should preserve an explicitly set code', () => {
+		it('should preserve an explicitly set code', function () {
 
-			const error = new Error('bad input');
+			var error = new Error('bad input');
 			error.code = '#user_input_error';
 
-			const formatted = formatError({ headers: {}, body: error }, event);
+			var formatted = formatError({ headers: {}, body: error }, event);
 
 			assert.strictEqual(formatted.body.code, '#user_input_error');
 
 		});
 
-		it('should not carry arbitrary custom properties through', () => {
+		it('should not carry arbitrary custom properties through', function () {
 
-			const error = new Error('boom');
+			var error = new Error('boom');
 			error.somethingCustom = 'dropped';
 
-			const formatted = formatError({ headers: {}, body: error }, event);
+			var formatted = formatError({ headers: {}, body: error }, event);
 
 			assert.strictEqual(_.has(formatted.body, 'somethingCustom'), false);
 
 		});
 
-		describe('should treat native programming errors as connector errors', () => {
+		describe('should treat native programming errors as connector errors', function () {
 
-			[ TypeError, ReferenceError, SyntaxError ].forEach((ErrorConstructor) => {
+			[ TypeError, ReferenceError, SyntaxError ].forEach(function (ErrorConstructor) {
 
-				it(ErrorConstructor.name, () => {
+				it(ErrorConstructor.name, function () {
 
-					const formatted = formatError({
+					var formatted = formatError({
 						headers: {},
 						body: new ErrorConstructor('programming mistake')
 					}, event);
@@ -142,12 +142,12 @@ describe('formatError', () => {
 
 			});
 
-			it('should keep an explicit code on a native error', () => {
+			it('should keep an explicit code on a native error', function () {
 
-				const error = new TypeError('programming mistake');
+				var error = new TypeError('programming mistake');
 				error.code = '#user_input_error';
 
-				const formatted = formatError({ headers: {}, body: error }, event);
+				var formatted = formatError({ headers: {}, body: error }, event);
 
 				assert.strictEqual(formatted.body.code, '#user_input_error');
 				assert(_.isArray(formatted.body.stack));
@@ -156,11 +156,11 @@ describe('formatError', () => {
 
 		});
 
-		it('should include a cleaned stack for an explicit `#connector_error`', () => {
+		it('should include a cleaned stack for an explicit `#connector_error`', function () {
 
-			const error = errorWithStack('deliberate', 'Error: deliberate\n    at somewhere.js:1:1', '#connector_error');
+			var error = errorWithStack('deliberate', 'Error: deliberate\n    at somewhere.js:1:1', '#connector_error');
 
-			const formatted = formatError({ headers: {}, body: error }, event);
+			var formatted = formatError({ headers: {}, body: error }, event);
 
 			assert.strictEqual(formatted.body.code, '#connector_error');
 			assert.deepStrictEqual(formatted.body.stack, [
@@ -177,9 +177,9 @@ describe('formatError', () => {
 		These are the connector author's mistake, not the API's, so they are
 		reclassified from the stack contents.
 	*/
-	describe('threadneedle errors', () => {
+	describe('threadneedle errors', function () {
 
-		const reclassified = [
+		var reclassified = [
 			[ 'addMethodSOAP.js', 'The SOAP method does not exist.' ],
 			[ 'globalize/baseUrl.js', 'Use `baseUrl` instead.' ],
 			[ 'globalize/afterHeaders.js', '`afterHeaders` must return an object.' ],
@@ -188,13 +188,16 @@ describe('formatError', () => {
 			[ 'globalize/validateObjectArgumentByReference.js', '`before` must return an object.' ]
 		];
 
-		reclassified.forEach(([ sourceFile, message ]) => {
+		reclassified.forEach(function (entry) {
 
-			it('should reclassify errors from ' + sourceFile, () => {
+			var sourceFile = entry[0];
+			var message = entry[1];
 
-				const error = errorWithStack(message, threadneedleStack(sourceFile));
+			it('should reclassify errors from ' + sourceFile, function () {
 
-				const formatted = formatError({ headers: {}, body: error }, event);
+				var error = errorWithStack(message, threadneedleStack(sourceFile));
+
+				var formatted = formatError({ headers: {}, body: error }, event);
 
 				assert.strictEqual(formatted.body.code, '#connector_error');
 				assert(_.isArray(formatted.body.stack));
@@ -203,14 +206,14 @@ describe('formatError', () => {
 
 		});
 
-		it('should not reclassify an error whose stack is unrelated to threadneedle', () => {
+		it('should not reclassify an error whose stack is unrelated to threadneedle', function () {
 
-			const error = errorWithStack(
+			var error = errorWithStack(
 				'A valid URL has not been supplied.',
 				'Error: A valid URL has not been supplied.\n    at /app/lib/somewhere.js:1:1'
 			);
 
-			const formatted = formatError({ headers: {}, body: error }, event);
+			var formatted = formatError({ headers: {}, body: error }, event);
 
 			assert.strictEqual(formatted.body.code, '#api_error');
 			assert.strictEqual(_.has(formatted.body, 'stack'), false);
@@ -221,22 +224,22 @@ describe('formatError', () => {
 			The message is checked as well as the stack, so a threadneedle stack
 			with an unrecognised message is left alone.
 		*/
-		it('should not reclassify a threadneedle stack with an unrecognised message', () => {
+		it('should not reclassify a threadneedle stack with an unrecognised message', function () {
 
-			const error = errorWithStack('something else entirely', threadneedleStack('addMethodSOAP.js'));
+			var error = errorWithStack('something else entirely', threadneedleStack('addMethodSOAP.js'));
 
-			const formatted = formatError({ headers: {}, body: error }, event);
+			var formatted = formatError({ headers: {}, body: error }, event);
 
 			assert.strictEqual(formatted.body.code, '#api_error');
 
 		});
 
-		it('should not reclassify an error with no stack at all', () => {
+		it('should not reclassify an error with no stack at all', function () {
 
-			const error = new Error('no stack here');
+			var error = new Error('no stack here');
 			delete error.stack;
 
-			const formatted = formatError({ headers: {}, body: error }, event);
+			var formatted = formatError({ headers: {}, body: error }, event);
 
 			assert.strictEqual(formatted.body.code, '#api_error');
 
@@ -244,11 +247,11 @@ describe('formatError', () => {
 
 	});
 
-	describe('plain object errors', () => {
+	describe('plain object errors', function () {
 
-		it('should pass the details through untouched', () => {
+		it('should pass the details through untouched', function () {
 
-			const formatted = formatError({
+			var formatted = formatError({
 				headers: {},
 				body: { code: 'not_found', message: 'Not found.', expects: { statusCode: [200] } }
 			}, event);
@@ -258,9 +261,9 @@ describe('formatError', () => {
 
 		});
 
-		it('should stringify a buffer response body', () => {
+		it('should stringify a buffer response body', function () {
 
-			const formatted = formatError({
+			var formatted = formatError({
 				headers: {},
 				body: { code: 'bad_request', response: { statusCode: 400, body: Buffer.from('the API said no') } }
 			}, event);
@@ -269,9 +272,9 @@ describe('formatError', () => {
 
 		});
 
-		it('should leave a non-buffer response body alone', () => {
+		it('should leave a non-buffer response body alone', function () {
 
-			const formatted = formatError({
+			var formatted = formatError({
 				headers: {},
 				body: { code: 'bad_request', response: { statusCode: 400, body: { error: true } } }
 			}, event);
@@ -280,22 +283,24 @@ describe('formatError', () => {
 
 		});
 
-		it('should survive a buffer that cannot be stringified', () => {
+		it('should survive a buffer that cannot be stringified', function () {
 
-			const badBuffer = Buffer.from('unreadable');
-			badBuffer.toString = () => {
+			var badBuffer = Buffer.from('unreadable');
+			badBuffer.toString = function () {
 				throw new Error('cannot stringify');
 			};
 
 			// eslint-disable-next-line no-console
-			const originalLog = console.log;
-			const logged = [];
+			var originalLog = console.log;
+			var logged = [];
 			// eslint-disable-next-line no-console
-			console.log = (...args) => { return logged.push(args[0]); };
+			console.log = function (message) {
+				return logged.push(message);
+			};
 
 			try {
 
-				const formatted = formatError({
+				var formatted = formatError({
 					headers: {},
 					body: { code: 'bad_request', response: { statusCode: 400, body: badBuffer } }
 				}, event);
@@ -316,11 +321,11 @@ describe('formatError', () => {
 		Anything that is neither an Error nor a plain object is wrapped, so that
 		the value still reaches the user rather than being dropped.
 	*/
-	describe('non-object errors', () => {
+	describe('non-object errors', function () {
 
-		it('should wrap a string', () => {
+		it('should wrap a string', function () {
 
-			const formatted = formatError({ headers: {}, body: 'something went wrong' }, event);
+			var formatted = formatError({ headers: {}, body: 'something went wrong' }, event);
 
 			assert.strictEqual(formatted.body.response, 'something went wrong');
 			assert.strictEqual(formatted.body.code, '#api_error');
@@ -328,26 +333,26 @@ describe('formatError', () => {
 
 		});
 
-		it('should wrap a number', () => {
+		it('should wrap a number', function () {
 
-			const formatted = formatError({ headers: {}, body: 500 }, event);
+			var formatted = formatError({ headers: {}, body: 500 }, event);
 
 			assert.strictEqual(formatted.body.response, 500);
 
 		});
 
-		it('should wrap undefined', () => {
+		it('should wrap undefined', function () {
 
-			const formatted = formatError({ headers: {}, body: undefined }, event);
+			var formatted = formatError({ headers: {}, body: undefined }, event);
 
 			assert.strictEqual(formatted.body.response, undefined);
 			assert.strictEqual(formatted.body.code, '#api_error');
 
 		});
 
-		it('should wrap an array', () => {
+		it('should wrap an array', function () {
 
-			const formatted = formatError({ headers: {}, body: [ 'a', 'b' ] }, event);
+			var formatted = formatError({ headers: {}, body: [ 'a', 'b' ] }, event);
 
 			assert.deepStrictEqual(formatted.body.response, [ 'a', 'b' ]);
 
@@ -355,11 +360,11 @@ describe('formatError', () => {
 
 	});
 
-	describe('isAPIResponseError flag', () => {
+	describe('isAPIResponseError flag', function () {
 
-		it('should be true when the API responded and failed validation', () => {
+		it('should be true when the API responded and failed validation', function () {
 
-			const formatted = formatError({
+			var formatted = formatError({
 				headers: {},
 				body: {
 					response: { statusCode: 429, body: { error: 'slow down' } },
@@ -378,32 +383,32 @@ describe('formatError', () => {
 			The Error branch rebuilds the details object, so this asserts the
 			flag is still applied afterwards.
 		*/
-		it('should be false for an error thrown in a hook', () => {
+		it('should be false for an error thrown in a hook', function () {
 
-			const error = new Error('Full URL must start with either `http://` or `https://`.');
+			var error = new Error('Full URL must start with either `http://` or `https://`.');
 			error.code = '#user_input_error';
 
-			const formatted = formatError({ headers: {}, body: error }, event);
+			var formatted = formatError({ headers: {}, body: error }, event);
 
 			assert.strictEqual(formatted.body.isAPIResponseError, false);
 			assert.strictEqual(formatted.body.code, '#user_input_error');
 
 		});
 
-		it('should be false for a transport failure', () => {
+		it('should be false for a transport failure', function () {
 
-			const error = new Error('connect ECONNREFUSED 127.0.0.1:80');
+			var error = new Error('connect ECONNREFUSED 127.0.0.1:80');
 			error.code = 'ECONNREFUSED';
 
-			const formatted = formatError({ headers: {}, body: error }, event);
+			var formatted = formatError({ headers: {}, body: error }, event);
 
 			assert.strictEqual(formatted.body.isAPIResponseError, false);
 
 		});
 
-		it('should be false for a connector bug, and retain the existing classification', () => {
+		it('should be false for a connector bug, and retain the existing classification', function () {
 
-			const formatted = formatError({ headers: {}, body: new TypeError('boom') }, event);
+			var formatted = formatError({ headers: {}, body: new TypeError('boom') }, event);
 
 			assert.strictEqual(formatted.body.isAPIResponseError, false);
 			assert.strictEqual(formatted.body.code, '#connector_error');
@@ -411,9 +416,9 @@ describe('formatError', () => {
 
 		});
 
-		it('should be false for a socket hang up, which carries an empty response', () => {
+		it('should be false for a socket hang up, which carries an empty response', function () {
 
-			const formatted = formatError({
+			var formatted = formatError({
 				headers: {},
 				body: { code: 'api_timeout', response: {}, message: 'API call timeout.' }
 			}, event);
@@ -422,17 +427,17 @@ describe('formatError', () => {
 
 		});
 
-		it('should be false for a non-object error', () => {
+		it('should be false for a non-object error', function () {
 
-			const formatted = formatError({ headers: {}, body: 'something went wrong' }, event);
+			var formatted = formatError({ headers: {}, body: 'something went wrong' }, event);
 
 			assert.strictEqual(formatted.body.isAPIResponseError, false);
 
 		});
 
-		it('should default to false when given a bare Error', () => {
+		it('should default to false when given a bare Error', function () {
 
-			const formatted = formatError(new Error('something went wrong'), event);
+			var formatted = formatError(new Error('something went wrong'), event);
 
 			assert.strictEqual(formatted.body.isAPIResponseError, false);
 
