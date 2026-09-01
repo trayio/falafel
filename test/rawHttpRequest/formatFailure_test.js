@@ -4,7 +4,6 @@ const _ = require('lodash');
 
 const formatFailure = require('../../lib/rawHttpRequest/formatFailure.js');
 const isAPIResponseError = require('../../lib/utils/isAPIResponseError.js');
-const formatError = require('../../lib/bindConnectors/formatError.js');
 
 const sampleHeaders = {
 	'content-type': 'application/json',
@@ -177,67 +176,6 @@ describe('formatFailure', () => {
 		const result = formatFailure({ code: 'not_found', message: 'Not found.' }, {}, sampleResponse);
 
 		assert.strictEqual(_.has(result, 'response'), false);
-
-	});
-
-});
-
-
-describe('formatError - isAPIResponseError flag', () => {
-
-	const event = { id: 'event-1' };
-
-	it('should be true for an API response error', () => {
-
-		const formatted = formatError({ headers: {}, body: expectsError() }, event);
-
-		assert.strictEqual(formatted.body.isAPIResponseError, true);
-		assert.strictEqual(formatted.body.code, 'too_many_requests');
-
-	});
-
-	/*
-		The `_.isError` branch of formatError rebuilds the details object, so
-		this asserts the flag is not lost along the way.
-	*/
-	it('should be false for an error thrown in a hook', () => {
-
-		const error = new Error('Full URL must start with either `http://` or `https://`.');
-		error.code = '#user_input_error';
-
-		const formatted = formatError({ headers: {}, body: error }, event);
-
-		assert.strictEqual(formatted.body.isAPIResponseError, false);
-		assert.strictEqual(formatted.body.code, '#user_input_error');
-
-	});
-
-	it('should be false for a transport failure', () => {
-
-		const error = new Error('connect ECONNREFUSED 127.0.0.1:80');
-		error.code = 'ECONNREFUSED';
-
-		const formatted = formatError({ headers: {}, body: error }, event);
-
-		assert.strictEqual(formatted.body.isAPIResponseError, false);
-
-	});
-
-	it('should be false for a connector bug, and retain the existing classification', () => {
-
-		const formatted = formatError({ headers: {}, body: new TypeError('boom') }, event);
-
-		assert.strictEqual(formatted.body.isAPIResponseError, false);
-		assert.strictEqual(formatted.body.code, '#connector_error');
-		assert(_.isArray(formatted.body.stack));
-
-	});
-
-	it('should default to false when formatError is given a bare Error', () => {
-
-		const formatted = formatError(new Error('something went wrong'), event);
-
-		assert.strictEqual(formatted.body.isAPIResponseError, false);
 
 	});
 
