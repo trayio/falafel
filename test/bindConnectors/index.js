@@ -178,7 +178,8 @@ describe('#bindConnectors', function () {
 							resArr[0].body,
 							{
 								code: '#connector_error',
-								message: 'Reject error'
+								message: 'Reject error',
+								isAPIResponseError: false
 							}
 						);
 					}
