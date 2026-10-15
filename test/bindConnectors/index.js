@@ -64,9 +64,9 @@ describe('#bindConnectors', function () {
 
 		var boundConnectors = bindConnectors(config, options);
 
-		it('should pass simple function operation run', function (done) {
+		it('should pass simple function operation run', function () {
 
-			boundConnectors(
+			return boundConnectors(
 				[
 					{
 						id: 'testID',
@@ -80,22 +80,18 @@ describe('#bindConnectors', function () {
 				],
 				{
 
-				},
-				function (err, resArr) {
-					if (err) {
-						assert.fail(err);
-					} else {
-						assert.deepEqual(resArr[0].body, { hello: 'world' });
-					}
-					done();
 				}
-			);
+			)
+
+			.then(function (resArr) {
+				assert.deepEqual(resArr[0].body, { hello: 'world' });
+			});
 
 		});
 
-		it('should pass simple promise function operation run', function (done) {
+		it('should pass simple promise function operation run', function () {
 
-			boundConnectors(
+			return boundConnectors(
 				[
 					{
 						id: 'testID',
@@ -109,22 +105,18 @@ describe('#bindConnectors', function () {
 				],
 				{
 
-				},
-				function (err, resArr) {
-					if (err) {
-						assert.fail(err);
-					} else {
-						assert.deepEqual(resArr[0].body, { hello: 'world' });
-					}
-					done();
 				}
-			);
+			)
+
+			.then(function (resArr) {
+				assert.deepEqual(resArr[0].body, { hello: 'world' });
+			});
 
 		});
 
-		it('should operation fail simple function operation run erring', function (done) {
+		it('should operation fail simple function operation run erring', function () {
 
-			boundConnectors(
+			return boundConnectors(
 				[
 					{
 						id: 'testID',
@@ -138,23 +130,19 @@ describe('#bindConnectors', function () {
 				],
 				{
 
-				},
-				function (err, resArr) {
-					if (err) {
-						assert.fail(resArr);
-					} else {
-						assert(resArr[0].header.error);
-						assert.deepEqual(resArr[0].body.message, 'Throw error.');
-					}
-					done();
 				}
-			);
+			)
+
+			.then(function (resArr) {
+				assert(resArr[0].header.error);
+				assert.deepEqual(resArr[0].body.message, 'Throw error.');
+			});
 
 		});
 
-		it('should operation fail simple promise function operation run rejecting', function (done) {
+		it('should operation fail simple promise function operation run rejecting', function () {
 
-			boundConnectors(
+			return boundConnectors(
 				[
 					{
 						id: 'testID',
@@ -168,24 +156,72 @@ describe('#bindConnectors', function () {
 				],
 				{
 
-				},
-				function (err, resArr) {
-					if (err) {
-						assert.fail(resArr);
-					} else {
-						assert(resArr[0].header.error);
-						assert.deepEqual(
-							resArr[0].body,
-							{
-								code: '#connector_error',
-								message: 'Reject error',
-								isAPIResponseError: false
-							}
-						);
-					}
-					done();
 				}
-			);
+			)
+
+			.then(function (resArr) {
+				assert(resArr[0].header.error);
+				assert.deepEqual(
+					resArr[0].body,
+					{
+						code: '#connector_error',
+						message: 'Reject error',
+						isAPIResponseError: false
+					}
+				);
+			});
+
+		});
+
+		it('should error for an event without a header', function () {
+
+			return boundConnectors(
+				[
+					{
+						id: 'testID',
+						body: {
+							hello: 'world'
+						}
+					}
+				],
+				{
+
+				}
+			)
+
+			.then(function (resArr) {
+				assert.strictEqual(resArr[0].id, 'testID');
+				assert.strictEqual(resArr[0].header.error, true);
+				assert.strictEqual(resArr[0].body.code, '#connector_error');
+				assert.strictEqual(resArr[0].body.message, 'Invalid operation received.');
+			});
+
+		});
+
+		it('should error for an operation that does not exist', function () {
+
+			return boundConnectors(
+				[
+					{
+						id: 'testID',
+						header: {
+							message: 'unknown_op'
+						},
+						body: {
+							hello: 'world'
+						}
+					}
+				],
+				{
+
+				}
+			)
+
+			.then(function (resArr) {
+				assert.strictEqual(resArr[0].header.error, true);
+				assert.strictEqual(resArr[0].body.code, '#connector_error');
+				assert.strictEqual(resArr[0].body.message, 'Could not find a valid operation handler for unknown_op');
+			});
 
 		});
 
@@ -323,116 +359,85 @@ describe('#bindConnectors', function () {
 			options
 		);
 
-		it('should pass simple function operation run within timeout limit', function (done) {
+		it('should pass simple function operation run within timeout limit', function () {
 
-			when.promise(function (resolve, reject) {
-
-				timeoutConnectors(
-					[
-						{
-							id: 'testID',
-							header: {
-								message: 'timeout_op'
-							},
-							body: {
-								hello: 'world'
-							}
-						}
-					],
+			return timeoutConnectors(
+				[
 					{
-
-					},
-					function (opError, resArr) {
-						if (opError) {
-							assert.fail(opError);
-							reject(opError);
-						} else {
-							assert.deepEqual(resArr[0].body, { hello: 'world' });
-							resolve();
+						id: 'testID',
+						header: {
+							message: 'timeout_op'
+						},
+						body: {
+							hello: 'world'
 						}
 					}
-				);
+				],
+				{
 
-			})
+				}
+			)
 
-			.then(done, done);
+			.then(function (resArr) {
+				assert.deepEqual(resArr[0].body, { hello: 'world' });
+			});
 
 		});
 
-		it('should pass simple function promise operation run within timeout limit', function (done) {
+		it('should pass simple function promise operation run within timeout limit', function () {
 
-			when.promise(function (resolve, reject) {
-
-				timeoutConnectors(
-					[
-						{
-							id: 'testID',
-							header: {
-								message: 'timeout_op_promise'
-							},
-							body: {
-								hello: 'world'
-							}
-						}
-					],
+			return timeoutConnectors(
+				[
 					{
-
-					},
-					function (opError, resArr) {
-						if (opError) {
-							assert.fail(opError);
-							reject(opError);
-						} else {
-							assert.deepEqual(resArr[0].body, { hello: 'world' });
-							resolve();
+						id: 'testID',
+						header: {
+							message: 'timeout_op_promise'
+						},
+						body: {
+							hello: 'world'
 						}
 					}
-				);
+				],
+				{
 
-			})
+				}
+			)
 
-			.then(done, done);
+			.then(function (resArr) {
+				assert.deepEqual(resArr[0].body, { hello: 'world' });
+			});
 
 		});
 
-		it('should error on lambda function level for operation not ending within time limit', function (done) {
+		it('should error on lambda function level for operation not ending within time limit', function () {
 			this.timeout(10000);
 
-			when.promise(function (resolve, reject) {
-				timeoutConnectors(
-					[
-						{
-							id: 'testID',
-							header: {
-								message: 'long_timeout_op_promise'
-							},
-							body: {
-								hello: 'world'
-							}
-						}
-					],
+			return timeoutConnectors(
+				[
 					{
-						getRemainingTimeInMillis: function () {
-							return 6000; //20s
-						}
-					},
-					function (timeoutError, resArr) {
-						if (timeoutError) {
-							assert.fail(timeoutError);
-							reject(timeoutError);
-						} else {
-							assert.strictEqual(resArr[0].header.error, true);
-							assert.strictEqual(resArr[0].body.code, '#timeout_error');
-							assert.strictEqual(resArr[0].body.message, 'The operation timed out.');
-							assert(_.includes(resArr[0].body.payload.reason, 'The operation has timed out due to the promise not closing'));
-							assert.strictEqual(resArr[0].body.payload.operation, 'long_timeout_op_promise');
-							resolve();
+						id: 'testID',
+						header: {
+							message: 'long_timeout_op_promise'
+						},
+						body: {
+							hello: 'world'
 						}
 					}
-				);
-			})
+				],
+				{
+					getRemainingTimeInMillis: function () {
+						return 6000; //20s
+					}
+				}
+			)
 
-			.then(done, done);
+			.then(function (resArr) {
+				assert.strictEqual(resArr[0].header.error, true);
+				assert.strictEqual(resArr[0].body.code, '#timeout_error');
+				assert.strictEqual(resArr[0].body.message, 'The operation timed out.');
+				assert(_.includes(resArr[0].body.payload.reason, 'The operation has timed out due to the promise not closing'));
+				assert.strictEqual(resArr[0].body.payload.operation, 'long_timeout_op_promise');
+			});
 		});
 
 	});

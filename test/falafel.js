@@ -24,6 +24,19 @@ describe('falafel', function () {
 		assert(global.when);
 	});
 
+	/*
+		The Node 24 Lambda runtime rejects a handler declaring 3 or more
+		parameters as callback-based, failing at init.
+	*/
+	it('should return a handler declaring exactly two parameters', function () {
+		var apptalk = new Falafel().wrap({
+			directory: __dirname+'/sample'
+		});
+
+		assert(_.isFunction(apptalk));
+		assert.strictEqual(apptalk.length, 2);
+	});
+
 	it('should create the connectors.json in dev mode', function () {
 		var called = false;
 

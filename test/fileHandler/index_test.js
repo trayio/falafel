@@ -548,6 +548,65 @@ describe('#fileHandler', function () {
 			}
 		});
 
+		it(`should upload file from Buffer contents`, async () => {
+			const contents = Buffer.from('Example content', 'utf8');
+
+			const randomGuid = guid();
+			getProxiedFileHandler({
+				'../utils/mout': {
+					guid: () => {
+						return randomGuid;
+					}
+				},
+				'aws-sdk': {
+					'S3': class S3 {
+						upload (uploadParams, uploadOptions, callback) {
+							assert.strictEqual(uploadParams.Key, randomGuid);
+							assert.strictEqual(uploadParams.Body, contents);
+							callback(null, {
+								Bucket: uploadParams.Bucket,
+								Key: uploadParams.Key,
+							});
+						}
+						getSignedUrl (operation, signedParams, callback) {
+							callback(null, 'https://test.aws.com/buckethash');
+						}
+					}
+				}
+			});
+
+			const uploadResult = await falafel.files.upload({
+				contentType: 'text/plain',
+				name: 'example.txt',
+				length: contents.length,
+				contents
+			});
+
+			assert.strictEqual(uploadResult.name, 'example.txt');
+			assert.strictEqual(uploadResult.url, 'https://test.aws.com/buckethash');
+		});
+
+		it(`should error in correct format if contents is not a Buffer`, async () => {
+			getProxiedFileHandler({});
+
+			try {
+				const uploadResult = await falafel.files.upload({
+					contentType: 'text/plain',
+					name: 'example.txt',
+					length: 15,
+					contents: 'Example content'
+				});
+				assert.fail(uploadResult);
+			} catch (uploadError) {
+				try {
+					assert.strictEqual(uploadError.code, '#connector_error');
+					assert.strictEqual(uploadError.message, 'Please pass the `contents` as a Node.js Buffer.');
+				} catch (otherError) {
+					assert.fail(uploadError);
+				}
+			}
+		});
+
 		it(`should surface error in correct format if upload errors`, async () => {
 			const testFilePath = '/tmp/falafel/tests/example.txt';
 			fs.ensureFileSync(testFilePath);
