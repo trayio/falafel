@@ -21,7 +21,7 @@
   ],
   "homepage": "https://github.com/trayio/falafel#readme",
   "engines": {
-    "node": ">=24.21.0"
+    "node": ">=18.18.0"
   },
   "dependencies": {
     "@trayio/needle": "~4.0.0",
